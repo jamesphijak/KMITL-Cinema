@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -87,26 +88,29 @@ public class ShowtimeController implements Initializable, ControlledScreen {
         }*/
  /* --------- ได้ showtime ที่มีหนังที่เรากดเข้ามา -----------*/
         List<Showtime> showtimeHaveSelectedMovie = new ArrayList<>();
-        for (Showtime showtime : showtimeOfMovie) {
-            if (showtime.getMovie().getId() == cc.getSelectMovie().getId()) {
-                showtimeHaveSelectedMovie.add(showtime);
-            }
-        }
-
-        System.out.println(showtimeHaveSelectedMovie);
-
-        //Movie movie = cc.getSelectMovie();
-        //Movie m = cc.getMovie(2);
-        //List<Theatre> tList = cc.getTheatreList();
-        // Get showtime
-//        for (Theatre t : theatreList) {
-//            List <Showtime> stList = t.getShowtimeList();
-//            for (Showtime s : stList) {
-//                if(s.getMovie().getId() == movie.getId()){
-//                    showtimeOfMovie.add(s);
-//                }
+//        for (Showtime showtime : showtimeOfMovie) {
+//            if (showtime.getMovie().getId() == cc.getSelectMovie().getId()) {
+//                showtimeHaveSelectedMovie.add(showtime);
 //            }
 //        }
+//
+//        System.out.println(showtimeHaveSelectedMovie);
+
+       // Movie movie = cc.getSelectMovie();
+       // Movie m = cc.getMovie(2);
+        List<Theatre> tList = cc.getTheatreList();
+
+        for (Theatre t : theatreList) {
+            List <Showtime> stList = t.getShowtimeList();
+            for (Showtime s : stList) {
+                if(s.getMovie().getId() == cc.getSelectMovie().getId()){
+                    showtimeHaveSelectedMovie.add(s);
+                }
+            }
+        }
+        
+        
+        
         HBox hbox_showtimepertheatre = new HBox();
         int amount = showtimeOfMovie.size();
         Integer[] showtimeId = new Integer[amount];

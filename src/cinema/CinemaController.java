@@ -158,7 +158,7 @@ public class CinemaController{
     public void updateTheatreList() {
         openConnection();
         em.getTransaction().begin(); // start connection
-        Query q6 = em.createQuery("SELECT t FROM Theatre t");
+        Query q6 = em.createQuery("SELECT t FROM Theatre t ORDER BY t.theatreNumber ");
         List<Theatre> theatres = q6.getResultList(); // get user
         this.theatreList = theatres;
         closeConnection();

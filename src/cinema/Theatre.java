@@ -2,13 +2,16 @@ package cinema;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 /**
  *
@@ -23,7 +26,7 @@ public class Theatre implements Serializable{
     
     private int theatreNumber;
     //private String theatreSize = "Medium"; // Default size is medium
-    
+    @OneToMany(fetch= FetchType.EAGER)
     private List<Showtime> showtimeList = new ArrayList<Showtime>(); // Display updated showtime when booking
     
     public Theatre(int theatreNumber) {
@@ -39,6 +42,12 @@ public class Theatre implements Serializable{
     }
     
     public List<Showtime> getShowtimeList(){
+        this.showtimeList.sort(new Comparator<Showtime>() {
+            public int compare(Showtime o1, Showtime o2) {
+                // compare two instance of `Score` and return `int` as result.
+                return o1.getStartTime().compareTo(o2.getStartTime());
+            }
+        });
         return this.showtimeList;
     }
 
