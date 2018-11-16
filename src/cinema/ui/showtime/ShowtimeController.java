@@ -11,7 +11,6 @@ import cinema.Showtime;
 import cinema.Theatre;
 import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
-import cinema.screensframework.ScreensFramework;
 import cinema.ui.showmovie.showmovieController;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
@@ -177,13 +176,14 @@ public class ShowtimeController implements Initializable, ControlledScreen {
                     showtimeId[i] = showtime[i].getId();
                     int finalI = i;
                     bt[i].setOnAction(event -> {
-
-//                        System.out.println(showtimeHaveSelectedMovie.get(finalI).getId()); // ปริ้นท์ดู
-                        cc.setSelectShowtime(showtimeHaveSelectedMovie.get(finalI).getId());
-                        
-                        myController.loadScreen(ScreensFramework.userSeatLayoutScreenID, ScreensFramework.userSeatLayoutScreenFile);
-                        myController.setScreen(ScreensFramework.userSeatLayoutScreenID);
-
+//                        try {
+//
+//                            //                        cinema.setMovieId(showtimeId[finalI]);
+////
+//                            // ไปหน้า seat
+//                        } catch (IOException ex) {
+//                            Logger.getLogger(showmovieController.class.getName()).log(Level.SEVERE, null, ex);
+//                        }
                     });
                     if (i == amount - 1) {
                         vbox.getChildren().add(hbox_showtimepertheatre);
@@ -198,12 +198,13 @@ public class ShowtimeController implements Initializable, ControlledScreen {
                 HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                 hbox_showtimepertheatre.getChildren().add(bt[i]);
                 bt[i].setOnAction(event -> {
-
-//                      System.out.println(showtimeHaveSelectedMovie.get(0).getId()); // ปริ้นท์ดู
-                    cc.setSelectShowtime(showtimeHaveSelectedMovie.get(0).getId());
-                    myController.loadScreen(ScreensFramework.userSeatLayoutScreenID, ScreensFramework.userSeatLayoutScreenFile);
-                    myController.setScreen(ScreensFramework.userSeatLayoutScreenID);
-
+//                    try {
+////                        cinema.setMovieId(movieId[finalI]);
+////
+//                       // ไปหน้า จอง
+//                    } catch (IOException ex) {
+//                        System.out.println(ex);
+//                    }
                 });
                 if (i == amount - 1) {
                     vbox.getChildren().add(hbox_showtimepertheatre);
