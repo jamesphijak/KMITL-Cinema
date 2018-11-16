@@ -6,10 +6,14 @@
 package cinema.ui.layoutMedium;
 
 import cinema.CinemaController;
+import cinema.screensframework.ControlledScreen;
+import cinema.screensframework.ScreensController;
+import cinema.screensframework.ScreensFramework;
 import cinema.ui.AlertMaker;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,7 +34,7 @@ import javafx.stage.Stage;
  *
  * @author BEAMCONAN
  */
-public class Controller implements Initializable {
+public class Controller implements Initializable, ControlledScreen {
 
     @FXML
     private ImageView F1;
@@ -251,6 +255,7 @@ public class Controller implements Initializable {
     String minIV;
     ArrayList<String> ivList = new ArrayList<String>();
     CinemaController cc;
+    ScreensController myController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -271,7 +276,7 @@ public class Controller implements Initializable {
     @FXML
     private void handleButtonAction(javafx.scene.input.MouseEvent event) throws FileNotFoundException { //MouseEvent
         ImageView iv = (ImageView) event.getSource(); // get image source
-        FileInputStream fileInputStream;
+        InputStream fileInputStream;
         isFound = false;
         // Loop to find id is list
         for (String id : ivList) {
@@ -297,17 +302,16 @@ public class Controller implements Initializable {
                 //                System.out.println("Found"); // เจอข้อมูล
                 ivList.remove(new String(iv.getId())); // ลบ id นั้นออก
                 if (new String(minIV.substring(0, 1)).equals("A")) {
-                    fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\pair.png");
-//                    Image movie_image = new Image(movie_fileInputStream, 185, 275, false, false);
+                    fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/pair.png");
                     Image image = new Image(fileInputStream); //, 100, 200, false, true
                     iv.setImage(image);
 
                 } else if (new String(minIV.substring(0, 1)).equals("C") || new String(minIV.substring(0, 1)).equals("B")) {
-                    fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\blue.png");
+                    fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/blue.png");
                     Image image = new Image(fileInputStream); //, 100, 200, false, true
                     iv.setImage(image);
                 } else {
-                    fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\red.png");
+                    fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/red.png");
                     Image image = new Image(fileInputStream); //, 100, 200, false, true
                     iv.setImage(image);
                 };
@@ -351,16 +355,16 @@ public class Controller implements Initializable {
                         //                System.out.println("Not found"); // ไม่เจอข้อมูล
                         ivList.add(iv.getId()); // เพิ่ม id เข้าไป
                         if (new String(minIV.substring(0, 1)).equals("A")) {
-                            fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\pair2.png");
+                            fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/pair2.png");
                             Image image = new Image(fileInputStream); //, 100, 200, false, true
                             iv.setImage(image);
 
                         } else if (new String(minIV.substring(0, 1)).equals("C") || new String(minIV.substring(0, 1)).equals("B")) {
-                            fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\blue2.png");
-                            Image image = new Image(fileInputStream); //, 100, 200, false, true
-                            iv.setImage(image);
+                            fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/blue2.png");
+                    Image image = new Image(fileInputStream); //, 100, 200, false, true
+                    iv.setImage(image);
                         } else {
-                            fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\red2.png");
+                            fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/red2.png");
                             Image image = new Image(fileInputStream); //, 100, 200, false, true
                             iv.setImage(image);
                         };
@@ -381,16 +385,16 @@ public class Controller implements Initializable {
                 //                System.out.println("Not found"); // ไม่เจอข้อมูล
                 ivList.add(iv.getId()); // เพิ่ม id เข้าไป
                 if (new String(minIV.substring(0, 1)).equals("A")) {
-                    fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\pair2.png");
+                    fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/pair2.png");
                     Image image = new Image(fileInputStream); //, 100, 200, false, true
                     iv.setImage(image);
 
                 } else if (new String(minIV.substring(0, 1)).equals("C") || new String(minIV.substring(0, 1)).equals("B")) {
-                    fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\blue2.png");
+                    fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/blue2.png");
                     Image image = new Image(fileInputStream); //, 100, 200, false, true
                     iv.setImage(image);
                 } else {
-                    fileInputStream = new FileInputStream("C:\\Users\\BEAMCONAN\\Documents\\NetBeansProjects\\KMITL Cinema\\src\\cinema\\ui\\images\\red2.png");
+                    fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/red2.png");
                     Image image = new Image(fileInputStream); //, 100, 200, false, true
                     iv.setImage(image);
                 };
@@ -404,13 +408,19 @@ public class Controller implements Initializable {
     @FXML
     private void back(ActionEvent event) throws IOException {
 
-        Parent showMovie = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+//        Parent showMovie = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+//
+//        Scene showMovieScene = new Scene(showMovie);
+//        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        window.setScene(showMovieScene);
+//        window.setMaximized(false);
+//        window.show();
+        myController.loadScreen(ScreensFramework.userShowtimeScreenID, ScreensFramework.userShowtimeScreenFile);
+        myController.setScreen(ScreensFramework.userShowtimeScreenID);
+    }
 
-        Scene showMovieScene = new Scene(showMovie);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(showMovieScene);
-        window.setMaximized(false);
-        window.show();
+    public void setScreenParent(ScreensController screenParent) {
+        myController = screenParent;
     }
 
 }

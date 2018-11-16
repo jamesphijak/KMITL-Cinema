@@ -275,7 +275,7 @@ public class CinemaController{
         st.setMovie(editShowtime.getMovie());
         st.setTheatre(editShowtime.getTheatre());
         st.setSoundtrack(editShowtime.getSoundtrack());
-        st.setStartTime(editShowtime.getStartTime());
+        st.setStartTime(editShowtime.getOnlyStartTime());
 //        st.setDate(editShowtime.getDate());
         st.setSystem(editShowtime.getSystem());
         st.setIncreaseSeatPrice(editShowtime.getIncreaseSeatPrice());
