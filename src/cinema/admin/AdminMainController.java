@@ -2040,7 +2040,9 @@ public class AdminMainController implements Initializable, ControlledScreen {
 
                 Movie m = cc.getMovie(movie_id);
                 Theatre t = cc.getTheatre(theatre_id);
+                
                 String start = cbTimeHourShow1.getValue()+":"+cbTimeMinuteShow1.getValue();
+                System.out.println("Start"+start);
                 String sound = cbSoundtrack1.getValue();
                 double incSeat = Double.parseDouble(incSp);
                 String system = cbSystem.getValue();

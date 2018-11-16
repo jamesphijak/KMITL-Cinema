@@ -6,6 +6,9 @@
 package cinema.ui.layoutMedium;
 
 import cinema.CinemaController;
+import cinema.screensframework.ControlledScreen;
+import cinema.screensframework.ScreensController;
+import cinema.screensframework.ScreensFramework;
 import cinema.ui.AlertMaker;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -31,7 +34,7 @@ import javafx.stage.Stage;
  *
  * @author BEAMCONAN
  */
-public class Controller implements Initializable {
+public class Controller implements Initializable, ControlledScreen {
 
     @FXML
     private ImageView F1;
@@ -252,6 +255,7 @@ public class Controller implements Initializable {
     String minIV;
     ArrayList<String> ivList = new ArrayList<String>();
     CinemaController cc;
+    ScreensController myController;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -404,13 +408,19 @@ public class Controller implements Initializable {
     @FXML
     private void back(ActionEvent event) throws IOException {
 
-        Parent showMovie = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+//        Parent showMovie = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+//
+//        Scene showMovieScene = new Scene(showMovie);
+//        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//        window.setScene(showMovieScene);
+//        window.setMaximized(false);
+//        window.show();
+        myController.loadScreen(ScreensFramework.userShowtimeScreenID, ScreensFramework.userShowtimeScreenFile);
+        myController.setScreen(ScreensFramework.userShowtimeScreenID);
+    }
 
-        Scene showMovieScene = new Scene(showMovie);
-        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        window.setScene(showMovieScene);
-        window.setMaximized(false);
-        window.show();
+    public void setScreenParent(ScreensController screenParent) {
+        myController = screenParent;
     }
 
 }
