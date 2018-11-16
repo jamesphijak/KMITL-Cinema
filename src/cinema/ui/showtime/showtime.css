@@ -1,0 +1,25 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.button-st{
+    -fx-cursor:hand;
+    -fx-border-radius: 10px;
+    -fx-background-radius: 10px;
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #464240;
+    -fx-border-color:#ffffff;
+    -fx-border-width: 2
+}
+.button-st:hover{
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #464240;
+    
+}
+.date-picker > .text-field,.date-picker > .text-field:focus{
+    -fx-text-fill: #ffffff;
+    -fx-display-caret: false;
+}

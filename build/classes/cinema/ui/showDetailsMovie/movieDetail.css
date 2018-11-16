@@ -1,0 +1,19 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+
+}
+.bt{
+    -fx-cursor:hand;
+    /*-fx-border-radius: 10px;*/
+    -fx-background-radius: 30px;
+    /*-fx-text-fill: -fx-primary;*/
+    -fx-background-color: linear-gradient(to right,#EFB000, #E38400 );
+    /*-fx-font-size: 24;*/
+}
+.bt:hover{
+    /*-fx-text-fill: -fx-primary;*/
+    -fx-background-color: linear-gradient(to left,#EFB000, #E38400 );
+}
