@@ -90,7 +90,7 @@ public class MovieDetailController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(cc.getIsComingSoon());
         if(cc.getIsComingSoon()){
-            //bottomButton.getChildren().remove(btnNext);
+
             btnNext.setVisible(false);
         }
         // ใส่ ID เข้าไป
@@ -111,7 +111,7 @@ public class MovieDetailController implements Initializable {
         actor.setText(movie.getCast());
         synopsis.setText(movie.getSynopsis());
 
-        Media media = new Media("http://weshare.lnw.mn/video.mp4");
+        Media media = new Media(movie.getTrailer());
 //        
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
