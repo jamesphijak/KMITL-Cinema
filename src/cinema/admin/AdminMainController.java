@@ -1337,9 +1337,12 @@ public class AdminMainController implements Initializable, ControlledScreen {
         String period = selectedShowtimeEdit.getStartTime();
         String houraminute[] = period.split(":");
         String hour = houraminute[0];
+        
         String min = houraminute[1];
+        String minUse = min.substring(0,2);
+        System.out.println("Min"+minUse);
         cbTimeHourShow1.setValue(hour);
-        cbTimeMinuteShow1.setValue(min);
+        cbTimeMinuteShow1.setValue(minUse);
         
         cbSystem.setValue(selectedShowtimeEdit.getSystem());
         

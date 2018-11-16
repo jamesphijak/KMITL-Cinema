@@ -153,7 +153,7 @@ public class Showtime implements Serializable{
     public String getSubtitle() {return subtitle;}
 
     public void setStartTime(String startTime) {this.startTime = startTime;}
-    public String getStartTime() {return startTime;}
+    public String getStartTime() {return getShowtime();}
 
     public void setIncreaseSeatPrice(double increaseSeatPrice) {this.increaseSeatPrice = increaseSeatPrice;}
     public double getIncreaseSeatPrice(String id) {return increaseSeatPrice;}
