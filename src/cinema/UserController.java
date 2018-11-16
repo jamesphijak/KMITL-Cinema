@@ -47,6 +47,16 @@ public class UserController {
         closeConnection();
         //this.updateUserList(); // update list after add
     }
+    
+    public void topupUserMoney(int id, double money){
+        openConnection();
+        User user = em.find(User.class, id); // find object
+        em.getTransaction().begin();  
+        user.topupMoney(money);
+        em.getTransaction().commit();
+        closeConnection();
+    }
+    
     public void editUser(int id, User editUser){
         openConnection();
         User user = em.find(User.class, id); // find object

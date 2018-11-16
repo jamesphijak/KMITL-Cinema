@@ -214,7 +214,7 @@ public class CinemaController{
         Showtime showtime = em.find(Showtime.class, id);
 //        List <Seat> s = showtime.getSeatList();
 
-        for(Seat s : showtime.getSeatList()){} // get 
+      //  for(Seat s : showtime.getSeatList()){} // get 
         // Close the database connection:
 
         em.getTransaction().commit();
@@ -320,5 +320,18 @@ public class CinemaController{
         // Close the database connection:
         em.getTransaction().commit();
         closeConnection();
+    }
+    
+    // Get seat from showtime
+    public Seat getShowtimeSeat(int id,String seatName){
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        // find object
+        Showtime showtime = em.find(Showtime.class, id);
+        Seat seat = showtime.getSeat(seatName);
+        // Close the database connection:
+        em.getTransaction().commit();
+        closeConnection();
+        return seat;
     }
 }
