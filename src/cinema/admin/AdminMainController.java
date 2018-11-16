@@ -1269,8 +1269,13 @@ public class AdminMainController implements Initializable, ControlledScreen {
     }
     public void loadStartMinCombo(){
         ArrayList<String> min = new ArrayList<String>();
-        for (int i = 0; i <= 59; i++) { 		      
-            min.add(String.valueOf(i));
+        for (int i = 0; i <= 59; i++) { 
+            if(i < 10){
+                min.add("0"+String.valueOf(i));
+            }else{
+                min.add(String.valueOf(i));
+            }
+            
         }   
         ObservableList<String> showMinOptions = FXCollections.observableArrayList(min);
         cbTimeMinuteShow1.setItems(showMinOptions);
