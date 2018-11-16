@@ -119,6 +119,16 @@ public class UserController {
     public void setLogout(){
         isLogin = false;
     }
+    public boolean getIsLogin() {
+        return isLogin;
+    }
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+    public void unsetLoginUser(){
+        this.loginUser = null;
+    }
+    
     
     // Register
     public boolean checkExistEmail(String email){

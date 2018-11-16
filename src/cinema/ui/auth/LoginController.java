@@ -7,7 +7,6 @@ package cinema.ui.auth;
 
 import cinema.User;
 import cinema.UserController;
-import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
 import cinema.ui.AlertMaker;
 import cinema.ui.CinemaUtility;
@@ -15,15 +14,8 @@ import cinema.ui.FieldValidation;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -32,13 +24,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
+import javafx.stage.Screen;
 
-/**
- * FXML Controller class
- *
- * @author Phijak
- */
-public class LoginController implements Initializable, ControlledScreen {
+public class LoginController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
@@ -59,7 +53,7 @@ public class LoginController implements Initializable, ControlledScreen {
     public LoginController() {
         this.uc = uc.getInstance();
     }
-    
+
     // ลบค่า Label
     public void clearLabel(){
         labelUsername.setText("");
@@ -94,23 +88,34 @@ public class LoginController implements Initializable, ControlledScreen {
 
     @FXML
     private void handleLogin(ActionEvent event) {
-        System.out.println(txtUsername.getText());
-        System.out.println(txtPassword.getText());
-   
         boolean isUernameNotEmpty = FieldValidation.isTextFieldNotEmpty(txtUsername, labelUsername, "ต้องใส่ชื่อผู้ใช้งาน");
         boolean isPasswordNotEmpty = FieldValidation.isTextFieldNotEmpty(txtPassword, labelPassword, "ต้องใส่รหัสผ่าน");
         
         if(isUernameNotEmpty && isPasswordNotEmpty){
-            
-            System.out.println("ชื่อผู้ใช้งาน และรหัสผ่าน ตรวจสอบแล้วถูกต้อง!");
-            System.out.println("กำลังเช็คในฐานข้อมูล...");
+            System.out.println("Login...");
             resetAllStyle();
             
             if (uc.checkValidUser(txtUsername.getText(), txtPassword.getText())){
                 loginUser = uc.getLoginUser();
-                AlertMaker.showSimpleAlert("Login Completed", loginUser.toString());
-                closeStage(); // close screen
-                loadMain(); // show main screen
+                //AlertMaker.showSimpleAlert("Login Completed", loginUser.toString());
+//                closeStage(); // close screen
+//                loadMain(); // show main screen
+                System.out.println(loginUser.getType());
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                
+                if(loginUser.getType().equals("Admin")){
+                    // Go to admin
+                    System.out.println("admin");
+                    loadScreen(window , "/cinema/admin/AdminMain.fxml");
+                }else if(loginUser.getType().equals("Staff")){
+                    // Goto Staff
+                    System.out.println("staff");
+                    loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
+                }else{
+                    // Goto customer
+                    System.out.println("user");
+                    loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
+                }
             }else{
                 AlertMaker.showErrorMessage("Login Failed", "Not found this account in database.");
             }
@@ -125,49 +130,22 @@ public class LoginController implements Initializable, ControlledScreen {
         }
     }
     
-    void loadMain(){
+    @FXML
+    private void handleRegister(ActionEvent event){
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        loadScreen(window , "/cinema/ui/auth/Register.fxml");
+    }
+    
+    public void loadScreen(Stage window , String path){
         try {
-             if(loginUser.getType().equals("Admin")){
-                Parent root = FXMLLoader.load(getClass().getResource("/cinema/admin/AdminMain.fxml"));
-                Stage stage = new Stage(StageStyle.DECORATED);
-                stage.setTitle("KMITL Cinema");
-                stage.setScene(new Scene(root));
-                stage.setMaximized(true);
-                stage.show();
-                CinemaUtility.setStageIcon(stage);
-             }else{
-                 System.out.println("None");
-             }
+            ((Stage)rootPane.getScene().getWindow()).close();
+            Parent parent;
+            parent = FXMLLoader.load(getClass().getResource(path));
+            Scene parentScene = new Scene(parent);
+            window.setScene(parentScene);
+            window.show();
         } catch (IOException ex) {
             System.out.println(ex);
         }
     }
-    
-    private void closeStage() {
-        ((Stage)rootPane.getScene().getWindow()).close();
-    }
-
-    @FXML
-    private void handleForgotPassword(MouseEvent event) {
-        System.out.println("forgot");
-        
-    }
-
-    @FXML
-    private void handleRegister(ActionEvent event) throws IOException {
-         Parent register = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Register.fxml"));
-//            Stage stage = new Stage(StageStyle.DECORATED);
-//            stage.setTitle("สมัครสมาชิก");
-
-            Scene registerScene = new Scene(register);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(registerScene);
-            window.setMaximized(true);
-            window.show();
-    }
-
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
-    }
-    
 }

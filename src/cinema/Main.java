@@ -1,6 +1,10 @@
 package cinema;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -35,7 +39,7 @@ public class Main{
         for (Seat seat : selectSeat) {
             totalSeatPrice += seat.getSeatPrice();
         }
-        System.out.println(totalSeatPrice);
+       // System.out.println(totalSeatPrice);
        // Check promotion and make total
        double totalPrice = totalSeatPrice;
        if(p != null){
@@ -43,14 +47,16 @@ public class Main{
           totalPrice -= p.getDiscount();
        }
        
-        System.out.println(totalPrice);
+       // System.out.println(totalPrice);
        
        Booking b = new Booking(s, selectSeat, u, p, totalPrice);
-       System.out.println(b);
+       //System.out.println(b);
        
       // uc.topupUserMoney(u.getId(), 190); // เติมเงิน
-       //bc.addBooking(b);
-       //bc.cancleBooking(6);
+     //bc.addBooking(b);
+     bc.cancleBooking(9);
+        System.out.println(bc.getSumTotal());
+    
        
        
     }

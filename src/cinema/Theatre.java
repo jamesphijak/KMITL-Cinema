@@ -29,14 +29,23 @@ public class Theatre implements Serializable{
     @OneToMany(fetch= FetchType.EAGER)
     private List<Showtime> showtimeList = new ArrayList<Showtime>(); // Display updated showtime when booking
     
-    public Theatre(int theatreNumber) {
+    private String theatreType;
+    
+    public Theatre(int theatreNumber,String theatreType) {
         this.theatreNumber = theatreNumber;
+        this.theatreType = theatreType;
     }
 
-    public void addShowtime(Showtime showtime){
-        this.showtimeList.add(showtime);
+    public String getTheatreType() {
+        return theatreType;
+    }
+    public void setTheatreType(String theatreType) {
+        this.theatreType = theatreType;
     }
     
+    public void addShowtime(Showtime showtime){
+        this.showtimeList.add(showtime);
+    }  
     public void deleteShowtime(Showtime st){
         showtimeList.remove(st);
     }
@@ -65,7 +74,7 @@ public class Theatre implements Serializable{
 
     @Override
     public String toString() {
-        return "Theatre number : " + this.theatreNumber;
+        return "Theatre number : " + this.theatreNumber + "\nType : " + this.theatreType;
     }
 }
 

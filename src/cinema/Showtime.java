@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,7 +33,9 @@ public class Showtime implements Serializable{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
+    @OneToOne(fetch= FetchType.EAGER)
     private Movie movie; // เก็บหนังเรื่องอะไร
+    @OneToOne(fetch= FetchType.EAGER)
     private Theatre theatre; // โรงไหน
     
     private double increaseSeatPrice = 0;
@@ -172,15 +175,6 @@ public class Showtime implements Serializable{
     public String getMovieEng() {return movie.getEnglishName();}
     public String getMovieThai() {return movie.getThaiName();}
 
-    
-
-//    public void setBooked(Seat seat, boolean t) {
-//        for (Seat i : this.seatList) {
-//            if (i.getSeatID() == seat.getSeatID()) {
-//                i.setSeat(t);
-//            }
-//        }
-//    }
 
     public boolean checkValidShowtime(String check) {
         return check.equalsIgnoreCase(startTime);

@@ -114,12 +114,8 @@ public class CinemaController{
     
     // Theatre =========================================================================
     private List<Theatre> theatreList = new ArrayList<Theatre>(); // เก็บโรง
-    
-    // private Movie selectMovie; // หนังที่เลือก เพื่อหารอบฉายของโรงนั้นๆ ใน showTimeList
-    // private List<Showtime> showtimeList = new ArrayList<Showtime>(); // เก็บ showtime ของโรงนั้น
-    
+
     // Operation
-    
     public Theatre getTheatre(int id){
         openConnection();
         em.getTransaction().begin(); // start connection
@@ -137,11 +133,12 @@ public class CinemaController{
         em.getTransaction().commit(); // add all persist to database
         closeConnection();
     }
-    public void editTheatre(int id, int newTheatreNum){
+    public void editTheatre(int id, Theatre editTheatre){
         openConnection();
         Theatre theatre = em.find(Theatre.class, id); // find object
         em.getTransaction().begin();
-        theatre.setTheatreNumber(newTheatreNum); // แก้แค่เลขโรง
+        theatre.setTheatreNumber(editTheatre.getTheatreNumber());
+        theatre.setTheatreType(editTheatre.getTheatreType());
         em.getTransaction().commit();
         closeConnection();
     }

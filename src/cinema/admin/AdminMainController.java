@@ -1,5 +1,7 @@
 package cinema.admin;
 
+import cinema.Booking;
+import cinema.BookingController;
 import cinema.CinemaController;
 import cinema.Movie;
 import cinema.Promotion;
@@ -11,6 +13,7 @@ import cinema.User;
 import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
 import cinema.ui.AlertMaker;
+import cinema.ui.CinemaUtility;
 import com.jfoenix.controls.JFXTabPane;
 import java.io.File;
 import java.io.IOException;
@@ -31,6 +34,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -41,6 +46,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.SingleSelectionModel;
@@ -54,12 +60,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
-public class AdminMainController implements Initializable, ControlledScreen {
+public class AdminMainController implements Initializable{
     // User
     @FXML
     private TextField txtUserSearch;
@@ -137,6 +145,8 @@ public class AdminMainController implements Initializable, ControlledScreen {
     private Label msgUserSearch;
     @FXML
     private ComboBox<String> cbUserSearch;
+    @FXML
+    private Button btnUserPassword;
     
     // ============================================================
     // Movie
@@ -398,6 +408,49 @@ public class AdminMainController implements Initializable, ControlledScreen {
     private Label msgTheatreShow1;
     @FXML
     private Label msgTimeShowtime;
+    @FXML
+    private Label lbSoundtrack11;
+    @FXML
+    private ComboBox<String> cbSystem;
+    @FXML
+    private TableColumn<Showtime, String> colShowtimeSystem;
+    @FXML
+    private TableColumn<Showtime, String> colSubtitle;
+    // Showtime Date
+    @FXML
+    private DatePicker datePickerShowtime;
+    @FXML
+    private Label msgShowtimeDate;
+    @FXML
+    private TableColumn<Showtime, String> colShowtimeDate;
+    @FXML
+    private ComboBox<String> cbTheatreType;
+    @FXML
+    private TableColumn<Theatre, String> colTheatreType;
+    // Booking
+    // ==========================================================
+    @FXML
+    private Text txtSummary;
+    @FXML
+    private TableView<Booking> tbBooking;
+    @FXML
+    private TableColumn<Booking, Integer> colBookingID;
+    @FXML
+    private TableColumn<Booking, String> colBookingCreated;
+    @FXML
+    private TableColumn<Booking, String> colBookingUpdate;
+    @FXML
+    private TableColumn<Booking, String> colBookingShowtime;
+    @FXML
+    private TableColumn<Booking, String> colBookingUser;
+    @FXML
+    private TableColumn<Booking, Promotion> colBookingPromotion;
+    @FXML
+    private TableColumn<Booking, Boolean> colBookingStatus;
+    @FXML
+    private TableColumn<Booking, String> colBookingSeat;
+    @FXML
+    private TableColumn<Booking, Double> colBookingTotal;
     
     
     // User =======================================================================
@@ -432,7 +485,9 @@ public class AdminMainController implements Initializable, ControlledScreen {
     // Showtime search
     ObservableList<Showtime> showtimeSearchList = FXCollections.observableArrayList();
     List<Showtime> showtimeSearchListArray = new ArrayList<Showtime>();
-    
+    // Booking List ====================================================================
+    ObservableList<Booking> bookingList = FXCollections.observableArrayList();
+    List<Booking> bookingListArray = new ArrayList<Booking>();
     
     private File lastPath;
     private File selectedPoster;
@@ -442,44 +497,31 @@ public class AdminMainController implements Initializable, ControlledScreen {
     
     private UserController uc;
     private PromotionController pc;
-    ScreensController myController;
-    
-//    private MovieController mc;
-//    private TheatreController tc;
-//    private ShowtimeController sc;
     private CinemaController cc;
+    private BookingController bc;
+    @FXML
+    private MenuBar menuAdmin;
     
-    @FXML
-    private Label lbSoundtrack11;
-    @FXML
-    private ComboBox<String> cbSystem;
-    @FXML
-    private TableColumn<Showtime, String> colShowtimeSystem;
-    @FXML
-    private TableColumn<Showtime, String> colSubtitle;
-    // Showtime Date
-    @FXML
-    private DatePicker datePickerShowtime;
-    @FXML
-    private Label msgShowtimeDate;
-    @FXML
-    private TableColumn<Showtime, String> colShowtimeDate;
     
     public AdminMainController() {
-//        this.mc = mc.getInstance();
-//        this.tc = tc.getInstance();
-//        this.sc = sc.getInstance();
-        
+
         this.uc = uc.getInstance();
         this.pc = pc.getInstance();
         this.cc = cc.getInstance();
+        this.bc = bc.getInstance();
         
     }
     
     // Initial =====================================================================
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        userLogin.setText("jamesphijak@hotmail.com");
+        if(uc.getIsLogin()){
+            userLogin.setText(uc.getLoginUser().getEmail());
+        }else{
+            userLogin.setText("Not Login");
+            userLogin.setDisable(true);
+        }
+        
         // Tab select
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
         selectionModel.select(4); // select theatre
@@ -521,6 +563,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
         initTheatreCol();
         loadTheatreData();
         clearTheatreMessage();
+        loadTheatreTypeCombo();
         
         // Showtime ======================================================
         initShowtimeCol();
@@ -532,18 +575,33 @@ public class AdminMainController implements Initializable, ControlledScreen {
         loadSoundtrackCombo(); // soundtrack
         loadStartHourCombo();
         loadStartMinCombo();
-        loadSystemCombo();
+        cbSystem.setDisable(true);
+        //loadSystemCombo();
         
         
 //        Theatre t = tc.getTheatre(3);
 //        Movie m = mc.getMovie(4);
 //        Showtime s = new Showtime(m, t, "3D", "TH", "11:11", 0.0);
 //        sc.addShowtime(s);
+        initBookingCol();
+        loadBookingData();
+        setBookingTotal();
     }   
     
     @FXML
-    private void handleLogout(ActionEvent event) {
-        userLogin.setText("Hekki");
+    private void handleLogout(ActionEvent event) throws IOException {
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)menuAdmin.getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
+
+        uc.setIsLogin(false);
+        uc.unsetLoginUser();
+        
+
+System.out.println("Logout");
     }
     
     public boolean checkEmptyForm(String text, Label label, String textLabel){
@@ -620,19 +678,39 @@ public class AdminMainController implements Initializable, ControlledScreen {
         btnCancleEditUser.setDisable(true);
         lbHeadUser.setText("Add new user");
         clearUserForm();
+        clearUserMessage();
         editUserMode = false;
+        btnUserPassword.setDisable(true);
+        
+        txtUsername.setDisable(false);
+        txtPassword.setDisable(false);
+        txtPassword.setDisable(false);
+        txtConfirmPassword.setDisable(false);
+        txtFirstname.setDisable(false);
+        txtLastname.setDisable(false);
+        txtEmail.setDisable(false);
+        cbUserType.setDisable(false);
     }
     
     User selectedUserEdit; // global variable
     boolean editUserMode = false;
     int editUserId = 0;
-    
+            
     public void initUserEditMode(){
         selectedUserEdit = tbUser.getSelectionModel().getSelectedItem(); // เก็บมาเป็น object จาก list ที่เลือก
         if(selectedUserEdit == null){
             AlertMaker.showErrorMessage("No user selected", "Please select a user for edit.");
             return;
         }
+        txtUsername.setDisable(false);
+        txtPassword.setDisable(false);
+        txtPassword.setDisable(true);
+        txtConfirmPassword.setDisable(true);
+        txtFirstname.setDisable(false);
+        txtLastname.setDisable(false);
+        cbUserType.setDisable(false);
+        
+        
         // Disable button to add & Enable button to save & Change head text to edit mode
         btnAddUser.setDisable(true);
         btnSaveUser.setDisable(false);
@@ -641,6 +719,11 @@ public class AdminMainController implements Initializable, ControlledScreen {
         
         txtUsername.setText(selectedUserEdit.getUsername());
         txtPassword.setText(selectedUserEdit.getPassword());
+        // Disable txt Password
+        txtPassword.setDisable(true);
+        txtConfirmPassword.setDisable(true);
+        btnUserPassword.setDisable(false);
+        
         txtConfirmPassword.setText(selectedUserEdit.getPassword());
         txtFirstname.setText(selectedUserEdit.getFirstname());
         txtLastname.setText(selectedUserEdit.getLastname());
@@ -1130,6 +1213,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
     public void initTheatreCol(){
         colTheatreId.setCellValueFactory(new PropertyValueFactory<>("id"));
         colTheatreNumber.setCellValueFactory(new PropertyValueFactory<>("theatreNumber"));
+        colTheatreType.setCellValueFactory(new PropertyValueFactory<>("theatreType"));
     }
     public void loadTheatreData() {
         theatreList.clear();
@@ -1149,7 +1233,15 @@ public class AdminMainController implements Initializable, ControlledScreen {
     }
     public void clearTheatreForm() {
         txtTheatre.clear();
+        cbTheatreType.setValue("2D/3D");
     }
+    
+    public void loadTheatreTypeCombo(){
+        ObservableList<String> theatreTypeOptions = FXCollections.observableArrayList("2D/3D","4D");
+        cbTheatreType.setItems(theatreTypeOptions);
+        cbTheatreType.setValue("2D/3D");
+    }
+    
     public boolean checkTheatreForm(String number) {
         boolean checkTheatre = checkEmptyForm(number, msgTheatre, "theatre number");
         if(checkTheatre){
@@ -1177,7 +1269,8 @@ public class AdminMainController implements Initializable, ControlledScreen {
         lbHeadTheatre.setText("Edit theatre id : " + selectedTheatreEdit.getId());
         
         txtTheatre.setText(String.valueOf(selectedTheatreEdit.getTheatreNumber()));
-
+        cbTheatreType.setValue(selectedTheatreEdit.getTheatreType());
+        
         clearTheatreMessage();
         editTheatreMode = true;
         editTheatreID = tbTheatre.getSelectionModel().getSelectedIndex();
@@ -1239,6 +1332,43 @@ public class AdminMainController implements Initializable, ControlledScreen {
         }
         cbShowtimeSearch1.setItems(movieShowtimeList);
     }
+    
+    
+    public void loadSoundtrackCombo(){
+        ObservableList<String> soundTrack = FXCollections.observableArrayList("EN","TH");
+        cbSoundtrack1.setItems(soundTrack);
+        cbSoundtrack1.setValue("TH");
+    }
+   
+    public void loadStartHourCombo(){
+        ArrayList<String> hour = new ArrayList<String>();
+        for (int i = 0; i <= 23; i++) { 
+            if(i<10){
+                hour.add("0"+String.valueOf(i));
+            }else{
+                hour.add(String.valueOf(i));
+            }
+        }   
+        ObservableList<String> showHourOptions = FXCollections.observableArrayList(hour);
+        cbTimeHourShow1.setItems(showHourOptions);
+//        cbTimeHourShow1.setValue("None");
+    }
+    public void loadStartMinCombo(){
+        ArrayList<String> min = new ArrayList<String>();
+        for (int i = 0; i <= 55; i++) { 
+            if(i % 5 == 0){
+                if(i<10){
+                    min.add("0"+String.valueOf(i));
+                }else{
+                    min.add(String.valueOf(i));
+                }
+            }
+        }   
+        ObservableList<String> showMinOptions = FXCollections.observableArrayList(min);
+        cbTimeMinuteShow1.setItems(showMinOptions);
+        cbTimeMinuteShow1.setValue("");
+    }
+     
     public void loadTheatreShowtimeCombo(){
         ObservableList<String> theatreNum = FXCollections.observableArrayList();
         List<Theatre> theatre = new ArrayList<Theatre>();
@@ -1256,41 +1386,47 @@ public class AdminMainController implements Initializable, ControlledScreen {
         //cbTheatreSearch1.setValue("1");
     }
     
-    public void loadSoundtrackCombo(){
-        ObservableList<String> soundTrack = FXCollections.observableArrayList("EN","TH");
-        cbSoundtrack1.setItems(soundTrack);
-        cbSoundtrack1.setValue("TH");
-    }
+    // Check theatre and load combo
+    boolean changeTheatre = false; // t คือ มีการเปลี่ยน f คือไม่มีการเปลี่ยน
     public void loadSystemCombo(){
-        ObservableList<String> system = FXCollections.observableArrayList("2D","3D","4DX");
-        cbSystem.setItems(system);
-        cbSystem.setValue("2D");
-    }
-    public void loadStartHourCombo(){
-        ArrayList<String> hour = new ArrayList<String>();
-        for (int i = 0; i <= 23; i++) { 
-            if(i<10){
-                hour.add("0"+String.valueOf(i));
+        ObservableList<String> system = FXCollections.observableArrayList();
+        Theatre t;
+        // Find theatre
+        if(!editShowtime){
+            String[] selectTheId = cbTheatreSearch1.getValue().split(" :");
+            //System.out.println("Theatre ID: " + selectTheId[0]);
+            selectTheId[0].replaceAll("\\s+","");
+            int theatre_id = Integer.valueOf(selectTheId[0]);
+            t = cc.getTheatre(Integer.valueOf(theatre_id));
+            selectShowtimeSystem(system,t);
+        }else{
+            if(!changeTheatre){
+                t = selectedShowtimeEdit.getTheatre();
+                selectShowtimeSystem(system,t);
             }else{
-                hour.add(String.valueOf(i));
+                String[] selectTheId = cbTheatreSearch1.getValue().split(" :");
+                //System.out.println("Theatre ID: " + selectTheId[0]);
+                selectTheId[0].replaceAll("\\s+","");
+                int theatre_id = Integer.valueOf(selectTheId[0]);
+                t = cc.getTheatre(Integer.valueOf(theatre_id));
+                selectShowtimeSystem(system,t);
             }
-        }   
-        ObservableList<String> showHourOptions = FXCollections.observableArrayList(hour);
-        cbTimeHourShow1.setItems(showHourOptions);
-//        cbTimeHourShow1.setValue("None");
+        }
+        
+        // No Select
+
     }
-    public void loadStartMinCombo(){
-        ArrayList<String> min = new ArrayList<String>();
-        for (int i = 0; i <= 59; i++) { 		      
-            if(i<10){
-                min.add("0"+String.valueOf(i));
-            }else{
-                min.add(String.valueOf(i));
-            }
-        }   
-        ObservableList<String> showMinOptions = FXCollections.observableArrayList(min);
-        cbTimeMinuteShow1.setItems(showMinOptions);
-        cbTimeMinuteShow1.setValue("");
+    
+    public void selectShowtimeSystem(ObservableList<String> system, Theatre t){
+        if(t.getTheatreType().equals("2D/3D")){
+            system = FXCollections.observableArrayList("2D","3D");
+            cbSystem.setItems(system);
+            cbSystem.setValue("2D");
+        }else{
+            system = FXCollections.observableArrayList("4DX");
+            cbSystem.setItems(system);
+            cbSystem.setValue("4DX");
+        }
     }
      
     public void clearShowtimeForm(){
@@ -1300,7 +1436,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
         cbSoundtrack1.setValue("TH");
         cbTimeHourShow1.setValue(null);
         cbTimeMinuteShow1.setValue(null);
-        cbSystem.setValue("2D");
+        //cbSystem.setValue("2D");
         datePickerShowtime.setValue(null);
     }
     
@@ -1309,11 +1445,14 @@ public class AdminMainController implements Initializable, ControlledScreen {
     int editShowtimeId = 0;
     
     public void initShowtimeEditMode() throws ParseException{
+        
+        
         selectedShowtimeEdit = tbShowtime1.getSelectionModel().getSelectedItem(); // เก็บมาเป็น object จาก list ที่เลือก
         if(selectedShowtimeEdit == null){
             AlertMaker.showErrorMessage("No showtime selected", "Please select a showtime for edit.");
             return;
         }
+
         // Disable button to add & Enable button to save & Change head text to edit mode
         btnAddShowtime1.setDisable(true);
         btnSaveShowtime1.setDisable(false);
@@ -1344,7 +1483,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
         cbTimeHourShow1.setValue(hour);
         cbTimeMinuteShow1.setValue(minUse);
         
-        cbSystem.setValue(selectedShowtimeEdit.getSystem());
+        
         
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
         String date = selectedShowtimeEdit.getDate();
@@ -1354,7 +1493,12 @@ public class AdminMainController implements Initializable, ControlledScreen {
         
         clearShowtimeMessage();
         
+        // load new combo
+        changeTheatre = false;
         editShowtime = true;
+        loadSystemCombo();
+        cbSystem.setValue(selectedShowtimeEdit.getSystem());
+        
         editShowtimeId = tbShowtime1.getSelectionModel().getSelectedIndex();
     }
     public void cancleShowtimeEdit(){
@@ -1364,6 +1508,8 @@ public class AdminMainController implements Initializable, ControlledScreen {
         lbHeadShowtime1.setText("Add new Showtime");
         clearShowtimeForm();
         editShowtime = false;
+        cbSystem.setDisable(true);
+        //loadSystemCombo();
     }
     public boolean checkShowtimeForm(String movieName, String theatre, String increaseSP,String date,String min,String hour,String sound){
         boolean checkIncrease = checkEmptyForm(increaseSP, msgIncreaseSeatPrice1, "increase seat price");
@@ -1406,6 +1552,35 @@ public class AdminMainController implements Initializable, ControlledScreen {
         if(cbSoundtrack1.getValue() != null){ sound = cbSoundtrack1.getValue(); }
         
         return checkIncrease && checkMoviename &&  checktheatre && checkShowtimeDate && checkTime;      
+    }
+    
+    // Booking =====================================================================
+    public void initBookingCol(){
+        colBookingID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colBookingCreated.setCellValueFactory(new PropertyValueFactory<>("BookingCreateDatetime"));
+        colBookingUpdate.setCellValueFactory(new PropertyValueFactory<>("BookingUpdateDatetime"));
+        colBookingShowtime.setCellValueFactory(new PropertyValueFactory<>("ShowtimeDetail"));
+        colBookingUser.setCellValueFactory(new PropertyValueFactory<>("UserDetail"));
+        colBookingPromotion.setCellValueFactory(new PropertyValueFactory<>("promotion"));
+        colBookingStatus.setCellValueFactory(new PropertyValueFactory<>("isCancel"));
+        colBookingSeat.setCellValueFactory(new PropertyValueFactory<>("BookedSeatString"));
+        colBookingTotal.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
+    }   
+    public void loadBookingData(){
+        bookingList.clear();
+        bookingListArray = bc.getBookingList();
+        try {
+            for (Booking booking : bookingListArray) {
+                bookingList.add(booking);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        
+        tbBooking.setItems(bookingList);
+    }
+    public void setBookingTotal(){
+        txtSummary.setText("Total Income : " + bc.getSumTotal() + " Baht");
     }
     
     // User =======================================================================
@@ -1469,6 +1644,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
         if(isUserOK){
             userType = cbUserType.getValue(); // get value from combobox
             User newUser = new User(username, password, firstname, lastname, email, userType,0.0);
+            newUser.setEncryptPassword();
             AlertMaker.showSimpleAlert("OK", newUser.toString());
             uc.addUser(newUser); // add new user
             clearUserMessage(); // clear label
@@ -1556,6 +1732,23 @@ public class AdminMainController implements Initializable, ControlledScreen {
             //System.out.println(selectedUserEdit);    
             System.out.println("Selected edit user id : "+editUserId);
         }
+    }
+    @FXML
+    private void handleChangePassword(ActionEvent event) {
+        txtUsername.setDisable(true);
+        txtPassword.setDisable(true);
+        
+        txtPassword.clear();
+        txtConfirmPassword.clear();
+        txtPassword.setDisable(false);
+        txtConfirmPassword.setDisable(false);
+        
+        txtFirstname.setDisable(true);
+        txtLastname.setDisable(true);
+        txtEmail.setDisable(true);
+        cbUserType.setDisable(true);
+        
+        btnUserPassword.setDisable(true);
     }
 
     // ==========================================================================
@@ -1936,7 +2129,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
         int theatre = Integer.parseInt(theatreNum);
         
         if(isAddable){  
-            Theatre newTheatre = new Theatre(theatre);
+            Theatre newTheatre = new Theatre(theatre,cbTheatreType.getValue());
             cc.addTheatre(newTheatre);
             clearTheatreMessage(); // clear label
             clearTheatreForm(); // clear text form
@@ -1949,9 +2142,11 @@ public class AdminMainController implements Initializable, ControlledScreen {
         
         boolean isAddable = checkTheatreForm(theatreNum);
         int theatre = Integer.parseInt(theatreNum);
+        Theatre editTheatre = new Theatre(theatre,cbTheatreType.getValue());
+        
         
         if(isAddable) {
-            cc.editTheatre(selectedTheatreEdit.getId(), theatre);
+            cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
         }
         loadTheatreData();
         clearTheatreMessage();
@@ -2045,6 +2240,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
                 System.out.println("Start"+start);
                 String sound = cbSoundtrack1.getValue();
                 double incSeat = Double.parseDouble(incSp);
+                
                 String system = cbSystem.getValue();
                 
                 System.out.println(m.getEnglishName());
@@ -2081,7 +2277,7 @@ public class AdminMainController implements Initializable, ControlledScreen {
             cc.setSelectShowtime(selectedShowtimeEdit.getId());
             Parent root = FXMLLoader.load(getClass().getResource("/cinema/admin/ViewSeat.fxml"));
             Stage stage = new Stage(StageStyle.DECORATED);
-            stage.setTitle("KMITL Cinema");
+            stage.setTitle("Seat List");
             stage.setScene(new Scene(root));
             //stage.setMaximized(true);
             stage.show();
@@ -2120,10 +2316,30 @@ public class AdminMainController implements Initializable, ControlledScreen {
             clearShowtimeMessage();
         }
     }
-
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
+    @FXML
+    private void handleFindShowtimeSystem(ActionEvent event) {
+        System.out.println("Load System");
+        if(editShowtime){
+            changeTheatre = true;
+        }
+        if(cbTheatreSearch1.getValue() != null){
+            loadSystemCombo();
+            cbSystem.setDisable(false);
+        }
+        
+        
     }
+    
+
+    @FXML
+    private void handleRefreshBooking(ActionEvent event) {
+        initBookingCol();
+        loadBookingData();
+        setBookingTotal();
+    }
+
+    
+
 
 
 }

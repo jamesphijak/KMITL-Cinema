@@ -1,0 +1,41 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-11-17 05:46:25 #1 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 11328@GIGABYTE-PC
+
+[2018-11-17 05:46:25 #2 store] 
+Configuration path: ?
+
+[2018-11-17 05:46:25 #3 type] 
+Type cinema.Movie is not enhanced.
+
+[2018-11-17 05:46:25 #4 type] 
+Type cinema.User is not enhanced.
+
+[2018-11-17 05:46:25 #5 type] 
+Type cinema.Promotion is not enhanced.
+
+[2018-11-17 05:46:25 #6 type] 
+Type cinema.Theatre is not enhanced.
+
+[2018-11-17 05:46:25 #7 type] 
+Type cinema.Showtime is not enhanced.
+
+[2018-11-17 05:46:25 #8 type] 
+Type cinema.Seat is not enhanced.
+
+[2018-11-17 05:46:25 #9 type] 
+Type cinema.PairedSeat is not enhanced.
+
+[2018-11-17 05:46:25 #10 type] 
+Type cinema.HoneymoonSeat is not enhanced.
+
+[2018-11-17 05:46:25 #11 type] 
+Type cinema.NormalSeat is not enhanced.
+
+[2018-11-17 05:46:25 #12 type] 
+Type cinema.Booking is not enhanced.
+
+[2018-11-17 05:46:25 #13 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 11328@GIGABYTE-PC
+

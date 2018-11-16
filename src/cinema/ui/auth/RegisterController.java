@@ -3,8 +3,6 @@ package cinema.ui.auth;
 
 import cinema.User;
 import cinema.UserController;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
 import cinema.ui.AlertMaker;
 import cinema.ui.CinemaUtility;
 import cinema.ui.FieldValidation;
@@ -18,14 +16,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
-public class RegisterController implements Initializable, ControlledScreen {
+public class RegisterController implements Initializable {
 
     @FXML
     private AnchorPane rootPane;
@@ -56,7 +56,6 @@ public class RegisterController implements Initializable, ControlledScreen {
 
     List<User> allUser;
     UserController uc;
-    ScreensController myController;
     
     public RegisterController() {
         this.uc = uc.getInstance();
@@ -189,12 +188,8 @@ public class RegisterController implements Initializable, ControlledScreen {
 
     @FXML
     private void handleClear(ActionEvent event) {
-//        clearForm();
-//        resetAllStyle();
-          boolean searchUsernameFound = uc.checkExistUsername(txtUsername.getText());
-          boolean searchEmailFound = uc.checkExistEmail(txtEmail.getText());
-          System.out.println(searchUsernameFound);
-          System.out.println(searchEmailFound);
+        clearForm();
+        resetAllStyle();
     }
     
     // ลบค่า Form
@@ -227,18 +222,18 @@ public class RegisterController implements Initializable, ControlledScreen {
     }
 
     @FXML
-    private void handleBack(ActionEvent event) throws IOException {
-        // ((Stage)rootPane.getScene().getWindow()).close();
-        Parent register = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
-            Scene registerScene = new Scene(register);
+    private void handleBack(ActionEvent event) {
+       try {
+            //((Stage)rootPane.getScene().getWindow()).close();
+            Parent parent;
+            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+            Scene parentScene = new Scene(parent);
             Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(registerScene);
-            window.setMaximized(true);
+            window.setScene(parentScene);
             window.show();
-    }
-    
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }
     
 }

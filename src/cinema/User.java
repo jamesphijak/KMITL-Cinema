@@ -37,13 +37,18 @@ public class User implements Serializable{
     
     public User(String username, String password, String firstname, String lastname, String email, String type, Double money) {
         this.username = username;
-        this.password = encryptPassword(password);
+        this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.type = type;
         this.money = money;
     }
+    
+    public void setEncryptPassword(){
+        this.password = encryptPassword(this.password);
+    }
+            
     
     public static String encryptPassword(String password){
         String generatedPassword = null;

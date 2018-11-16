@@ -1,6 +1,7 @@
 package cinema;
 
 import cinema.ui.AlertMaker;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -58,7 +59,7 @@ public class BookingController {
             List<Seat> seatList = b.getBookedSeatList();
             for (Seat seat : seatList) {
                 Seat seatSet = em.find(Seat.class, seat.getId());
-                seat.setSeatStatus(true);
+                seatSet.setSeatStatus(true);
             }
             System.out.println("Set Seat alredy booked okay");
             em.getTransaction().commit(); // add all persist to database
@@ -76,8 +77,9 @@ public class BookingController {
         User u = em.find(User.class, b.getUser().getId()); // Get User
         Promotion p = em.find(Promotion.class, b.getPromotion().getPromotionID());
         
-        u.removePromotion(p); // Remove Promotion from user
+        // u.removePromotion(p); // Remove Promotion from user
         b.setIsCancel(true); // Set cancel to true
+        b.updateDatetime();
         // Change money in user and booking
         double userReturn  = b.cancelBooking(); // after cancel will set total only 10% and return user money
         u.returnMoney(userReturn); // return to user account
@@ -86,11 +88,34 @@ public class BookingController {
         List<Seat> seatList = b.getBookedSeatList();
         for (Seat seat : seatList) {
             Seat seatSet = em.find(Seat.class, seat.getId());
-            seat.setSeatStatus(false);
+            seatSet.setSeatStatus(false);
         }
             
         em.getTransaction().commit(); // add all persist to database
         closeConnection();
+    }
+    
+    // Get all
+    private List<Booking> bookingList = new ArrayList<Booking>();
+    public void updateBookingList() {
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        Query query = em.createQuery("SELECT b FROM Booking b");
+        List<Booking> booking = query.getResultList(); // get movie
+        this.bookingList = booking;
+        closeConnection();
+    }
+    public List<Booking> getBookingList() {
+        this.updateBookingList();
+        return bookingList;
+    }
+    public double getSumTotal(){
+        double total = 0;
+        this.updateBookingList();
+        for (Booking booking : bookingList) {
+            total += booking.getTotalCost();
+        }
+        return total;
     }
     
 

@@ -1,5 +1,6 @@
 package cinema.screensframework;
 
+import cinema.ui.CinemaUtility;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -45,7 +46,12 @@ public class ScreensFramework extends Application {
         root.getChildren().addAll(mainContainer);
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
+        primaryStage.setTitle("KMITL Cinema");
+        primaryStage.setMaximized(true);
+        CinemaUtility.setStageIcon(primaryStage);
         primaryStage.show();
+        
+        
     }
 
     public static void main(String[] args) {

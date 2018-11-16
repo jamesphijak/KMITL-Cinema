@@ -7,6 +7,7 @@ package cinema.ui.showmovie;
 
 import cinema.CinemaController;
 import cinema.Movie;
+import cinema.UserController;
 import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
 import cinema.screensframework.ScreensFramework;
@@ -52,7 +53,7 @@ import javafx.stage.Stage;
  *
  * @author BEAMCONAN
  */
-public class showmovieController implements Initializable, ControlledScreen {
+public class showmovieController implements Initializable {
 
     @FXML
     private ScrollPane scrollp1;
@@ -66,18 +67,25 @@ public class showmovieController implements Initializable, ControlledScreen {
     private StackPane rootPane;
 
     CinemaController cc;
+    UserController uc;
     List<Movie> movieList = new ArrayList<Movie>();
-    ScreensController myController;
+    @FXML
+    private Button btnUser;
 
     public showmovieController() {
         this.cc = cc.getInstance();
+        this.uc = uc.getInstance();
     }
 
-    /**
-     * Initializes the controller class.
-     */
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(uc.getIsLogin()){
+            btnUser.setText(uc.getLoginUser().getEmail() + "-> Logout");
+        }else{
+            btnUser.setText("Login");
+        }
+        
         //***************************************** Now showing ************************************************
         movieList = cc.getMovieList();
         /* ----------------------- check is now showing ------------------------------ */
@@ -90,12 +98,12 @@ public class showmovieController implements Initializable, ControlledScreen {
         LocalDate releaseDate;
         long tempDayShowing; // ฉายมาแล้วกี่วัน (Return เป็น long)
         int dayShowing;// เปลี่ยน tempDayShowing เป็น int และไปบวกกับ showingDay
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MMM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+        
         for (Movie movie : movieList) {
-            String[] date = movie.getReleaseDate().split(" "); // ทำเดือนแบบย่อ
-            date[1] = date[1].substring(0, 3);
-            stringReleaseDate = (date[0] + "-" + date[1] + "-" + date[2]); // ได้ releaseDate เป็น string
-            releaseDate = LocalDate.parse(stringReleaseDate, formatter); // ทำให้เป็น LocalDate
+            String date = movie.getReleaseDate();
+            releaseDate = LocalDate.parse(date, formatter);
+
             tempDayShowing = today.until(releaseDate, ChronoUnit.DAYS); // ฉายมาแล้วกี่วัน ( จะได้ค่าติดลบจำนวนวัน )
             dayShowing = (int) tempDayShowing + showingDay; // เหลือเวลาฉายอีกกี่วัน
             if(today.until(releaseDate, ChronoUnit.DAYS) > 0) {
@@ -147,10 +155,18 @@ public class showmovieController implements Initializable, ControlledScreen {
             //movieId[i] = movieN[i].getId();
             int finalI = i;
             btN[i].setOnAction(event -> {
-                //checkID(btN[finalI]);
-                cc.setSelectMovie(nowShowingList.get(finalI).getId());
-                myController.loadScreen(ScreensFramework.userShowMovieDetailsScreenID, ScreensFramework.userShowMovieDetailsScreenFile);
-                myController.setScreen(ScreensFramework.userShowMovieDetailsScreenID);
+                try {
+                    //checkID(btN[finalI]);
+                    cc.setSelectMovie(nowShowingList.get(finalI).getId());
+                    Parent parent;
+                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                    Scene parentScene = new Scene(parent);
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(parentScene);
+                    window.show();
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }
 
             });
             btN[i].setMaxWidth(180);
@@ -184,6 +200,7 @@ public class showmovieController implements Initializable, ControlledScreen {
         scrollp1.setVbarPolicy(ScrollBarPolicy.AS_NEEDED);
         field.getChildren().add(movieLine_vboxN);
         scrollp1.setContent(field);
+        
 //***************************************** Coming Soon ************************************************
         //movieList = cc.getMovieList();
         int amountC = comingSoonList.size();
@@ -218,10 +235,18 @@ public class showmovieController implements Initializable, ControlledScreen {
             btC[i].setId("SELECT" + i);
             int finalI = i;
             btC[i].setOnAction(event -> {
-                //checkID(btN[finalI]);
-                cc.setSelectMovie(comingSoonList.get(finalI).getId());
-                myController.loadScreen(ScreensFramework.userShowMovieDetailsComingSoonScreenID, ScreensFramework.userShowMovieDetailsComingSoonScreenFile);
-                myController.setScreen(ScreensFramework.userShowMovieDetailsComingSoonScreenID);
+               try {
+                    //checkID(btN[finalI]);
+                    cc.setSelectMovie(nowShowingList.get(finalI).getId());
+                    Parent parent;
+                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                    Scene parentScene = new Scene(parent);
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(parentScene);
+                    window.show();
+                } catch (IOException ex) {
+                    System.out.println(ex);
+                }
             });
             btC[i].setMaxWidth(180);
             btC[i].getStyleClass().add("button-account");
@@ -256,20 +281,20 @@ public class showmovieController implements Initializable, ControlledScreen {
         scrollp2.setContent(field2);
     }
 
-    /* private void checkID(Button button) throws IOException {
-        System.out.println("running");
-        for (int i = 0; i < 13; i++) {
-            if (button.getId().equals("BUY NOW" + i)) {
-                System.out.println("clicked" + i);
-            }
-        }
-    } */
-
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
-    }
-
     @FXML
-    private void logout(ActionEvent event) {
+    private void logout(ActionEvent event) throws IOException {
+        if(uc.getIsLogin()){
+            uc.setIsLogin(false);
+            uc.unsetLoginUser();
+        }
+            Parent parent;
+            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+            Scene parentScene = new Scene(parent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(parentScene);
+            window.show();
+
+            
+
     }
 }
