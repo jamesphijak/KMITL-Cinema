@@ -188,7 +188,7 @@ public class Showtime implements Serializable{
 
     public String getShowtime() {
         String myTime = this.startTime;
-
+        
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
         Date d = null;
         try {
@@ -198,8 +198,14 @@ public class Showtime implements Serializable{
         }
         Calendar cal = Calendar.getInstance();
         cal.setTime(d);
+        int hour = Integer.parseInt(movie.getTime().substring(0, 2)) * 60;
+        int minute = Integer.parseInt(movie.getTime().substring(3));
+        int periodTime = hour + minute;
+//        System.out.println(hour);
+//        System.out.println(minute);
+//        System.out.println(periodTime);
 
-        cal.add(Calendar.MINUTE, this.getTimeMovie());
+        cal.add(Calendar.MINUTE, periodTime);
         String newTime = df.format(cal.getTime());
         return (myTime + " - " +newTime);
     }

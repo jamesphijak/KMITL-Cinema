@@ -824,7 +824,11 @@ public class AdminMainController implements Initializable, ControlledScreen {
     public void loadMovieHourCombo(){
         ArrayList<String> hour = new ArrayList<String>();
         for (int i = 0; i <= 10; i++) { 		      
-            hour.add(String.valueOf(i));
+            if(i<10){
+                hour.add("0"+String.valueOf(i));
+            }else{
+                hour.add(String.valueOf(i));
+            }
         }   
         ObservableList<String> movieHourOptions = FXCollections.observableArrayList(hour);
         cbTimeHour.setItems(movieHourOptions);
@@ -832,7 +836,11 @@ public class AdminMainController implements Initializable, ControlledScreen {
     public void loadMovieMinuteCombo(){
         ArrayList<String> minute = new ArrayList<String>();
         for (int i = 0; i <= 59; i++) { 		      
-            minute.add(String.valueOf(i));
+            if(i<10){
+                minute.add("0"+String.valueOf(i));
+            }else{
+                minute.add(String.valueOf(i));
+            }
         }   
         ObservableList<String> movieMinuteOptions = FXCollections.observableArrayList(minute);
         cbTimeMinute.setItems(movieMinuteOptions);
@@ -1260,8 +1268,12 @@ public class AdminMainController implements Initializable, ControlledScreen {
     }
     public void loadStartHourCombo(){
         ArrayList<String> hour = new ArrayList<String>();
-        for (int i = 0; i <= 23; i++) { 		      
-            hour.add(String.valueOf(i));
+        for (int i = 0; i <= 23; i++) { 
+            if(i<10){
+                hour.add("0"+String.valueOf(i));
+            }else{
+                hour.add(String.valueOf(i));
+            }
         }   
         ObservableList<String> showHourOptions = FXCollections.observableArrayList(hour);
         cbTimeHourShow1.setItems(showHourOptions);
@@ -1269,13 +1281,12 @@ public class AdminMainController implements Initializable, ControlledScreen {
     }
     public void loadStartMinCombo(){
         ArrayList<String> min = new ArrayList<String>();
-        for (int i = 0; i <= 59; i++) { 
-            if(i < 10){
+        for (int i = 0; i <= 59; i++) { 		      
+            if(i<10){
                 min.add("0"+String.valueOf(i));
             }else{
                 min.add(String.valueOf(i));
             }
-            
         }   
         ObservableList<String> showMinOptions = FXCollections.observableArrayList(min);
         cbTimeMinuteShow1.setItems(showMinOptions);

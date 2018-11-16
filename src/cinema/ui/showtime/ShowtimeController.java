@@ -59,7 +59,7 @@ public class ShowtimeController implements Initializable, ControlledScreen {
     CinemaController cc;
     @FXML
     private StackPane rootPane;
-    
+
     ScreensController myController;
 
     /**
@@ -68,15 +68,15 @@ public class ShowtimeController implements Initializable, ControlledScreen {
     public ShowtimeController() {
         this.cc = cc.getInstance();
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 //        date.getStyleClass().add("date");
 //        date.setTextFill();
         // TODO
-        List <Theatre> theatreList = cc.getTheatreList();
-        List <Showtime> showtimeOfMovie = cc.getShowtimeList();
-        
+        List<Theatre> theatreList = cc.getTheatreList();
+        List<Showtime> showtimeOfMovie = cc.getShowtimeList();
+
         /*for (Theatre theatre : theatreList) {
             if (theatre.getShowtimeList().isEmpty()) {
                 System.out.println("Null");
@@ -85,25 +85,19 @@ public class ShowtimeController implements Initializable, ControlledScreen {
                 int size = theatre.getShowtimeList().size();
             }
         }*/
-        
-        
-        /* --------- ได้ showtime ที่มีหนังที่เรากดเข้ามา -----------*/
+ /* --------- ได้ showtime ที่มีหนังที่เรากดเข้ามา -----------*/
         List<Showtime> showtimeHaveSelectedMovie = new ArrayList<>();
         for (Showtime showtime : showtimeOfMovie) {
-            if(showtime.getMovie().getId() == cc.getSelectMovie().getId()) {
+            if (showtime.getMovie().getId() == cc.getSelectMovie().getId()) {
                 showtimeHaveSelectedMovie.add(showtime);
             }
         }
-        
+
         System.out.println(showtimeHaveSelectedMovie);
-        
-        
-        
-        
+
         //Movie movie = cc.getSelectMovie();
         //Movie m = cc.getMovie(2);
         //List<Theatre> tList = cc.getTheatreList();
-        
         // Get showtime
 //        for (Theatre t : theatreList) {
 //            List <Showtime> stList = t.getShowtimeList();
@@ -113,7 +107,6 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 //                }
 //            }
 //        }
-
         HBox hbox_showtimepertheatre = new HBox();
         int amount = showtimeOfMovie.size();
         Integer[] showtimeId = new Integer[amount];
@@ -122,12 +115,11 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 //        for (int i = 0; i < showtimeOfMovie.size(); i++) { 		      
 //            showtime[i] = showtimeOfMovie.get(i);		
 //        }
-        
         Showtime[] showtime = new Showtime[amount];
-        for (int i = 0; i < showtimeHaveSelectedMovie.size(); i++) { 		      
-            showtime[i] = showtimeHaveSelectedMovie.get(i);		
+        for (int i = 0; i < showtimeHaveSelectedMovie.size(); i++) {
+            showtime[i] = showtimeHaveSelectedMovie.get(i);
         }
-       
+
         nameEng.setText(showtime[0].getMovie().getEnglishName());
         int i = 0, tempTheatre = showtime[0].getTheatre().getTheatreNumber(), countT = 0;
         Button[] bt = new Button[amount];
@@ -136,13 +128,12 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 
         vbox.getChildren().add(hbox_showtimepertheatre);
         Text theatreNo = new Text(Integer.toString(showtime[i].getTheatre().getTheatreNumber()));
-        
+
         theatreNo.setFont(Font.font("Sukhumvit Set Text", 22));
         theatreNo.setFill(Color.web("0xFFFFFF"));
         Text detailsTheatre = new Text(showtime[i].getSystem() + " - " + showtime[i].getSoundtrack().toUpperCase() + "/" + showtime[i].getSubtitle().toUpperCase());
         detailsTheatre.setFont(Font.font("Sukhumvit Set Text", 18));
         detailsTheatre.setFill(Color.web("0xFFFFFF"));
-
 
         vbox_theatre = new VBox(theatreNo, detailsTheatre);
         vbox_theatre.setPrefWidth(100);
@@ -154,7 +145,7 @@ public class ShowtimeController implements Initializable, ControlledScreen {
             if (tempTheatre != showtime[i].getTheatreNo()) {
                 System.out.println("Noo: " + tempTheatre);
                 if (countT != 0) {
-                    countT = countT;//0;
+                    countT = 0;//0;
                     tempTheatre = showtime[i].getTheatreNo();
                     System.out.println("No: " + tempTheatre);
                 }
@@ -190,11 +181,11 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 //                            Logger.getLogger(showmovieController.class.getName()).log(Level.SEVERE, null, ex);
 //                        }
                     });
+                    if (i == amount - 1) {
+                        vbox.getChildren().add(hbox_showtimepertheatre);
+                    }
                 }
             } else {
-                if (i == amount - 1) {
-                    vbox.getChildren().add(hbox_showtimepertheatre);
-                }
 
                 bt[i] = new Button(showtime[i].getShowtime());
                 bt[i].setFont(Font.font("Sukhumvit Set Semi Text", 22));
@@ -211,6 +202,9 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 //                        System.out.println(ex);
 //                    }
                 });
+                if (i == amount - 1) {
+                    vbox.getChildren().add(hbox_showtimepertheatre);
+                }
             }
             countT += 1;
             i += 1;
