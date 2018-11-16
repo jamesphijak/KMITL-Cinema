@@ -35,10 +35,12 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -58,19 +60,21 @@ public class showmovieController implements Initializable {
     @FXML
     private ScrollPane scrollp1;
     @FXML
-    private AnchorPane field;
+    private VBox field;
     @FXML
     private ScrollPane scrollp2;
     @FXML
-    private AnchorPane field2;
+    private VBox field2;
     @FXML
     private StackPane rootPane;
 
     CinemaController cc;
     UserController uc;
     List<Movie> movieList = new ArrayList<Movie>();
+
+    
     @FXML
-    private Button btnUser;
+    private Label labelAuthen;
 
     public showmovieController() {
         this.cc = cc.getInstance();
@@ -81,9 +85,9 @@ public class showmovieController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         if(uc.getIsLogin()){
-            btnUser.setText(uc.getLoginUser().getEmail() + "-> Logout");
+            labelAuthen.setText(uc.getLoginUser().getEmail() + " -> Logout");
         }else{
-            btnUser.setText("Login");
+            labelAuthen.setText("Login");
         }
         
         //***************************************** Now showing ************************************************
@@ -117,10 +121,8 @@ public class showmovieController implements Initializable {
                 }
             }
         }
-//        System.out.println(movieList.size());
-//        for (Movie movie : movieList) {
-//            System.out.println(movie.toString());
-//        }
+
+        
         int amountN = nowShowingList.size(); // count movie
         Movie[] movieN = new Movie[amountN];
         for (int i = 0; i < nowShowingList.size(); i++) {
@@ -158,6 +160,7 @@ public class showmovieController implements Initializable {
                 try {
                     //checkID(btN[finalI]);
                     cc.setSelectMovie(nowShowingList.get(finalI).getId());
+                    cc.setIsComingSoon(false);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
                     Scene parentScene = new Scene(parent);
@@ -238,6 +241,7 @@ public class showmovieController implements Initializable {
                try {
                     //checkID(btN[finalI]);
                     cc.setSelectMovie(nowShowingList.get(finalI).getId());
+                    cc.setIsComingSoon(true);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
                     Scene parentScene = new Scene(parent);
@@ -282,19 +286,20 @@ public class showmovieController implements Initializable {
     }
 
     @FXML
-    private void logout(ActionEvent event) throws IOException {
-        if(uc.getIsLogin()){
-            uc.setIsLogin(false);
-            uc.unsetLoginUser();
-        }
-            Parent parent;
-            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
-            Scene parentScene = new Scene(parent);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(parentScene);
-            window.show();
-
+    private void handleAuthen(MouseEvent event) throws IOException{
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+            if(uc.getIsLogin()){
+                uc.setIsLogin(false);
+                uc.unsetLoginUser();
+            }
             
-
+                Parent parent;
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            System.out.println("CLICK");
     }
 }

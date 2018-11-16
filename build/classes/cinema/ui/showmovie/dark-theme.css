@@ -79,7 +79,7 @@
 /* Tab pane Style */
 .tab{
     -fx-background-color: -fx-primary;
-    -fx-pref-width :445;
+    -fx-pref-width :600;
     -fx-pref-height:56;
 }
 
@@ -129,6 +129,10 @@
     -fx-background-color: linear-gradient(to left,#EFB000, #E38400 );
 }
 
-.scroll-pane > .corner {
-      -fx-background-color: black;
+.scroll-pane{
+      -fx-background-color: -fx-primary;
+}
+
+.scroll-pane-anchor{
+      -fx-background-color: -fx-primary;
 }

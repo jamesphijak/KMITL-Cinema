@@ -186,7 +186,7 @@
                   </HBox>
                </center>
                <bottom>
-                  <VBox prefHeight="237.0" prefWidth="1280.0" style="-fx-background-color: #464240;" BorderPane.alignment="CENTER">
+                  <VBox fx:id="bottomButton" prefHeight="237.0" prefWidth="1280.0" style="-fx-background-color: #464240;" BorderPane.alignment="CENTER">
                      <children>
                         <HBox prefHeight="208.0" prefWidth="1220.0">
                            <children>
@@ -224,7 +224,7 @@
                         </HBox>
                         <AnchorPane prefHeight="78.0" prefWidth="1280.0">
                            <children>
-                              <Button alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" styleClass="bt" stylesheets="@movieDetail.css" text="ถัดไป">
+                              <Button fx:id="btnNext" alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" styleClass="bt" stylesheets="@movieDetail.css" text="ถัดไป">
                                  <font>
                                     <Font name="Sukhumvit Set Bold" size="24.0" />
                                  </font>

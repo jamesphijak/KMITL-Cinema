@@ -29,13 +29,20 @@ public class CinemaController{
     // Movie =========================================================================
     
     private Movie selectMovie;
+    private boolean isComingSoon;
     public void setSelectMovie(int id){
         selectMovie = getMovie(id);
     }
-    
     public Movie getSelectMovie(){
         return selectMovie;
     }
+    public boolean getIsComingSoon() {
+        return isComingSoon;
+    }
+    public void setIsComingSoon(boolean isComingSoon) {
+        this.isComingSoon = isComingSoon;
+    }
+    
     
     // Operation
     public Movie getMovie(int id){

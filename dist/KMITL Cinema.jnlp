@@ -16,6 +16,6 @@
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="KMITL Cinema" >
     <param name="requiredFXVersion" value="8.0+"/>
   </applet-desc>
-  <jfx:javafx-desc  width="800" height="600" main-class="cinema.ui.auth.LoginLoader"  name="KMITL Cinema" />
+  <jfx:javafx-desc  width="800" height="600" main-class="cinema.ui.showmovie.ShowMovie"  name="KMITL Cinema" />
   <update check="always"/>
 </jnlp>
