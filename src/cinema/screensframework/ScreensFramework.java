@@ -25,6 +25,8 @@ public class ScreensFramework extends Application {
     public static String userShowtimeScreenFile = "/cinema/ui/showtime/showtime.fxml";
     public static String userShowMovieDetailsComingSoonScreenID = "ComingSoonMovieDetails";
     public static String userShowMovieDetailsComingSoonScreenFile = "/cinema/ui/showDetailMovieComingSoon/showMovieDetailComingSoon.fxml";
+    public static String userSeatLayoutScreenID = "SeatLayout";
+    public static String userSeatLayoutScreenFile = "/cinema/ui/layoutMedium/layoutMedium.fxml";
     
     
     
