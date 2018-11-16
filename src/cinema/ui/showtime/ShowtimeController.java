@@ -112,7 +112,7 @@ public class ShowtimeController implements Initializable, ControlledScreen {
         
         
         HBox hbox_showtimepertheatre = new HBox();
-        int amount = showtimeOfMovie.size();
+        int amount = showtimeHaveSelectedMovie.size();
         Integer[] showtimeId = new Integer[amount];
 
 //        Showtime[] showtime = new Showtime[amount];
