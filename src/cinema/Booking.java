@@ -92,7 +92,7 @@ public class Booking implements Serializable{
         return seatList;
     }
 
-    public boolean isIsCancel() {
+    public boolean isCancel() {
         return isCancel;
     }
     public void setIsCancel(boolean isCancel) {
@@ -131,6 +131,14 @@ public class Booking implements Serializable{
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
     }
+    public double getTotalSeatPrice(){
+        double total = 0;
+        for (Seat seat : bookedSeatList) {
+            total += seat.getSeatPrice();
+        }
+        return total;
+    }
+    
 
     @Override
     public String toString() {
@@ -147,19 +155,6 @@ public class Booking implements Serializable{
         this.totalCost = this.totalCost - userReturn; // booking will left only 10%
         return userReturn;
     }
-
-    //------------------------------------------------------------------- Method
-//    public void postpone(int id, Showtime next_st, List<Seat> seat) {
-//        for (Seat s : this.bookedSeat) {                  // วนเอาที่นั่งที่จองไว้แล้วไปยกเลิกที่นั่งที่ showtime
-//            this.showtime.setBooked(s, false);
-//        }
-//        this.showtime = next_st;                           // แก้ Showtime เป็นล่าสุด
-//        this.bookedSeat = seat;
-//        for (Seat s : this.bookedSeat) {                  // วนเอาที่นั่งใหม่ที่จะจองแล้วไปใส่ที่ showtime ใหม่
-//            this.showtime.setBooked(s, true);
-//        }
-//    }
-
 
 
 }

@@ -124,16 +124,14 @@ public class MovieDetailController implements Initializable {
     }
 
     @FXML
-    private void nextPage(ActionEvent event) throws FileNotFoundException, IOException, URISyntaxException {
-        
+    private void nextPage(ActionEvent event) throws IOException {
         System.out.println("movie detail");
         Parent parent;
-                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-                    Scene parentScene = new Scene(parent);
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    window.setScene(parentScene);
-                    window.show();
-
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
     @FXML
