@@ -135,6 +135,13 @@ public class Showtime implements Serializable{
         return s;
     }
     
+    public String getShowtimeDetail(){
+        return "("+ getId() + ") " + getMovieEng() + "  " +
+                   getSoundtrack()+"/"+getSubtitle()+ " (" + getSystem() + ")   " +
+ 
+                   "Theatre : " + getTheatre().getTheatreNumber();      
+    }
+    
     //------------------------------------------------------------------- Method
     //*************************** setter & getter********************************************************
     public void setMovie(Movie movie) {this.movie = movie;}

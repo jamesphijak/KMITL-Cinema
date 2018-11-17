@@ -28,6 +28,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -259,6 +260,12 @@ public class Controller implements Initializable {
     List<String> ivListDisable = new ArrayList<>(); // ใช้เก็บ List ที่นั่งที่จองไปแล้วในรอบฉายนั้น
     
     CinemaController cc;
+    @FXML
+    private Text txtShowtime;
+    @FXML
+    private Text labelPreSummary;
+    @FXML
+    private Text txtMovie;
     
     public Controller() {
         this.cc = cc.getInstance();
@@ -266,12 +273,15 @@ public class Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        labelPreSummary.setText(null);
         isFound = false;
         count = 0;
         seatAssign();
         // Get Showtime seat which is not available
         System.out.println(cc.getSelectShowtime());
         Showtime st = cc.getShowtime(cc.getSelectShowtime());
+        txtShowtime.setText("ผังที่นั่ง รอบฉาย : " + st.getShowtime());
+        txtMovie.setText(st.getShowtimeDetail());
         List<Seat> seatAlreadyBooked = st.getSeatList();
         for (Seat seat : seatAlreadyBooked) {
             if(seat.getSeatStatus()){ // if seat status is true => already book => disable it
@@ -427,8 +437,16 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    private void nextPage(ActionEvent event) throws IOException { // ยังทำไม่ได้
-        System.err.println("Hellllllllo");
+    private void nextPage(ActionEvent event) throws IOException {
+        System.err.println("Booking Operation");
+        // Set value for booking
+        
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
     @FXML
@@ -562,6 +580,22 @@ public class Controller implements Initializable {
         }
         
         System.out.println(ivList);
+        if(ivList.size() > 0){
+            double sum = 0;
+            String type = "";
+            double seatPrice = 0;
+            Seat s = cc.getShowtimeSeat(cc.getSelectShowtime(),ivList.get(0));
+            type = s.getSeatType();
+            seatPrice = s.getSeatPrice();
+            
+            for (String seatName : ivList) {
+                s = cc.getShowtimeSeat(cc.getSelectShowtime(),seatName);
+                sum += s.getSeatPrice();
+            }
+            labelPreSummary.setText("ที่นั่งประเภท : " + type + " Seat  จำนวน : " + ivList.size() + " ที่ x " + seatPrice + " = "  + sum + " บาท");
+        }else{
+            labelPreSummary.setText(null);
+        }
 
     }
 
