@@ -52,9 +52,10 @@ public class Main{
        Booking b = new Booking(s, selectSeat, u, p, totalPrice);
        //System.out.println(b);
        
-      // uc.topupUserMoney(u.getId(), 190); // เติมเงิน
-    // bc.addBooking(b);
-    bc.cancleBooking(9);
+  //  uc.topupUserMoney(u.getId(), 500); // เติมเงิน
+    //    System.out.println(u.getMoney());
+     bc.addBooking(b);
+    //bc.cancleBooking(9);
      //   System.out.println(bc.getSumTotal());
     
        

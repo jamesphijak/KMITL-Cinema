@@ -34,11 +34,6 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author BEAMCONAN
- */
 public class ShowtimeController implements Initializable{
 
     @FXML
@@ -168,10 +163,11 @@ public class ShowtimeController implements Initializable{
                     HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                     hbox_showtimepertheatre.getChildren().add(bt[i]);
                     showtimeId[i] = showtime[i].getId();
+                    System.err.println(showtimeId[i]);
                     int finalI = i;
                     bt[i].setOnAction(event -> {
                         try {
-                            cc.setSelectShowtime(showtimeHaveSelectedMovie.get(finalI).getId());
+                            cc.setSelectShowtime(showtimeId[finalI]);
                             
                             Parent parent;
                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/layoutMedium/layoutMedium.fxml"));
@@ -196,10 +192,12 @@ public class ShowtimeController implements Initializable{
                 bt[i].getStyleClass().add("button-st");
                 HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                 hbox_showtimepertheatre.getChildren().add(bt[i]);
+                showtimeId[i] = showtime[i].getId();
+                System.err.println(showtimeId[i]);
+                int finalI = i;
                 bt[i].setOnAction(event -> {
-
                     try {
-                            cc.setSelectShowtime(showtimeHaveSelectedMovie.get(0).getId());
+                            cc.setSelectShowtime(showtimeId[finalI]);
                             
                             Parent parent;
                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/layoutMedium/layoutMedium.fxml"));
@@ -225,6 +223,16 @@ public class ShowtimeController implements Initializable{
     private void getDate(ActionEvent event) {
         System.out.println(date.getValue());
         // select showtime
+    }
+
+    @FXML
+    private void back(ActionEvent event) throws IOException {
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
 }

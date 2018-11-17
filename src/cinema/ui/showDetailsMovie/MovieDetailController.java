@@ -107,7 +107,9 @@ public class MovieDetailController implements Initializable {
 
     @FXML
     private void nextPage(ActionEvent event) throws IOException {
-        System.out.println("movie detail");
+        mediaPlayer.stop();
+        mediaPlayer.seek(Duration.ZERO);
+        
         Parent parent;
         parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
         Scene parentScene = new Scene(parent);
@@ -121,8 +123,7 @@ public class MovieDetailController implements Initializable {
 
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
-        
-        System.out.println("movie detail");
+
         Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
                     Scene parentScene = new Scene(parent);

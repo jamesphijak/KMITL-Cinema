@@ -270,7 +270,8 @@ public class Controller implements Initializable {
         count = 0;
         seatAssign();
         // Get Showtime seat which is not available
-        Showtime st = cc.getShowtime(9);
+        System.out.println(cc.getSelectShowtime());
+        Showtime st = cc.getShowtime(cc.getSelectShowtime());
         List<Seat> seatAlreadyBooked = st.getSeatList();
         for (Seat seat : seatAlreadyBooked) {
             if(seat.getSeatStatus()){ // if seat status is true => already book => disable it
