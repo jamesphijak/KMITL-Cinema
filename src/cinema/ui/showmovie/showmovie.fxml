@@ -71,7 +71,7 @@
             </VBox>
          </top>
          <center>
-            <JFXTabPane BorderPane.alignment="CENTER">
+            <JFXTabPane fx:id="tabPane" BorderPane.alignment="CENTER">
                <tabs>
                   <Tab text="Now Showing">
                      <content>

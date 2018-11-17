@@ -11,6 +11,7 @@ import cinema.UserController;
 import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
 import cinema.screensframework.ScreensFramework;
+import com.jfoenix.controls.JFXTabPane;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -38,6 +39,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -75,6 +78,8 @@ public class showmovieController implements Initializable {
     
     @FXML
     private Label labelAuthen;
+    @FXML
+    private JFXTabPane tabPane;
 
     public showmovieController() {
         this.cc = cc.getInstance();
@@ -88,6 +93,13 @@ public class showmovieController implements Initializable {
             labelAuthen.setText(uc.getLoginUser().getEmail() + " -> Logout");
         }else{
             labelAuthen.setText("Login");
+        }
+        
+        SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+        if(cc.getIsComingSoon()){
+            selectionModel.select(1); // select theatre
+        }else{
+            selectionModel.select(0); // select theatre
         }
         
         //***************************************** Now showing ************************************************

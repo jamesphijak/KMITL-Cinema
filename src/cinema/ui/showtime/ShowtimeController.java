@@ -216,7 +216,8 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 
     @FXML
     private void getDate(ActionEvent event) {
-        System.out.print(date.getValue());
+        System.out.println(date.getValue());
+        // select showtime
     }
 
     public void setScreenParent(ScreensController screenParent) {
