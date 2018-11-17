@@ -121,6 +121,11 @@
                   </JFXButton>
                </children>
             </HBox>
+            <JFXButton onAction="#handleMain" prefHeight="50.0" prefWidth="400.0" styleClass="button-account" text="หน้าหลัก">
+               <font>
+                  <Font name="Sukhumvit Set Text" size="25.0" />
+               </font>
+            </JFXButton>
          </children>
       </VBox>
       <StackPane prefHeight="150.0" prefWidth="200.0" />

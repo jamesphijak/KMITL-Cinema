@@ -9,6 +9,7 @@ import cinema.CinemaController;
 import cinema.Movie;
 import cinema.Showtime;
 import cinema.Theatre;
+import cinema.UserController;
 import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
 import cinema.screensframework.ScreensFramework;
@@ -59,20 +60,26 @@ public class ShowtimeController implements Initializable, ControlledScreen {
     private ScrollPane scroll;
     //Movie movie;
     CinemaController cc;
+    UserController uc;
     @FXML
     private StackPane rootPane;
-
+    
     ScreensController myController;
+    
 
     /**
      * Initializes the controller class.
      */
     public ShowtimeController() {
         this.cc = cc.getInstance();
+        this.uc = uc.getInstance();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+//        if(!uc.getIsLogin()){
+//            btnNext.setVisible(false);
+//        }
 //        date.getStyleClass().add("date");
 //        date.setTextFill();
         // TODO

@@ -175,6 +175,11 @@ public class showmovieController implements Initializable {
                     cc.setIsComingSoon(false);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                    if(uc.getIsLogin()){
+                        if(uc.getLoginUser().getType().equals("Staff")){
+                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                        }
+                    }
                     Scene parentScene = new Scene(parent);
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                     window.setScene(parentScene);
@@ -256,6 +261,11 @@ public class showmovieController implements Initializable {
                     cc.setIsComingSoon(true);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                    if(uc.getIsLogin()){
+                        if(uc.getLoginUser().getType().equals("Staff")){
+                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                        }
+                    }
                     Scene parentScene = new Scene(parent);
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                     window.setScene(parentScene);

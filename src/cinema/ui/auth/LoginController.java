@@ -138,7 +138,7 @@ public class LoginController implements Initializable {
     
     public void loadScreen(Stage window , String path){
         try {
-            ((Stage)rootPane.getScene().getWindow()).close();
+            //((Stage)rootPane.getScene().getWindow()).close();
             Parent parent;
             parent = FXMLLoader.load(getClass().getResource(path));
             Scene parentScene = new Scene(parent);
@@ -147,5 +147,11 @@ public class LoginController implements Initializable {
         } catch (IOException ex) {
             System.out.println(ex);
         }
+    }
+
+    @FXML
+    private void handleMain(ActionEvent event) {
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
     }
 }

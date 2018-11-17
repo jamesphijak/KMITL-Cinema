@@ -2,6 +2,7 @@ package cinema.ui.showDetailsMovie;
 
 import cinema.CinemaController;
 import cinema.Movie;
+import cinema.UserController;
 import cinema.screensframework.ControlledScreen;
 import cinema.screensframework.ScreensController;
 import cinema.screensframework.ScreensFramework;
@@ -90,9 +91,10 @@ public class MovieDetailController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println(cc.getIsComingSoon());
         if(cc.getIsComingSoon()){
-
             btnNext.setVisible(false);
         }
+        
+        
         // ใส่ ID เข้าไป
         movie = cc.getSelectMovie();
 //        System.out.println(movie);
