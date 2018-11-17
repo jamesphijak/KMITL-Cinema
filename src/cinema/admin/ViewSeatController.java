@@ -17,11 +17,15 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 
 /**
  * FXML Controller class
@@ -30,18 +34,34 @@ import javafx.scene.control.cell.PropertyValueFactory;
  */
 public class ViewSeatController implements Initializable {
     private CinemaController cc;
-    @FXML
     private TableView<Seat> tbSeat;
-    @FXML
     private TableColumn<Seat, Integer> colSeatId;
-    @FXML
     private TableColumn<Seat, String> colSeatName;
-    @FXML
     private TableColumn<Seat, Double> colSeatPrice;
-    @FXML
     private TableColumn<Seat, Boolean> colSeatStatus;
-    @FXML
     private TableColumn<Seat, String> colSeatType;
+    @FXML
+    private Text txtMyMoney;
+    @FXML
+    private TableView<?> tbBooking;
+    @FXML
+    private MenuItem menuCancelBooking;
+    @FXML
+    private TableColumn<?, ?> colBookingID;
+    @FXML
+    private TableColumn<?, ?> colBookingCreated;
+    @FXML
+    private TableColumn<?, ?> colBookingUpdate;
+    @FXML
+    private TableColumn<?, ?> colBookingShowtime;
+    @FXML
+    private TableColumn<?, ?> colBookingPromotion;
+    @FXML
+    private TableColumn<?, ?> colBookingStatus;
+    @FXML
+    private TableColumn<?, ?> colBookingSeat;
+    @FXML
+    private TableColumn<?, ?> colBookingTotal;
 
     public ViewSeatController() {
         this.cc = cc.getInstance();
@@ -75,5 +95,17 @@ public class ViewSeatController implements Initializable {
        //seatListview.getItems().setAll(seatData);
         
     }    
+
+    @FXML
+    private void handleRefreshBooking(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleCancelBooking(ActionEvent event) {
+    }
+
+    @FXML
+    private void handleMouseClickBooking(MouseEvent event) {
+    }
     
 }

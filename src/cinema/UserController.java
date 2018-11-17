@@ -173,7 +173,12 @@ public class UserController {
         user.setMoney(money);
         em.getTransaction().commit();
         closeConnection();
-        updateUserList();
+    }
+    public Double getUserMoney(int id){
+        openConnection();
+        User user = em.find(User.class, id); // find object
+        closeConnection();
+        return user.getMoney();
     }
     
     // Used Promotion

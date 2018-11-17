@@ -1,7 +1,6 @@
 package cinema.admin;
 
 import cinema.Booking;
-import cinema.BookingController;
 import cinema.CinemaController;
 import cinema.Movie;
 import cinema.Promotion;
@@ -492,7 +491,6 @@ public class AdminMainController implements Initializable{
     private UserController uc;
     private PromotionController pc;
     private CinemaController cc;
-    private BookingController bc;
     @FXML
     private MenuBar menuAdmin;
     
@@ -501,7 +499,6 @@ public class AdminMainController implements Initializable{
         this.uc = uc.getInstance();
         this.pc = pc.getInstance();
         this.cc = cc.getInstance();
-        this.bc = bc.getInstance();
     }
     
     // Initial =====================================================================
@@ -1560,7 +1557,7 @@ System.out.println("Logout");
     }   
     public void loadBookingData(){
         bookingList.clear();
-        bookingListArray = bc.getBookingList();
+        bookingListArray = cc.getBookingList();
         try {
             for (Booking booking : bookingListArray) {
                 bookingList.add(booking);
@@ -1572,7 +1569,7 @@ System.out.println("Logout");
         tbBooking.setItems(bookingList);
     }
     public void setBookingTotal(){
-        txtSummary.setText("Total Income : " + bc.getSumTotal() + " Baht");
+        txtSummary.setText("Total Income : " + cc.getSumTotal() + " Baht");
     }
     
     // User =======================================================================

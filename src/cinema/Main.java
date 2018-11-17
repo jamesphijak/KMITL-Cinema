@@ -1,23 +1,13 @@
 package cinema;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import javafx.application.Application;
-import javafx.stage.Stage;
-/**
- *
- * @author pisit
- */
+
 public class Main{
     public static void main(String[] args) {
        CinemaController cc = CinemaController.getInstance();
        UserController uc = UserController.getInstance();
        PromotionController pc = PromotionController.getInstance();
-       BookingController bc = BookingController.getInstance();
        
        Showtime s = cc.getShowtime(9);
 
@@ -54,11 +44,18 @@ public class Main{
        
   //  uc.topupUserMoney(u.getId(), 500); // เติมเงิน
     //    System.out.println(u.getMoney());
-     bc.addBooking(b);
-    //bc.cancleBooking(9);
+    // cc.addBooking(b);
+//    cc.cancleBooking(9);
+//    cc.cancleBooking(10);
+//    cc.cancleBooking(12);
+//    cc.cancleBooking(13);
+//    cc.cancleBooking(15);
+//    cc.cancleBooking(16);
+  //  cc.cancleBooking(21);
+    
      //   System.out.println(bc.getSumTotal());
     
-       
+       pc.getUnusePromotion(15);
        
     }
 

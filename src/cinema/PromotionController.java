@@ -95,4 +95,34 @@ public class PromotionController {
         return this.promotionSearchList;
     }
     
+    public List<Promotion> getUnusePromotion(int userId){
+        List<Promotion> unuseList = new ArrayList<Promotion>();
+        openConnection();
+        // find object
+        em.getTransaction().begin(); // start connection
+        User user = em.find(User.class, userId);
+        
+        List<Promotion> userP = user.getPromotionList();
+        List<Integer> userPInt = new ArrayList<Integer>();
+        for (Promotion promotion : userP) {
+            userPInt.add(promotion.getPromotionID());
+        }
+        
+        List<Promotion> allP = getPromotionList();
+        List<Integer> allPInt = new ArrayList<Integer>();
+        for (Promotion promotion : allP) {
+            allPInt.add(promotion.getPromotionID());
+        }
+        
+        for (Integer integer : userPInt) {
+            allPInt.remove(integer);
+        }
+        
+        for (Integer integer : allPInt) {
+            unuseList.add(getPromotion(integer));
+        }
+        return unuseList;
+        
+    }
+    
 }
