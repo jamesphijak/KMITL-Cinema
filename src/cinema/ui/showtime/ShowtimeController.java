@@ -6,24 +6,15 @@
 package cinema.ui.showtime;
 
 import cinema.CinemaController;
-import cinema.Movie;
 import cinema.Showtime;
 import cinema.Theatre;
 import cinema.UserController;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
-import cinema.screensframework.ScreensFramework;
-import cinema.ui.showmovie.showmovieController;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

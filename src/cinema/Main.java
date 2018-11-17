@@ -54,7 +54,7 @@ public class Main{
        
       // uc.topupUserMoney(u.getId(), 190); // เติมเงิน
     // bc.addBooking(b);
-     //bc.cancleBooking(9);
+    bc.cancleBooking(9);
      //   System.out.println(bc.getSumTotal());
     
        

@@ -77,19 +77,24 @@ public class BookingController {
         User u = em.find(User.class, b.getUser().getId()); // Get User
         Promotion p = em.find(Promotion.class, b.getPromotion().getPromotionID());
         
-        // u.removePromotion(p); // Remove Promotion from user
-        b.setIsCancel(true); // Set cancel to true
-        b.updateDatetime();
-        // Change money in user and booking
-        double userReturn  = b.cancelBooking(); // after cancel will set total only 10% and return user money
-        u.returnMoney(userReturn); // return to user account
-        
-        // set ที่นั่งว่างเหมือนเดิม
-        List<Seat> seatList = b.getBookedSeatList();
-        for (Seat seat : seatList) {
-            Seat seatSet = em.find(Seat.class, seat.getId());
-            seatSet.setSeatStatus(false);
+        if(!b.isCancel()){
+            // u.removePromotion(p); // Remove Promotion from user
+            b.setIsCancel(true); // Set cancel to true
+            b.updateDatetime();
+            // Change money in user and booking
+            double userReturn  = b.cancelBooking(); // after cancel will set total only 10% and return user money
+            u.returnMoney(userReturn); // return to user account
+
+            // set ที่นั่งว่างเหมือนเดิม
+            List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(false);
+            }
+        }else{
+            System.out.println("Can't cancel again");
         }
+        
             
         em.getTransaction().commit(); // add all persist to database
         closeConnection();

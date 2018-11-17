@@ -14,9 +14,6 @@ import cinema.Seat;
 import cinema.Showtime;
 import cinema.Theatre;
 import cinema.User;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
-import cinema.screensframework.ScreensFramework;
 import cinema.ui.AlertMaker;
 import java.io.IOException;
 import java.net.URL;
@@ -49,7 +46,7 @@ import javafx.stage.Stage;
  *
  * @author BEAMCONAN
  */
-public class summaryController implements Initializable, ControlledScreen {
+public class summaryController implements Initializable {
 
     @FXML
     private Text nameEng;
@@ -93,7 +90,6 @@ public class summaryController implements Initializable, ControlledScreen {
         this.cc = cc.getInstance();
     }
 
-    ScreensController myController;
 
     /**
      * Initializes the controller class.
@@ -243,13 +239,9 @@ int amount = 2;
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-        myController.loadScreen(ScreensFramework.userNowShowingScreenID, ScreensFramework.userNowShowingScreenFile);
-        myController.setScreen(ScreensFramework.userNowShowingScreenID);
+//        myController.loadScreen(ScreensFramework.userNowShowingScreenID, ScreensFramework.userNowShowingScreenFile);
+//        myController.setScreen(ScreensFramework.userNowShowingScreenID);
     }
 
-    @Override
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
-    }
 
 }

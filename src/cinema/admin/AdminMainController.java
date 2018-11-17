@@ -10,10 +10,7 @@ import cinema.Showtime;
 import cinema.Theatre;
 import cinema.UserController;
 import cinema.User;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
 import cinema.ui.AlertMaker;
-import cinema.ui.CinemaUtility;
 import com.jfoenix.controls.JFXTabPane;
 import java.io.File;
 import java.io.IOException;
@@ -34,8 +31,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -62,7 +57,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -504,12 +498,10 @@ public class AdminMainController implements Initializable{
     
     
     public AdminMainController() {
-
         this.uc = uc.getInstance();
         this.pc = pc.getInstance();
         this.cc = cc.getInstance();
         this.bc = bc.getInstance();
-        
     }
     
     // Initial =====================================================================

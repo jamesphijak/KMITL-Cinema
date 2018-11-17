@@ -7,7 +7,6 @@ package cinema.ui.auth;
 
 import cinema.User;
 import cinema.UserController;
-import cinema.screensframework.ScreensController;
 import cinema.ui.AlertMaker;
 import cinema.ui.CinemaUtility;
 import cinema.ui.FieldValidation;
@@ -48,7 +47,7 @@ public class LoginController implements Initializable {
     List<User> allUser;
     UserController uc;
     User loginUser;
-    ScreensController myController;
+
 
     public LoginController() {
         this.uc = uc.getInstance();
