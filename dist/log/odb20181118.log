@@ -1,0 +1,305 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-11-18 13:04:52 #1 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' has been recovered (tr. 296-299)
+
+[2018-11-18 13:04:52 #2 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:52 #3 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:52 #4 type] 
+Type cinema.Movie is not enhanced.
+
+[2018-11-18 13:04:52 #5 type] 
+Type cinema.User is not enhanced.
+
+[2018-11-18 13:04:52 #6 type] 
+Type cinema.Promotion is not enhanced.
+
+[2018-11-18 13:04:52 #7 type] 
+Type cinema.Theatre is not enhanced.
+
+[2018-11-18 13:04:52 #8 type] 
+Type cinema.Showtime is not enhanced.
+
+[2018-11-18 13:04:52 #9 type] 
+Type cinema.Seat is not enhanced.
+
+[2018-11-18 13:04:52 #10 type] 
+Type cinema.PairedSeat is not enhanced.
+
+[2018-11-18 13:04:52 #11 type] 
+Type cinema.HoneymoonSeat is not enhanced.
+
+[2018-11-18 13:04:52 #12 type] 
+Type cinema.NormalSeat is not enhanced.
+
+[2018-11-18 13:04:52 #13 type] 
+Type cinema.Booking is not enhanced.
+
+[2018-11-18 13:04:52 #14 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:52 #15 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:52 #16 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:52 #17 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:52 #18 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:52 #19 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #20 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #21 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #22 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #23 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #24 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #25 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #26 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #27 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #28 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #29 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #30 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #31 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #32 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #33 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #34 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #35 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #36 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #37 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:53 #38 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #39 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:53 #40 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:54 #41 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:54 #42 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:04:54 #43 store] 
+Configuration path: ?
+
+[2018-11-18 13:04:54 #44 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:08 #45 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:08 #46 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:09 #47 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #48 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #49 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:28 #50 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #51 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #52 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:28 #53 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #54 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #55 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:28 #56 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #57 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:28 #58 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:28 #59 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #60 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #61 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:38 #62 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #63 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #64 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:38 #65 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #66 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #67 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:38 #68 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #69 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:38 #70 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:38 #71 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:47 #72 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:47 #73 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:47 #74 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:47 #75 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:47 #76 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:47 #77 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:48 #78 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:48 #79 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:48 #80 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:48 #81 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:05:48 #82 store] 
+Configuration path: ?
+
+[2018-11-18 13:05:48 #83 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:00 #84 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:00 #85 store] 
+Configuration path: ?
+
+[2018-11-18 13:06:00 #86 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:00 #87 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:00 #88 store] 
+Configuration path: ?
+
+[2018-11-18 13:06:00 #89 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:00 #90 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:00 #91 store] 
+Configuration path: ?
+
+[2018-11-18 13:06:00 #92 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:01 #93 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:01 #94 store] 
+Configuration path: ?
+
+[2018-11-18 13:06:01 #95 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:32 #96 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:32 #97 store] 
+Configuration path: ?
+
+[2018-11-18 13:06:32 #98 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:34 #99 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 17348@DESKTOP-Q653M8N
+
+[2018-11-18 13:06:34 #100 store] 
+Configuration path: ?
+
+[2018-11-18 13:06:34 #101 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 17348@DESKTOP-Q653M8N
+

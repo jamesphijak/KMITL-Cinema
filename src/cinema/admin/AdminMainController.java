@@ -1659,7 +1659,13 @@ System.out.println("Logout");
             userType = cbUserType.getValue(); // get value from combobox
 //            System.out.println(userType);
             
-            User editUser = new User(username, password, firstname, lastname, email, userType,0.0);
+            String oldPass = uc.getUser(selectedUserEdit.getId()).getPassword();
+            String savePass = oldPass;
+            User editUser = new User(username, savePass, firstname, lastname, email, userType,0.0);
+            
+            if(oldPass != password){
+                editUser.setEncryptPassword();
+            }
 //            System.out.println(editUser.toString());
 //            System.out.println("=======================");
 //            System.out.println(selectedUserEdit.toString());
