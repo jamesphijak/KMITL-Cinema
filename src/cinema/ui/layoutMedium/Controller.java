@@ -6,9 +6,8 @@
 package cinema.ui.layoutMedium;
 
 import cinema.CinemaController;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
-import cinema.screensframework.ScreensFramework;
+import cinema.Seat;
+import cinema.Showtime;
 import cinema.ui.AlertMaker;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,6 +15,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,13 +28,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
  *
  * @author BEAMCONAN
  */
-public class Controller implements Initializable, ControlledScreen {
+public class Controller implements Initializable {
 
     @FXML
     private ImageView F1;
@@ -253,24 +254,199 @@ public class Controller implements Initializable, ControlledScreen {
     boolean isFound;
     String maxIV;
     String minIV;
-    ArrayList<String> ivList = new ArrayList<String>();
+    List<String> ivList = new ArrayList<String>();
+    
+    List<ImageView> ivListAll = new ArrayList<>(); // ใช้เก็บ Image View เพื่อ Disable
+    List<String> ivListDisable = new ArrayList<>(); // ใช้เก็บ List ที่นั่งที่จองไปแล้วในรอบฉายนั้น
+    
     CinemaController cc;
-    ScreensController myController;
+    @FXML
+    private Text txtShowtime;
+    @FXML
+    private Text labelPreSummary;
+    @FXML
+    private Text txtMovie;
+    
+    public Controller() {
+        this.cc = cc.getInstance();
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        labelPreSummary.setText(null);
         isFound = false;
         count = 0;
-        this.cc = cc.getInstance();
-        // TODO
+        seatAssign();
+        // Get Showtime seat which is not available
+        System.out.println(cc.getSelectShowtime());
+        Showtime st = cc.getShowtime(cc.getSelectShowtime());
+        txtShowtime.setText("ผังที่นั่ง รอบฉาย : " + st.getShowtime());
+        txtMovie.setText(st.getShowtimeDetail());
+        List<Seat> seatAlreadyBooked = st.getSeatList();
+        for (Seat seat : seatAlreadyBooked) {
+            if(seat.getSeatStatus()){ // if seat status is true => already book => disable it
+                ivListDisable.add(seat.getSeatName());
+            }
+        }
+        seatDisable(); // find in ivlist to disable seat
+    }
+    
+    public void seatAssign(){
+        ivListAll.add(A1);
+        ivListAll.add(A2);
+        ivListAll.add(A3);
+        ivListAll.add(A4);
+        ivListAll.add(A5);
+        ivListAll.add(B1);
+        ivListAll.add(B2);
+        ivListAll.add(B3);
+        ivListAll.add(B4);
+        ivListAll.add(B5);
+        ivListAll.add(B6);
+        ivListAll.add(B7);
+        ivListAll.add(B8);
+        ivListAll.add(B9);
+        ivListAll.add(B10);
+        ivListAll.add(B11);
+        ivListAll.add(B12);
+        ivListAll.add(B13);
+        ivListAll.add(B14);
+        ivListAll.add(B15);
+        ivListAll.add(B16);
+        ivListAll.add(B17);
+        ivListAll.add(B18);
+        ivListAll.add(B19);
+        ivListAll.add(B20);
+        ivListAll.add(C1);
+        ivListAll.add(C2);
+        ivListAll.add(C3);
+        ivListAll.add(C4);
+        ivListAll.add(C5);
+        ivListAll.add(C6);
+        ivListAll.add(C7);
+        ivListAll.add(C8);
+        ivListAll.add(C9);
+        ivListAll.add(C10);
+        ivListAll.add(C11);
+        ivListAll.add(C12);
+        ivListAll.add(C13);
+        ivListAll.add(C14);
+        ivListAll.add(C15);
+        ivListAll.add(C16);
+        ivListAll.add(C17);
+        ivListAll.add(C18);
+        ivListAll.add(C19);
+        ivListAll.add(C20);
+        ivListAll.add(D1);
+        ivListAll.add(D2);
+        ivListAll.add(D3);
+        ivListAll.add(D4);
+        ivListAll.add(D5);
+        ivListAll.add(D6);
+        ivListAll.add(D7);
+        ivListAll.add(D8);
+        ivListAll.add(D9);
+        ivListAll.add(D10);
+        ivListAll.add(D11);
+        ivListAll.add(D12);
+        ivListAll.add(D13);
+        ivListAll.add(D14);
+        ivListAll.add(D15);
+        ivListAll.add(D16);
+        ivListAll.add(D17);
+        ivListAll.add(D18);
+        ivListAll.add(D19);
+        ivListAll.add(D20);
+        ivListAll.add(E1);
+        ivListAll.add(E2);
+        ivListAll.add(E3);
+        ivListAll.add(E4);
+        ivListAll.add(E5);
+        ivListAll.add(E6);
+        ivListAll.add(E7);
+        ivListAll.add(E8);
+        ivListAll.add(E9);
+        ivListAll.add(E10);
+        ivListAll.add(E11);
+        ivListAll.add(E12);
+        ivListAll.add(E13);
+        ivListAll.add(E14);
+        ivListAll.add(E15);
+        ivListAll.add(E16);
+        ivListAll.add(E17);
+        ivListAll.add(E18);
+        ivListAll.add(E19);
+        ivListAll.add(E20);
+        ivListAll.add(F1);
+        ivListAll.add(F2);
+        ivListAll.add(F3);
+        ivListAll.add(F4);
+        ivListAll.add(F5);
+        ivListAll.add(F6);
+        ivListAll.add(F7);
+        ivListAll.add(F8);
+        ivListAll.add(F9);
+        ivListAll.add(F10);
+        ivListAll.add(F11);
+        ivListAll.add(F12);
+        ivListAll.add(F13);
+        ivListAll.add(F14);
+        ivListAll.add(F15);
+        ivListAll.add(F16);
+        ivListAll.add(F17);
+        ivListAll.add(F18);
+        ivListAll.add(F19);
+        ivListAll.add(F20);
+        
+        // Test for Disable all
+//        for (int i = 1; i <= 5; i++) { ivListDisable.add("A"+i); }
+//        for (int i = 1; i <= 20; i++) { ivListDisable.add("B"+i); }
+//        for (int i = 1; i <= 20; i++) { ivListDisable.add("C"+i); }
+//        for (int i = 1; i <= 20; i++) { ivListDisable.add("D"+i); }
+//        for (int i = 1; i <= 20; i++) { ivListDisable.add("E"+i); }
+//        for (int i = 1; i <= 20; i++) { ivListDisable.add("F"+i); }
+
+//        ivListDisable.add("A1");
+//        ivListDisable.add("A5");
+//        ivListDisable.add("B17");
+        
+        
+    }
+    public void seatDisable(){
+        for (ImageView iv : ivListAll) {
+            for (String id : ivListDisable) {
+                if(id.equals(iv.getId())){
+                    System.out.println("Found" + iv.getId());
+                    iv.setDisable(true);
+                    if(iv.getId().substring(0,1).equals("A")){
+                        // disable image for a
+                        InputStream imagePaired = getClass().getResourceAsStream("/cinema/ui/images/pair1.png");
+                        iv.setImage(new Image(imagePaired));
+                    }else if(iv.getId().substring(0,1).equals("B") || iv.getId().substring(0,1).equals("C")){
+                        // disable image for b
+                        InputStream imageHoneymoon = getClass().getResourceAsStream("/cinema/ui/images/blue1.png");
+                        iv.setImage(new Image(imageHoneymoon));
+                    }else{
+                        // disable for d-f
+                        InputStream imageNormal = getClass().getResourceAsStream("/cinema/ui/images/red1.png");
+                        iv.setImage(new Image(imageNormal));
+                    }
+                }
+            }
+        }
     }
 
     @FXML
-    private void nextPage(ActionEvent event) throws IOException { // ยังทำไม่ได้
-        System.err.println("Hellllllll");
-//        cinema.getScreen().setScene(rootPane.getScene());
-//        cinema.getScreen().addScreen("summary", FXMLLoader.load(getClass().getResource("summary.fxml"))); ///cinema/ui/showDetailsMovie/
-//        cinema.getScreen().activate("summary");
+    private void nextPage(ActionEvent event) throws IOException {
+        System.err.println("Booking Operation");
+        // Set value for booking
+        
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
     @FXML
@@ -402,25 +578,37 @@ public class Controller implements Initializable, ControlledScreen {
             }
             count += 1;
         }
+        
+        System.out.println(ivList);
+        if(ivList.size() > 0){
+            double sum = 0;
+            String type = "";
+            double seatPrice = 0;
+            Seat s = cc.getShowtimeSeat(cc.getSelectShowtime(),ivList.get(0));
+            type = s.getSeatType();
+            seatPrice = s.getSeatPrice();
+            
+            for (String seatName : ivList) {
+                s = cc.getShowtimeSeat(cc.getSelectShowtime(),seatName);
+                sum += s.getSeatPrice();
+            }
+            labelPreSummary.setText("ที่นั่งประเภท : " + type + " Seat  จำนวน : " + ivList.size() + " ที่ x " + seatPrice + " = "  + sum + " บาท");
+        }else{
+            labelPreSummary.setText(null);
+        }
 
     }
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-
-//        Parent showMovie = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
-//
-//        Scene showMovieScene = new Scene(showMovie);
-//        Stage window = (Stage) ((Node) event.getSource()).getScene().getWindow();
-//        window.setScene(showMovieScene);
-//        window.setMaximized(false);
-//        window.show();
-        myController.loadScreen(ScreensFramework.userShowtimeScreenID, ScreensFramework.userShowtimeScreenFile);
-        myController.setScreen(ScreensFramework.userShowtimeScreenID);
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
-    }
+
 
 }

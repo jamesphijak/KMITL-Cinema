@@ -59,7 +59,7 @@ public class HoneymoonSeat extends Seat {
     
     @Override
     public String toString() {
-        return this.seatName + " : (" + this.seatStatus + ") : " + this.seatType + ", Price = " + this.seatPrice + "\n";
+        return this.id + " " + this.seatName + " : (" + this.seatStatus + ") : " + this.seatType + ", Price = " + this.seatPrice + "\n";
     }
     
     @Override

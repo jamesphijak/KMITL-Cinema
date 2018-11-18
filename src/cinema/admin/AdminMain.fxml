@@ -25,12 +25,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cinema.admin.AdminMainController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0">
          <top>
-            <MenuBar BorderPane.alignment="CENTER">
+            <MenuBar fx:id="menuAdmin" BorderPane.alignment="CENTER">
               <menus>
                 <Menu fx:id="userLogin" mnemonicParsing="false" text="User">
                   <items>
@@ -249,17 +250,22 @@
                                                             </Label>
                                                             <HBox prefHeight="46.0" prefWidth="342.0">
                                                                <children>
-                                                                  <Button fx:id="btnAddUser" mnemonicParsing="false" onAction="#handleAddUser" prefHeight="26.0" prefWidth="94.0" text="Add">
+                                                                  <Button fx:id="btnAddUser" mnemonicParsing="false" onAction="#handleAddUser" prefHeight="25.0" prefWidth="58.0" text="Add">
                                                                      <HBox.margin>
                                                                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                                                                      </HBox.margin>
                                                                   </Button>
-                                                                  <Button fx:id="btnSaveUser" disable="true" mnemonicParsing="false" onAction="#handleSaveUser" prefHeight="26.0" prefWidth="88.0" text="Save edit">
+                                                                  <Button fx:id="btnSaveUser" disable="true" mnemonicParsing="false" onAction="#handleSaveUser" prefHeight="25.0" prefWidth="77.0" text="Save">
                                                                      <HBox.margin>
                                                                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                                                                      </HBox.margin>
                                                                   </Button>
-                                                                  <Button fx:id="btnCancleEditUser" disable="true" mnemonicParsing="false" onAction="#handleCancleEditUser" prefHeight="26.0" prefWidth="97.0" text="Cancle edit">
+                                                                  <Button fx:id="btnUserPassword" disable="true" mnemonicParsing="false" onAction="#handleChangePassword" prefHeight="25.0" prefWidth="122.0" text="Change Password">
+                                                                     <HBox.margin>
+                                                                        <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                                                     </HBox.margin>
+                                                                  </Button>
+                                                                  <Button fx:id="btnCancleEditUser" disable="true" mnemonicParsing="false" onAction="#handleCancleEditUser" prefHeight="25.0" prefWidth="65.0" text="Cancle">
                                                                      <HBox.margin>
                                                                         <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
                                                                      </HBox.margin>
@@ -313,6 +319,204 @@
                                  </children>
                               </AnchorPane>
                           </content>
+                        </Tab>
+                        <Tab text="Promotion">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1280.0">
+                                 <children>
+                                    <BorderPane prefHeight="739.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <left>
+                                          <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" pannable="true" prefHeight="786.0" prefWidth="408.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets right="20.0" />
+                                             </BorderPane.margin>
+                                             <content>
+                                                <VBox prefHeight="714.0" prefWidth="382.0">
+                                                   <children>
+                                                      <HBox prefHeight="35.0" prefWidth="382.0">
+                                                         <children>
+                                                            <VBox prefHeight="47.0" prefWidth="274.0">
+                                                               <children>
+                                                                  <Label fx:id="lbPromotionSearch" prefHeight="17.0" prefWidth="342.0" text="Search">
+                                                                     <VBox.margin>
+                                                                        <Insets bottom="5.0" right="20.0" />
+                                                                     </VBox.margin>
+                                                                     <font>
+                                                                        <Font size="14.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                                  <TextField fx:id="txtPromotionSearch" onAction="#handlePromotionSearch" />
+                                                                  <Label fx:id="msgPromotionSearch" prefHeight="20.0" prefWidth="391.0" text="Message Search">
+                                                                     <font>
+                                                                        <Font size="13.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                               <HBox.margin>
+                                                                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
+                                                               </HBox.margin>
+                                                            </VBox>
+                                                            <Button fx:id="btnCancelPromotionSearch" mnemonicParsing="false" onAction="#handleCanclePromotionSearch" prefHeight="10.0" prefWidth="72.0" text="Cancel">
+                                                               <HBox.margin>
+                                                                  <Insets right="20.0" top="35.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                      </HBox>
+                                                      <VBox prefHeight="361.0" prefWidth="393.0">
+                                                         <children>
+                                                            <Label fx:id="lbHeadPromotion" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="383.0" styleClass="labelAdmin" text="Add new promotion" textAlignment="CENTER">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="10.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="16.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="lbPromotion" prefHeight="20.0" prefWidth="391.0" text="Promotion Name">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <TextField fx:id="txtPromotion">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </TextField>
+                                                            <Label fx:id="msgPromotion" prefHeight="20.0" prefWidth="391.0" text="Message Promotion Name">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="lbDescription" prefHeight="20.0" prefWidth="391.0" text="Description">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <TextField fx:id="txtDescription">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </TextField>
+                                                            <Label fx:id="msgDescription" prefHeight="20.0" prefWidth="391.0" text="Message Description">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="lbDiscount" prefHeight="20.0" prefWidth="391.0" text="Discount">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <TextField fx:id="txtDiscount">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </TextField>
+                                                            <Label fx:id="msgDiscount" prefHeight="20.0" prefWidth="391.0" text="Message Discount">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <Label fx:id="lbDate" prefHeight="20.0" prefWidth="391.0" text="Remaining Date">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <DatePicker fx:id="pickerDate" prefHeight="25.0" prefWidth="208.0">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </DatePicker>
+                                                            <Label fx:id="msgDate" prefHeight="20.0" prefWidth="391.0" text="Message Remaining Date">
+                                                               <font>
+                                                                  <Font size="13.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                         </children>
+                                                      </VBox>
+                                                      <HBox prefHeight="46.0" prefWidth="342.0">
+                                                         <children>
+                                                            <Button fx:id="btnAddPromotion" mnemonicParsing="false" onAction="#handleAddPromotion" prefHeight="26.0" prefWidth="94.0" text="Add">
+                                                               <HBox.margin>
+                                                                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                            <Button fx:id="btnSavePromotion" disable="true" mnemonicParsing="false" onAction="#handleSavePromotion" prefHeight="26.0" prefWidth="88.0" text="Save edit">
+                                                               <HBox.margin>
+                                                                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                            <Button fx:id="btnCancelPromotion" disable="true" mnemonicParsing="false" onAction="#handleCancleEditPromotion" prefHeight="26.0" prefWidth="97.0" text="Cancel edit">
+                                                               <HBox.margin>
+                                                                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                                               </HBox.margin>
+                                                            </Button>
+                                                         </children>
+                                                         <VBox.margin>
+                                                            <Insets bottom="10.0" left="20.0" right="20.0" top="5.0" />
+                                                         </VBox.margin>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </content>
+                                          </ScrollPane>
+                                       </left>
+                                       <center>
+                                          <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="10.0" right="10.0" top="10.0" />
+                                             </BorderPane.margin>
+                                             <content>
+                                                <TableView fx:id="tbPromotion" onMousePressed="#handleMouseClickPromotionEdit" prefHeight="714.0" prefWidth="898.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="colPromotionId" maxWidth="-1.0" minWidth="60.0" prefWidth="-1.0" text="ID" />
+                                                      <TableColumn fx:id="colPromotionName" maxWidth="-1.0" minWidth="128.0" prefWidth="-1.0" text="Promotion Name" />
+                                                      <TableColumn fx:id="colDiscount" maxWidth="123.0" minWidth="91.0" prefWidth="99.0" text="Discount" />
+                                                      <TableColumn fx:id="colDate" maxWidth="164.0" minWidth="127.0" prefWidth="156.0" text="Remaining Date" />
+                                                      <TableColumn fx:id="colDescription" maxWidth="512.0" minWidth="118.0" prefWidth="512.0" text="Descripton" />
+                                                   </columns>
+                                                   <contextMenu>
+                                                      <ContextMenu>
+                                                         <items>
+                                                            <MenuItem mnemonicParsing="false" onAction="#handlePromotionRefresh" text="Refresh" />
+                                                            <MenuItem mnemonicParsing="false" onAction="#handlePromotionEdit" text="Edit" />
+                                                            <MenuItem fx:id="handleUserDelete1" mnemonicParsing="false" onAction="#handlePromotionDelete" text="Delete" />
+                                                         </items>
+                                                      </ContextMenu>
+                                                   </contextMenu>
+                                                </TableView>
+                                             </content>
+                                          </ScrollPane>
+                                       </center>
+                                    </BorderPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
                         </Tab>
                         <Tab text="Movie">
                           <content>
@@ -686,204 +890,6 @@
                                  </children></AnchorPane>
                           </content>
                         </Tab>
-                        <Tab text="Promotion">
-                           <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1280.0">
-                                 <children>
-                                    <BorderPane prefHeight="739.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                       <left>
-                                          <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" hmax="0.0" pannable="true" prefHeight="786.0" prefWidth="408.0" vbarPolicy="ALWAYS" BorderPane.alignment="CENTER">
-                                             <BorderPane.margin>
-                                                <Insets right="20.0" />
-                                             </BorderPane.margin>
-                                             <content>
-                                                <VBox prefHeight="714.0" prefWidth="382.0">
-                                                   <children>
-                                                      <HBox prefHeight="35.0" prefWidth="382.0">
-                                                         <children>
-                                                            <VBox prefHeight="47.0" prefWidth="274.0">
-                                                               <children>
-                                                                  <Label fx:id="lbPromotionSearch" prefHeight="17.0" prefWidth="342.0" text="Search">
-                                                                     <VBox.margin>
-                                                                        <Insets bottom="5.0" right="20.0" />
-                                                                     </VBox.margin>
-                                                                     <font>
-                                                                        <Font size="14.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                                  <TextField fx:id="txtPromotionSearch" onAction="#handlePromotionSearch" />
-                                                                  <Label fx:id="msgPromotionSearch" prefHeight="20.0" prefWidth="391.0" text="Message Search">
-                                                                     <font>
-                                                                        <Font size="13.0" />
-                                                                     </font>
-                                                                  </Label>
-                                                               </children>
-                                                               <HBox.margin>
-                                                                  <Insets bottom="10.0" left="20.0" right="10.0" top="10.0" />
-                                                               </HBox.margin>
-                                                            </VBox>
-                                                            <Button fx:id="btnCancelPromotionSearch" mnemonicParsing="false" onAction="#handleCanclePromotionSearch" prefHeight="10.0" prefWidth="72.0" text="Cancel">
-                                                               <HBox.margin>
-                                                                  <Insets right="20.0" top="35.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                         </children>
-                                                      </HBox>
-                                                      <VBox prefHeight="361.0" prefWidth="393.0">
-                                                         <children>
-                                                            <Label fx:id="lbHeadPromotion" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="383.0" styleClass="labelAdmin" text="Add new promotion" textAlignment="CENTER">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="10.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                               <font>
-                                                                  <Font size="16.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <Label fx:id="lbPromotion" prefHeight="20.0" prefWidth="391.0" text="Promotion Name">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                            <TextField fx:id="txtPromotion">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </TextField>
-                                                            <Label fx:id="msgPromotion" prefHeight="20.0" prefWidth="391.0" text="Message Promotion Name">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                               <font>
-                                                                  <Font size="13.0" />
-                                                               </font>
-                                                            </Label>
-                                                            <Label fx:id="lbDescription" prefHeight="20.0" prefWidth="391.0" text="Description">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                            <TextField fx:id="txtDescription">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </TextField>
-                                                            <Label fx:id="msgDescription" prefHeight="20.0" prefWidth="391.0" text="Message Description">
-                                                               <font>
-                                                                  <Font size="13.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                            <Label fx:id="lbDiscount" prefHeight="20.0" prefWidth="391.0" text="Discount">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                            <TextField fx:id="txtDiscount">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </TextField>
-                                                            <Label fx:id="msgDiscount" prefHeight="20.0" prefWidth="391.0" text="Message Discount">
-                                                               <font>
-                                                                  <Font size="13.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                            <Label fx:id="lbDate" prefHeight="20.0" prefWidth="391.0" text="Remaining Date">
-                                                               <font>
-                                                                  <Font size="14.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                            <DatePicker fx:id="pickerDate" prefHeight="25.0" prefWidth="208.0">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </DatePicker>
-                                                            <Label fx:id="msgDate" prefHeight="20.0" prefWidth="391.0" text="Message Remaining Date">
-                                                               <font>
-                                                                  <Font size="13.0" />
-                                                               </font>
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </Label>
-                                                         </children>
-                                                      </VBox>
-                                                      <HBox prefHeight="46.0" prefWidth="342.0">
-                                                         <children>
-                                                            <Button fx:id="btnAddPromotion" mnemonicParsing="false" onAction="#handleAddPromotion" prefHeight="26.0" prefWidth="94.0" text="Add">
-                                                               <HBox.margin>
-                                                                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                            <Button fx:id="btnSavePromotion" disable="true" mnemonicParsing="false" onAction="#handleSavePromotion" prefHeight="26.0" prefWidth="88.0" text="Save edit">
-                                                               <HBox.margin>
-                                                                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                            <Button fx:id="btnCancelPromotion" disable="true" mnemonicParsing="false" onAction="#handleCancleEditPromotion" prefHeight="26.0" prefWidth="97.0" text="Cancel edit">
-                                                               <HBox.margin>
-                                                                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                                                               </HBox.margin>
-                                                            </Button>
-                                                         </children>
-                                                         <VBox.margin>
-                                                            <Insets bottom="10.0" left="20.0" right="20.0" top="5.0" />
-                                                         </VBox.margin>
-                                                      </HBox>
-                                                   </children>
-                                                </VBox>
-                                             </content>
-                                          </ScrollPane>
-                                       </left>
-                                       <center>
-                                          <ScrollPane fitToHeight="true" fitToWidth="true" pannable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-                                             <BorderPane.margin>
-                                                <Insets bottom="10.0" right="10.0" top="10.0" />
-                                             </BorderPane.margin>
-                                             <content>
-                                                <TableView fx:id="tbPromotion" onMousePressed="#handleMouseClickPromotionEdit" prefHeight="714.0" prefWidth="898.0">
-                                                   <columns>
-                                                      <TableColumn fx:id="colPromotionId" maxWidth="-1.0" minWidth="60.0" prefWidth="-1.0" text="ID" />
-                                                      <TableColumn fx:id="colPromotionName" maxWidth="-1.0" minWidth="128.0" prefWidth="-1.0" text="Promotion Name" />
-                                                      <TableColumn fx:id="colDiscount" maxWidth="123.0" minWidth="91.0" prefWidth="99.0" text="Discount" />
-                                                      <TableColumn fx:id="colDate" maxWidth="164.0" minWidth="127.0" prefWidth="156.0" text="Remaining Date" />
-                                                      <TableColumn fx:id="colDescription" maxWidth="512.0" minWidth="118.0" prefWidth="512.0" text="Descripton" />
-                                                   </columns>
-                                                   <contextMenu>
-                                                      <ContextMenu>
-                                                         <items>
-                                                            <MenuItem mnemonicParsing="false" onAction="#handlePromotionRefresh" text="Refresh" />
-                                                            <MenuItem mnemonicParsing="false" onAction="#handlePromotionEdit" text="Edit" />
-                                                            <MenuItem fx:id="handleUserDelete1" mnemonicParsing="false" onAction="#handlePromotionDelete" text="Delete" />
-                                                         </items>
-                                                      </ContextMenu>
-                                                   </contextMenu>
-                                                </TableView>
-                                             </content>
-                                          </ScrollPane>
-                                       </center>
-                                    </BorderPane>
-                                 </children>
-                              </AnchorPane>
-                           </content>
-                        </Tab>
                         <Tab text="Theatre">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="1280.0">
@@ -928,6 +934,19 @@
                                                                   <Font size="13.0" />
                                                                </font>
                                                             </Label>
+                                                            <Label prefHeight="20.0" prefWidth="391.0" text="Theatre type">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </Label>
+                                                            <ComboBox fx:id="cbTheatreType" prefHeight="25.0" prefWidth="139.0">
+                                                               <VBox.margin>
+                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
+                                                               </VBox.margin>
+                                                            </ComboBox>
                                                          </children>
                                                          <VBox.margin>
                                                             <Insets top="15.0" />
@@ -970,6 +989,7 @@
                                                    <columns>
                                                       <TableColumn fx:id="colTheatreId" maxWidth="88.0" minWidth="60.0" prefWidth="82.0" text="Theatre ID" />
                                                       <TableColumn fx:id="colTheatreNumber" maxWidth="313.0" minWidth="100.0" prefWidth="148.0" text="Theatre Number" />
+                                                      <TableColumn fx:id="colTheatreType" maxWidth="313.0" minWidth="100.0" prefWidth="148.0" text="Theatre Type" />
                                                    </columns>
                                                    <contextMenu>
                                                       <ContextMenu>
@@ -1044,7 +1064,7 @@
                                                             </Label>
                                                             <HBox prefHeight="26.0" prefWidth="382.0">
                                                                <children>
-                                                                  <ComboBox fx:id="cbTheatreSearch1" prefWidth="150.0">
+                                                                  <ComboBox fx:id="cbTheatreSearch1" onAction="#handleFindShowtimeSystem" prefWidth="150.0">
                                                                      <HBox.margin>
                                                                         <Insets left="20.0" />
                                                                      </HBox.margin>
@@ -1231,6 +1251,61 @@
                                              </content>
                                           </ScrollPane>
                                        </center>
+                                    </BorderPane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                        </Tab>
+                        <Tab text="Booking List">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <BorderPane prefHeight="705.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <center>
+                                          <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                                             <BorderPane.margin>
+                                                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                             </BorderPane.margin>
+                                             <content>
+                                                <TableView fx:id="tbBooking" prefHeight="714.0" prefWidth="898.0">
+                                                   <columns>
+                                                      <TableColumn fx:id="colBookingID" editable="false" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" text="Booking ID" />
+                                                      <TableColumn fx:id="colBookingCreated" editable="false" maxWidth="216.0" minWidth="69.0" prefWidth="189.0" text="Created" />
+                                                      <TableColumn fx:id="colBookingUpdate" editable="false" maxWidth="216.0" minWidth="69.0" prefWidth="188.0" text="Update" />
+                                                      <TableColumn fx:id="colBookingShowtime" editable="false" maxWidth="312.0" minWidth="107.0" prefWidth="182.0" text="Showtime" />
+                                                      <TableColumn fx:id="colBookingUser" editable="false" maxWidth="249.0" minWidth="101.0" prefWidth="176.0" text="User" />
+                                                      <TableColumn fx:id="colBookingPromotion" editable="false" maxWidth="239.0" minWidth="101.0" prefWidth="176.0" text="Promotion" />
+                                                      <TableColumn fx:id="colBookingStatus" editable="false" maxWidth="197.0" minWidth="70.0" prefWidth="91.0" text="isCancel" />
+                                                      <TableColumn fx:id="colBookingSeat" editable="false" maxWidth="239.0" minWidth="81.0" prefWidth="160.0" text="Booked Seat" />
+                                                      <TableColumn fx:id="colBookingTotal" editable="false" maxWidth="216.0" minWidth="69.0" prefWidth="174.0" text="Total Cost" />
+                                                   </columns>
+                                                </TableView>
+                                             </content>
+                                          </ScrollPane>
+                                       </center>
+                                       <top>
+                                          <HBox prefHeight="36.0" prefWidth="1280.0" BorderPane.alignment="CENTER">
+                                             <children>
+                                                <Button mnemonicParsing="false" onAction="#handleRefreshBooking" prefHeight="30.0" prefWidth="81.0" text="Refresh">
+                                                   <HBox.margin>
+                                                      <Insets left="10.0" right="10.0" top="10.0" />
+                                                   </HBox.margin>
+                                                </Button>
+                                                <VBox alignment="CENTER_LEFT" prefHeight="67.0" prefWidth="1155.0">
+                                                   <children>
+                                                      <Text fx:id="txtSummary" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Income : 5,000 Baht" wrappingWidth="1102.9970703125">
+                                                         <font>
+                                                            <Font size="22.0" />
+                                                         </font>
+                                                         <VBox.margin>
+                                                            <Insets left="10.0" right="10.0" top="10.0" />
+                                                         </VBox.margin>
+                                                      </Text>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                       </top>
                                     </BorderPane>
                                  </children>
                               </AnchorPane>

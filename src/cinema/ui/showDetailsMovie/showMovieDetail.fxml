@@ -186,17 +186,17 @@
                   </HBox>
                </center>
                <bottom>
-                  <VBox prefHeight="237.0" prefWidth="1280.0" style="-fx-background-color: #464240;" BorderPane.alignment="CENTER">
+                  <VBox fx:id="bottomButton" prefHeight="237.0" prefWidth="1280.0" style="-fx-background-color: #464240;" BorderPane.alignment="CENTER">
                      <children>
                         <HBox prefHeight="208.0" prefWidth="1220.0">
                            <children>
                               <Text fill="#efb000" strokeType="OUTSIDE" strokeWidth="0.0" text="เรื่องย่อ">
-                                 <font>
-                                    <Font name="Sukhumvit Set Semi Bold" size="20.0" />
-                                 </font>
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="Sukhumvit Set Text" size="18.0" />
+                                 </font>
                               </Text>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="124.0" prefWidth="1177.0" style="-fx-background-color: #464240;">
                                  <HBox.margin>
@@ -224,7 +224,7 @@
                         </HBox>
                         <AnchorPane prefHeight="78.0" prefWidth="1280.0">
                            <children>
-                              <Button alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" styleClass="bt" stylesheets="@movieDetail.css" text="ถัดไป">
+                              <Button fx:id="btnNext" alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" styleClass="bt" stylesheets="@movieDetail.css" text="ถัดไป">
                                  <font>
                                     <Font name="Sukhumvit Set Bold" size="24.0" />
                                  </font>

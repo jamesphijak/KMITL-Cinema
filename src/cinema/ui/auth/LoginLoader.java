@@ -16,7 +16,7 @@ public class LoginLoader extends Application{
         scene.getStylesheets().add("/cinema/ui/theme.css");
         stage.setScene(scene);
         stage.setTitle("KMITL Cinema");
-        stage.setMaximized(true);
+        //stage.setMaximized(true);
         stage.show();
         CinemaUtility.setStageIcon(stage);
     }

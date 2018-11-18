@@ -2,11 +2,18 @@ package cinema;
 
 import cinema.ui.AlertMaker;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  *
@@ -19,12 +26,24 @@ public class Booking implements Serializable{
     @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
     
+    @OneToOne(fetch= FetchType.EAGER)
     private Showtime showtime;
+    
+    @OneToOne(fetch= FetchType.EAGER)
     private User user;
+    
+    @OneToOne(fetch= FetchType.EAGER)
     private Promotion promotion = null;
     
-    private List<Seat> bookedSeatList;
+    private boolean isCancel = false;
+    
+    @OneToMany(fetch= FetchType.EAGER)
+    private List<Seat> bookedSeatList = new ArrayList<Seat>();
+    
     private double totalCost;
+    
+    String bookingCreateDatetime;
+    String bookingUpdateDatetime;
 
     public Booking(Showtime showtime, List<Seat> seat, User user, Promotion promotion,double totalCost) {
         this.showtime = showtime;
@@ -32,79 +51,110 @@ public class Booking implements Serializable{
         this.user = user;
         this.promotion = promotion;
         this.totalCost = totalCost;
+        this.isCancel = false;
+        this.bookingCreateDatetime = getCurrentDatetime();
+        this.bookingUpdateDatetime = getCurrentDatetime();
+    }
+    
+    public String getCurrentDatetime(){
+        DateFormat dateFormat = new SimpleDateFormat("d MMMM yyyy HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        return dateFormat.format(cal.getTime());
+    }
+    public void updateDatetime(){
+        this.bookingUpdateDatetime = getCurrentDatetime();
     }
 
+    public String getBookingCreateDatetime() {
+        return bookingCreateDatetime;
+    }
+    public String getBookingUpdateDatetime() {
+        return bookingUpdateDatetime;
+    }
+    public String getShowtimeDetail(){
+        return "("+ showtime.getId() + ") Name(EN) : " + showtime.getMovieEng() + "\n" +
+                   "Name(TH) : " + showtime.getMovieThai()+ "\n" +
+                   showtime.getSoundtrack()+"/"+showtime.getSubtitle()+ " (" + showtime.getSystem() + ")\n" +
+                   "Time : " + showtime.getShowtime()+ "\n" +
+                   "Theatre : " + showtime.getTheatre().getTheatreNumber();      
+    }
+    public String getUserDetail(){
+        return "(" + user.getId() + ") Name : " + user.getFirstname()+" "+ user.getLastname() + "\n" +
+                   "Email : " + user.getEmail()+ "\n" +
+                "Money : " + user.getMoney();         
+    }
+    
+    public String getBookedSeatString(){
+        String seatList = "";
+        for (Seat seat : bookedSeatList) {
+            seatList = seatList + "(" + seat.getId() + ") " + seat.getSeatName() + " : " + seat.getSeatStatus() + "\n";
+        }
+        return seatList;
+    }
+
+    public boolean isCancel() {
+        return isCancel;
+    }
+    public void setIsCancel(boolean isCancel) {
+        this.isCancel = isCancel;
+    }
+    public int getId() {
+        return id;
+    }
+    public Showtime getShowtime() {
+        return showtime;
+    }
+    public void setShowtime(Showtime showtime) {
+        this.showtime = showtime;
+    }
+    public User getUser() {
+        return user;
+    }
+    public void setUser(User user) {
+        this.user = user;
+    }
+    public Promotion getPromotion() {
+        return promotion;
+    }
     public void setPromotion(Promotion promotion) {
         this.promotion = promotion;
     }
-
-    public Promotion getPromotion() {
-        return this.promotion;
+    public List<Seat> getBookedSeatList() {
+        return bookedSeatList;
     }
-//    public Theatre getTheatre() {
-//        return this.showtime.getTheatre();
-//    }
-
-    //------------------------------------------------------------------- Method
-//    public void postpone(int id, Showtime next_st, List<Seat> seat) {
-//        for (Seat s : this.bookedSeat) {                  // วนเอาที่นั่งที่จองไว้แล้วไปยกเลิกที่นั่งที่ showtime
-//            this.showtime.setBooked(s, false);
-//        }
-//        this.showtime = next_st;                           // แก้ Showtime เป็นล่าสุด
-//        this.bookedSeat = seat;
-//        for (Seat s : this.bookedSeat) {                  // วนเอาที่นั่งใหม่ที่จะจองแล้วไปใส่ที่ showtime ใหม่
-//            this.showtime.setBooked(s, true);
-//        }
-//    }
-
-    public void requestCancel(int id) {
-
+    public void setBookedSeatList(List<Seat> bookedSeatList) {
+        this.bookedSeatList = bookedSeatList;
     }
-
-//    public void payment() {
-////        double sum = 150;
-////        for(int i = 0;i<this.bookedSeat.size();i++){
-////            sum += this.showtime.getPrice(this.bookedSeat.get(i).getId());
-////        }
-//        if (this.user.getMoney() >= this.getTotalCost()) {
-//            this.user.setMoney(this.user.getMoney() - this.getTotalCost());
-//        } else {
-//            AlertMaker.showErrorMessage("แจ้งเตือน", "กรุณาเติมเงิน");
-//        }
-//    }
-
-//    public String getTypeOfSeat() {
-//        return this.bookedSeat.get(0).getSeatType();
-//    }
-
-//    public Double getCostOfSeat() {
-//        return this.getSeatPrice() * this.getAmountSeat();
-//    }
-
-//    public Double getTotalCost() {
-//        if(promotion == null) {
-//            return this.getCostOfSeat() ;
-//        }
-//        return this.getCostOfSeat() - this.getDiscount();
-//    }
-
-//    public Double getSeatPrice() {
-//        return this.bookedSeat.get(0).getSeatPrice();
-//    }
-//
-//    public int getAmountSeat() {
-//        return this.bookedSeat.size();
-//    }
-
-    public Double getDiscount() {
-        if (promotion == null) {
-            return 0.0;
+    public double getTotalCost() {
+        return totalCost;
+    }
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+    public double getTotalSeatPrice(){
+        double total = 0;
+        for (Seat seat : bookedSeatList) {
+            total += seat.getSeatPrice();
         }
-        return this.promotion.getDiscount();
+        return total;
+    }
+    
+
+    @Override
+    public String toString() {
+        return "Booking{\n" + "id=" + id + 
+               "Showtime=" + showtime + "\n" + 
+               "User=" + user + "\n" + 
+               "Promotion=" + promotion + "\n" + 
+               "BookedSeatList=" + bookedSeatList + "\n" +
+               "TotalCost=" + totalCost + '}';
+    }
+    
+    public double cancelBooking(){
+        double userReturn = this.totalCost - (this.totalCost * 0.1); // return to user 90%
+        this.totalCost = this.totalCost - userReturn; // booking will left only 10%
+        return userReturn;
     }
 
-    public boolean checkPrice(double price) { //---------------------- รอ User->Member
-        return true;
-    }
 
 }

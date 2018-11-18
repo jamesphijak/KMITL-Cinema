@@ -47,6 +47,16 @@ public class UserController {
         closeConnection();
         //this.updateUserList(); // update list after add
     }
+    
+    public void topupUserMoney(int id, double money){
+        openConnection();
+        User user = em.find(User.class, id); // find object
+        em.getTransaction().begin();  
+        user.topupMoney(money);
+        em.getTransaction().commit();
+        closeConnection();
+    }
+    
     public void editUser(int id, User editUser){
         openConnection();
         User user = em.find(User.class, id); // find object
@@ -109,6 +119,16 @@ public class UserController {
     public void setLogout(){
         isLogin = false;
     }
+    public boolean getIsLogin() {
+        return isLogin;
+    }
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+    public void unsetLoginUser(){
+        this.loginUser = null;
+    }
+    
     
     // Register
     public boolean checkExistEmail(String email){

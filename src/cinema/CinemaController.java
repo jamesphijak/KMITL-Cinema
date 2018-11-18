@@ -29,13 +29,20 @@ public class CinemaController{
     // Movie =========================================================================
     
     private Movie selectMovie;
+    private boolean isComingSoon;
     public void setSelectMovie(int id){
         selectMovie = getMovie(id);
     }
-    
     public Movie getSelectMovie(){
         return selectMovie;
     }
+    public boolean getIsComingSoon() {
+        return isComingSoon;
+    }
+    public void setIsComingSoon(boolean isComingSoon) {
+        this.isComingSoon = isComingSoon;
+    }
+    
     
     // Operation
     public Movie getMovie(int id){
@@ -114,12 +121,8 @@ public class CinemaController{
     
     // Theatre =========================================================================
     private List<Theatre> theatreList = new ArrayList<Theatre>(); // เก็บโรง
-    
-    // private Movie selectMovie; // หนังที่เลือก เพื่อหารอบฉายของโรงนั้นๆ ใน showTimeList
-    // private List<Showtime> showtimeList = new ArrayList<Showtime>(); // เก็บ showtime ของโรงนั้น
-    
+
     // Operation
-    
     public Theatre getTheatre(int id){
         openConnection();
         em.getTransaction().begin(); // start connection
@@ -137,11 +140,12 @@ public class CinemaController{
         em.getTransaction().commit(); // add all persist to database
         closeConnection();
     }
-    public void editTheatre(int id, int newTheatreNum){
+    public void editTheatre(int id, Theatre editTheatre){
         openConnection();
         Theatre theatre = em.find(Theatre.class, id); // find object
         em.getTransaction().begin();
-        theatre.setTheatreNumber(newTheatreNum); // แก้แค่เลขโรง
+        theatre.setTheatreNumber(editTheatre.getTheatreNumber());
+        theatre.setTheatreType(editTheatre.getTheatreType());
         em.getTransaction().commit();
         closeConnection();
     }
@@ -214,7 +218,7 @@ public class CinemaController{
         Showtime showtime = em.find(Showtime.class, id);
 //        List <Seat> s = showtime.getSeatList();
 
-        for(Seat s : showtime.getSeatList()){} // get 
+      //  for(Seat s : showtime.getSeatList()){} // get 
         // Close the database connection:
 
         em.getTransaction().commit();
@@ -320,5 +324,18 @@ public class CinemaController{
         // Close the database connection:
         em.getTransaction().commit();
         closeConnection();
+    }
+    
+    // Get seat from showtime
+    public Seat getShowtimeSeat(int id,String seatName){
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        // find object
+        Showtime showtime = em.find(Showtime.class, id);
+        Seat seat = showtime.getSeat(seatName);
+        // Close the database connection:
+        em.getTransaction().commit();
+        closeConnection();
+        return seat;
     }
 }

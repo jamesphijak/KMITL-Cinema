@@ -2,19 +2,8 @@ package cinema.ui.showDetailsMovie;
 
 import cinema.CinemaController;
 import cinema.Movie;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
-import cinema.screensframework.ScreensFramework;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.image.ImageView;
@@ -22,26 +11,22 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaPlayer.Status;
 import javafx.scene.media.MediaView;
-import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class MovieDetailController implements Initializable, ControlledScreen {
+public class MovieDetailController implements Initializable {
 
     @FXML
     private ImageView movieImg;
@@ -75,7 +60,10 @@ public class MovieDetailController implements Initializable, ControlledScreen {
 
     Movie movie;
     CinemaController cc;
-    ScreensController myController;
+    @FXML
+    private VBox bottomButton;
+    @FXML
+    private Button btnNext;
 
     public MovieDetailController() {
         this.cc = cc.getInstance();
@@ -83,6 +71,12 @@ public class MovieDetailController implements Initializable, ControlledScreen {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println(cc.getIsComingSoon());
+        if(cc.getIsComingSoon()){
+            btnNext.setVisible(false);
+        }
+        
+        
         // ใส่ ID เข้าไป
         movie = cc.getSelectMovie();
 //        System.out.println(movie);
@@ -101,7 +95,7 @@ public class MovieDetailController implements Initializable, ControlledScreen {
         actor.setText(movie.getCast());
         synopsis.setText(movie.getSynopsis());
 
-        Media media = new Media("http://weshare.lnw.mn/video.mp4");
+        Media media = new Media(movie.getTrailer());
 //        
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
@@ -112,12 +106,16 @@ public class MovieDetailController implements Initializable, ControlledScreen {
     }
 
     @FXML
-    private void nextPage(ActionEvent event) throws FileNotFoundException, IOException, URISyntaxException {
+    private void nextPage(ActionEvent event) throws IOException {
+        mediaPlayer.stop();
+        mediaPlayer.seek(Duration.ZERO);
         
-        System.out.println("movie detail");
-        myController.loadScreen(ScreensFramework.userShowtimeScreenID, ScreensFramework.userShowtimeScreenFile);
-        myController.setScreen(ScreensFramework.userShowtimeScreenID);
-
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
     @FXML
@@ -125,10 +123,13 @@ public class MovieDetailController implements Initializable, ControlledScreen {
 
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
-        
-        System.out.println("movie detail");
-        myController.loadScreen(ScreensFramework.userNowShowingScreenID, ScreensFramework.userNowShowingScreenFile);
-        myController.setScreen(ScreensFramework.userNowShowingScreenID);
+
+        Parent parent;
+                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+                    Scene parentScene = new Scene(parent);
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(parentScene);
+                    window.show();
     }
 
     @FXML
@@ -151,8 +152,5 @@ public class MovieDetailController implements Initializable, ControlledScreen {
         }
     }
 
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
-    }
 
 }

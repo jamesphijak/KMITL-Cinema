@@ -9,9 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class User implements Serializable{
@@ -28,19 +30,25 @@ public class User implements Serializable{
     private String type;
     private double money;
     
+    @OneToMany(fetch= FetchType.EAGER)
     private List<Promotion> promotionList = new ArrayList<Promotion>();
     
     public User(){}
     
     public User(String username, String password, String firstname, String lastname, String email, String type, Double money) {
         this.username = username;
-        this.password = encryptPassword(password);
+        this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.type = type;
         this.money = money;
     }
+    
+    public void setEncryptPassword(){
+        this.password = encryptPassword(this.password);
+    }
+            
     
     public static String encryptPassword(String password){
         String generatedPassword = null;
@@ -113,6 +121,26 @@ public class User implements Serializable{
         this.money = money;
     }
     
+    public void topupMoney(double money){
+        this.money = this.money + money;
+    }
+    
+    public void returnMoney(double money){
+        this.money = this.money + money;
+    }
+    
+    public void payMoney(double money){
+        this.money = this.money - money;
+    }
+    
+    public boolean checkCanPay(double money){
+        boolean canPay = true;
+        if(this.money < money){
+            canPay = false;
+        }
+        return canPay;
+    }
+    
     // ใช้เก็บ Promotion ที่เคยใช้แล้ว
     public List<Promotion> getPromotionList() {
         return this.promotionList;
@@ -123,6 +151,9 @@ public class User implements Serializable{
     }
     public void addPromotion(Promotion promotion){
         this.promotionList.add(promotion);
+    }
+    public void removePromotion(Promotion promotion){
+        this.promotionList.remove(promotion);
     }
     
     

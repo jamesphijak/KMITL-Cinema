@@ -6,23 +6,15 @@
 package cinema.ui.showtime;
 
 import cinema.CinemaController;
-import cinema.Movie;
 import cinema.Showtime;
 import cinema.Theatre;
-import cinema.screensframework.ControlledScreen;
-import cinema.screensframework.ScreensController;
-import cinema.screensframework.ScreensFramework;
-import cinema.ui.showmovie.showmovieController;
+import cinema.UserController;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,12 +34,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author BEAMCONAN
- */
-public class ShowtimeController implements Initializable, ControlledScreen {
+public class ShowtimeController implements Initializable{
 
     @FXML
     private Text nameEng;
@@ -59,20 +46,21 @@ public class ShowtimeController implements Initializable, ControlledScreen {
     private ScrollPane scroll;
     //Movie movie;
     CinemaController cc;
+    UserController uc;
     @FXML
     private StackPane rootPane;
-
-    ScreensController myController;
-
-    /**
-     * Initializes the controller class.
-     */
+    
+ 
     public ShowtimeController() {
         this.cc = cc.getInstance();
+        this.uc = uc.getInstance();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+//        if(!uc.getIsLogin()){
+//            btnNext.setVisible(false);
+//        }
 //        date.getStyleClass().add("date");
 //        date.setTextFill();
         // TODO
@@ -175,14 +163,21 @@ public class ShowtimeController implements Initializable, ControlledScreen {
                     HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                     hbox_showtimepertheatre.getChildren().add(bt[i]);
                     showtimeId[i] = showtime[i].getId();
+                    System.err.println(showtimeId[i]);
                     int finalI = i;
                     bt[i].setOnAction(event -> {
-
-//                        System.out.println(showtimeHaveSelectedMovie.get(finalI).getId()); // ปริ้นท์ดู
-                        cc.setSelectShowtime(showtimeHaveSelectedMovie.get(finalI).getId());
-                        
-                        myController.loadScreen(ScreensFramework.userSeatLayoutScreenID, ScreensFramework.userSeatLayoutScreenFile);
-                        myController.setScreen(ScreensFramework.userSeatLayoutScreenID);
+                        try {
+                            cc.setSelectShowtime(showtimeId[finalI]);
+                            
+                            Parent parent;
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/layoutMedium/layoutMedium.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+                        } catch (IOException ex) {
+                            System.out.println(ex);
+                        }
 
                     });
                     if (i == amount - 1) {
@@ -197,12 +192,22 @@ public class ShowtimeController implements Initializable, ControlledScreen {
                 bt[i].getStyleClass().add("button-st");
                 HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                 hbox_showtimepertheatre.getChildren().add(bt[i]);
+                showtimeId[i] = showtime[i].getId();
+                System.err.println(showtimeId[i]);
+                int finalI = i;
                 bt[i].setOnAction(event -> {
-
-//                      System.out.println(showtimeHaveSelectedMovie.get(0).getId()); // ปริ้นท์ดู
-                    cc.setSelectShowtime(showtimeHaveSelectedMovie.get(0).getId());
-                    myController.loadScreen(ScreensFramework.userSeatLayoutScreenID, ScreensFramework.userSeatLayoutScreenFile);
-                    myController.setScreen(ScreensFramework.userSeatLayoutScreenID);
+                    try {
+                            cc.setSelectShowtime(showtimeId[finalI]);
+                            
+                            Parent parent;
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/layoutMedium/layoutMedium.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+                        } catch (IOException ex) {
+                            System.out.println(ex);
+                        }
 
                 });
                 if (i == amount - 1) {
@@ -216,11 +221,18 @@ public class ShowtimeController implements Initializable, ControlledScreen {
 
     @FXML
     private void getDate(ActionEvent event) {
-        System.out.print(date.getValue());
+        System.out.println(date.getValue());
+        // select showtime
     }
 
-    public void setScreenParent(ScreensController screenParent) {
-        myController = screenParent;
+    @FXML
+    private void back(ActionEvent event) throws IOException {
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
 }

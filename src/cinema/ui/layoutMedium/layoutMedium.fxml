@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -26,9 +27,14 @@
                      </image>
                   </ImageView>
                   <Line endX="1066.0" layoutX="157.0" layoutY="173.0" startX="-100.0" stroke="WHITE" />
-                  <Text fill="WHITE" layoutX="1130.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ผังที่นั่ง">
+                  <Text fx:id="txtShowtime" fill="WHITE" layoutX="407.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ผังที่นั่ง" textAlignment="RIGHT" wrappingWidth="820.3280029296875" AnchorPane.topAnchor="120.0">
                      <font>
                         <Font name="Sukhumvit Set Text" size="32.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="txtMovie" fill="WHITE" layoutX="407.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ผังที่นั่ง" textAlignment="RIGHT" wrappingWidth="820.3280029296875">
+                     <font>
+                        <Font name="Sukhumvit Set Text" size="22.0" />
                      </font>
                   </Text>
                </children>
@@ -37,6 +43,15 @@
          <bottom>
             <AnchorPane prefHeight="111.0" prefWidth="1865.0" BorderPane.alignment="CENTER">
                <children>
+                  <HBox alignment="CENTER" layoutX="56.0" prefHeight="43.0" prefWidth="789.0">
+                     <children>
+                        <Text fx:id="labelPreSummary" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="ที่นั่งประเภท : Normal , จำนวน : 5 ที่ , ที่นั่งละ 50 บาท , รวม 250 บาท" textAlignment="CENTER" wrappingWidth="789.3720016479492">
+                           <font>
+                              <Font name="Sukhumvit Set Text" size="17.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
                   <Button alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" style="-fx-background-radius: 30px; -fx-background-color: linear-gradient(to right, #E38400, #EFB000); -fx-cursor: hand;" text="ถัดไป">
                      <font>
                         <Font name="Sukhumvit Set Bold" size="24.0" />
