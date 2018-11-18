@@ -103,6 +103,9 @@ public class Booking implements Serializable{
         return seatList;
     }
 
+    public boolean getIsCancel() {
+        return isCancel;
+    }
     public boolean isCancel() {
         return isCancel;
     }

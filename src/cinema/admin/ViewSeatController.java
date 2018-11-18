@@ -34,34 +34,18 @@ import javafx.scene.text.Text;
  */
 public class ViewSeatController implements Initializable {
     private CinemaController cc;
+    @FXML
     private TableView<Seat> tbSeat;
+    @FXML
     private TableColumn<Seat, Integer> colSeatId;
+    @FXML
     private TableColumn<Seat, String> colSeatName;
+    @FXML
     private TableColumn<Seat, Double> colSeatPrice;
+    @FXML
     private TableColumn<Seat, Boolean> colSeatStatus;
+    @FXML
     private TableColumn<Seat, String> colSeatType;
-    @FXML
-    private Text txtMyMoney;
-    @FXML
-    private TableView<?> tbBooking;
-    @FXML
-    private MenuItem menuCancelBooking;
-    @FXML
-    private TableColumn<?, ?> colBookingID;
-    @FXML
-    private TableColumn<?, ?> colBookingCreated;
-    @FXML
-    private TableColumn<?, ?> colBookingUpdate;
-    @FXML
-    private TableColumn<?, ?> colBookingShowtime;
-    @FXML
-    private TableColumn<?, ?> colBookingPromotion;
-    @FXML
-    private TableColumn<?, ?> colBookingStatus;
-    @FXML
-    private TableColumn<?, ?> colBookingSeat;
-    @FXML
-    private TableColumn<?, ?> colBookingTotal;
 
     public ViewSeatController() {
         this.cc = cc.getInstance();
@@ -96,16 +80,5 @@ public class ViewSeatController implements Initializable {
         
     }    
 
-    @FXML
-    private void handleRefreshBooking(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleCancelBooking(ActionEvent event) {
-    }
-
-    @FXML
-    private void handleMouseClickBooking(MouseEvent event) {
-    }
     
 }

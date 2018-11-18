@@ -2262,12 +2262,12 @@ System.out.println("Logout");
     }
     @FXML
     private void handleMouseClickShowtimeEdit(MouseEvent event) throws ParseException, IOException {
-        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
             initShowtimeEditMode();
             //System.out.println(selectedUserEdit);    
             System.out.println("Selected edit Show id : "+editShowtimeId);
         }
-        if (event.isPrimaryButtonDown() && event.getClickCount() == 3) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             initShowtimeEditMode();
             cc.setSelectShowtime(selectedShowtimeEdit.getId());
             Parent root = FXMLLoader.load(getClass().getResource("/cinema/admin/ViewSeat.fxml"));
