@@ -73,8 +73,12 @@ public class MyBookingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initBookingCol();
-        loadBookingData();
-        txtMyMoney.setText(String.valueOf(uc.getUser(uc.getLoginUser().getId()).getMoney()));
+        refresh();
+        if(uc.getIsLogin()){
+            if(uc.getLoginUser().getType().equals("Staff")){
+                txtMyMoney.setVisible(false);
+            }
+        }
     }    
     
     public void initBookingCol(){
@@ -101,10 +105,14 @@ public class MyBookingController implements Initializable {
         tbBooking.setItems(bookingList);
     }
 
+    public void refresh(){
+        loadBookingData();
+        txtMyMoney.setText(String.valueOf(uc.getUser(uc.getLoginUser().getId()).getMoney()) + " บาท");
+    }
+    
     @FXML
     private void handleRefreshBooking(ActionEvent event) {
-        loadBookingData();
-        txtMyMoney.setText(String.valueOf(uc.getUser(uc.getLoginUser().getId()).getMoney()));
+        refresh();
     }
 
     @FXML
@@ -121,9 +129,14 @@ public class MyBookingController implements Initializable {
         Optional<ButtonType> answer = alert.showAndWait();
         
         if(answer.get() == ButtonType.OK){
-            cc.cancleBooking(selectedBookingDelete.getId());
-            loadBookingData();
-            txtMyMoney.setText(String.valueOf(uc.getUser(uc.getLoginUser().getId()).getMoney()));
+
+            if(uc.getLoginUser().getType().equals("Staff")){
+                cc.cancleStaffBooking(selectedBookingDelete.getId());
+            }else{
+                cc.cancleBooking(selectedBookingDelete.getId());
+            }
+            
+            refresh();
         }
     }
 

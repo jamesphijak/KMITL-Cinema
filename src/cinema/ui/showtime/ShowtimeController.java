@@ -9,6 +9,7 @@ import cinema.CinemaController;
 import cinema.Showtime;
 import cinema.Theatre;
 import cinema.UserController;
+import cinema.ui.showDetailsMovie.MovieDetailController;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
@@ -229,6 +230,12 @@ public class ShowtimeController implements Initializable{
     private void back(ActionEvent event) throws IOException {
         Parent parent;
         parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+        if(uc.getIsLogin()){
+            if(uc.getLoginUser().getType().equals("Staff")){
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+                 MovieDetailController.mediaPlayer.stop();
+            }
+        }
         Scene parentScene = new Scene(parent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(parentScene);

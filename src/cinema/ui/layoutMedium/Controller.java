@@ -456,6 +456,11 @@ public class Controller implements Initializable {
         
         Parent parent;
         parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+        if(uc.getIsLogin()){
+            if(uc.getLoginUser().getType().equals("Staff")){
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summaryStaff/summaryStaff.fxml"));
+            }
+        }
         Scene parentScene = new Scene(parent);
         Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
         window.setScene(parentScene);

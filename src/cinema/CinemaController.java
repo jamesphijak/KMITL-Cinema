@@ -414,6 +414,48 @@ public class CinemaController{
         closeConnection();
     }
     
+    public void addStaffBooking(Booking booking){
+        openConnection();
+	em.getTransaction().begin(); // start connection
+        em.persist(booking); // add user to persist
+        // add showtime into theatre list
+        em.flush();
+        Booking b = em.find(Booking.class, booking.getId()); // Get Last Add Booking
+        
+        List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(true);
+            }
+            System.out.println("Set Seat alredy booked okay");
+            em.getTransaction().commit(); // add all persist to database
+            System.out.println("Book completed");
+        closeConnection();
+    }
+    public void cancleStaffBooking(int id){
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        Booking b = em.find(Booking.class, id); // find object
+        if(!b.isCancel()){
+            // u.removePromotion(p); // Remove Promotion from user
+            b.setIsCancel(true); // Set cancel to true
+            b.updateDatetime();
+            // Change money in user and booking
+            double userReturn  = b.cancelBooking(); // after cancel will set total only 10% and return user money
+
+            // set ที่นั่งว่างเหมือนเดิม
+            List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(false);
+            }
+        }else{
+            System.out.println("Can't cancel again");
+        }
+        em.getTransaction().commit(); // add all persist to database
+        closeConnection();
+    }
+    
     // Get all
     private List<Booking> bookingList = new ArrayList<Booking>();
     public void updateBookingList() {

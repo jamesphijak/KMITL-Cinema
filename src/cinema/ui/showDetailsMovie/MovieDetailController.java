@@ -2,6 +2,7 @@ package cinema.ui.showDetailsMovie;
 
 import cinema.CinemaController;
 import cinema.Movie;
+import cinema.UserController;
 import java.io.IOException;
 import java.io.InputStream;
 import javafx.fxml.FXML;
@@ -11,6 +12,8 @@ import javafx.scene.text.Text;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -55,7 +58,7 @@ public class MovieDetailController implements Initializable {
     @FXML
     private Text director;
 
-    MediaPlayer mediaPlayer;
+    public static MediaPlayer mediaPlayer;
     boolean play = true;
 
     Movie movie;
@@ -64,9 +67,11 @@ public class MovieDetailController implements Initializable {
     private VBox bottomButton;
     @FXML
     private Button btnNext;
-
+    
+    UserController uc;
     public MovieDetailController() {
         this.cc = cc.getInstance();
+        this.uc = uc.getInstance();
     }
 
     @Override
@@ -75,6 +80,14 @@ public class MovieDetailController implements Initializable {
         if(cc.getIsComingSoon()){
             btnNext.setVisible(false);
         }
+        
+//        if(uc.getIsLogin()){
+//            if(uc.getLoginUser().getType().equals("Staff")){
+//                System.err.println("Hello staff");
+//                    mediaPlayer.stop();
+//                    mediaPlayer.seek(Duration.ZERO);
+//            }
+//        }
         
         
         // ใส่ ID เข้าไป

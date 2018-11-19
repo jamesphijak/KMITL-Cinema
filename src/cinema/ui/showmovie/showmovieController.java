@@ -8,6 +8,7 @@ package cinema.ui.showmovie;
 import cinema.CinemaController;
 import cinema.Movie;
 import cinema.UserController;
+import cinema.ui.showDetailsMovie.MovieDetailController;
 import com.jfoenix.controls.JFXTabPane;
 import java.io.IOException;
 import java.io.InputStream;
@@ -172,6 +173,7 @@ public class showmovieController implements Initializable {
                     if(uc.getIsLogin()){
                         if(uc.getLoginUser().getType().equals("Staff")){
                              parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                             MovieDetailController.mediaPlayer.stop();
                         }
                     }
                     Scene parentScene = new Scene(parent);
@@ -255,11 +257,11 @@ public class showmovieController implements Initializable {
                     cc.setIsComingSoon(true);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
-                    if(uc.getIsLogin()){
-                        if(uc.getLoginUser().getType().equals("Staff")){
-                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-                        }
-                    }
+//                    if(uc.getIsLogin()){
+//                        if(uc.getLoginUser().getType().equals("Staff")){
+//                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+//                        }
+//                    }
                     Scene parentScene = new Scene(parent);
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                     window.setScene(parentScene);
