@@ -428,6 +428,16 @@ public class CinemaController{
         this.updateBookingList();
         return bookingList;
     }
+    public List<Booking> getMyBookingList(int userId) {
+        this.updateBookingList();
+        List<Booking> userBookingList = new ArrayList<Booking>();
+        for (Booking b : this.bookingList) {
+            if(b.getUser().getId() == userId){
+                userBookingList.add(b);
+            }
+        }
+        return userBookingList;
+    }
     public double getSumTotal(){
         double total = 0;
         this.updateBookingList();

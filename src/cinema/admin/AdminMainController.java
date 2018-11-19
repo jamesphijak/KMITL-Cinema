@@ -679,6 +679,7 @@ System.out.println("Logout");
         txtLastname.setDisable(false);
         txtEmail.setDisable(false);
         cbUserType.setDisable(false);
+        editUserPassword = false;
     }
     
     User selectedUserEdit; // global variable
@@ -810,6 +811,53 @@ System.out.println("Logout");
         
         return checkUsername && checkPassword && checkConfirmPassword && checkFirstname && checkLastname && checkEmail && checkUserType;      
     }
+    
+    public boolean checkUserEditForm(String username, String firstname, String lastname, String email, String userType){
+        boolean checkUsername = checkEmptyForm(username, msgUsername, "username");
+        if(checkUsername && !editUserMode){ 
+            checkUsername = checkExistUsername(username, msgUsername, "username");
+        }
+        if(checkUsername && editUserMode){
+            if(!username.equals(selectedUserEdit.getUsername())){ // if username same
+                checkUsername = checkExistUsername(username, msgUsername, "username");
+            }
+        }
+        
+        boolean checkFirstname = checkEmptyForm(firstname, msgFirstname, "firstname");
+        boolean checkLastname = checkEmptyForm(lastname, msgLastname, "lastname");
+        
+        boolean checkEmail = checkEmptyForm(email, msgEmail, "email");
+        
+        if(checkEmail){
+            checkEmail = isValidEmail(email, msgEmail, "email");
+            // in add mode
+            if(checkEmail && !editUserMode){
+               checkEmail = checkExistEmail(email, msgEmail, "email");
+            }
+            // in edit mode
+            if(checkEmail && editUserMode){
+                if(!email.equals(selectedUserEdit.getEmail())){ // if username same
+                checkEmail = checkExistEmail(email, msgEmail, "email");
+                } 
+            }
+        }
+        
+        if(cbUserType.getValue() != null){ userType = cbUserType.getValue(); }
+        boolean checkUserType = checkEmptyForm(userType, msgUserType, "user type");
+        
+        return checkUsername && checkFirstname && checkLastname && checkEmail && checkUserType;      
+    }
+    
+    public boolean checkUserPasswordForm(String password, String confirmPassword){
+        boolean checkPassword = checkEmptyForm(password, msgPassword, "password");
+        boolean checkConfirmPassword = checkEmptyForm(confirmPassword, msgConfirmPassword, "confirm password");
+        if(checkPassword && checkConfirmPassword){ 
+            checkConfirmPassword = checkPasswordMatch(password, confirmPassword, msgConfirmPassword, "confirm password");
+        }
+        
+        return checkPassword && checkConfirmPassword;      
+    }
+    
     public boolean checkUserSameValue(User editUser){
         boolean checkUsername = editUser.getUsername().equals(selectedUserEdit.getUsername());
         boolean checkPassword = true; // if text == it equal
@@ -1644,36 +1692,22 @@ System.out.println("Logout");
     @FXML
     private void handleSaveUser(ActionEvent event) {
         String username = txtUsername.getText();
-        String password = txtPassword.getText();
-        String confirmPassword = txtConfirmPassword.getText();
         String firstname = txtFirstname.getText();
         String lastname = txtLastname.getText();
         String email = txtEmail.getText();
         String userType = ""; // global
         
-        boolean isUserOK = checkUserForm(username, password, confirmPassword, firstname, lastname, email, userType);
+        boolean isUserOK = checkUserEditForm(username, firstname, lastname, email, userType);
+        
         System.out.println("Edit user mode " + String.valueOf(editUserMode));
         
         if(isUserOK){
             System.out.println("Edit mode start...");
             userType = cbUserType.getValue(); // get value from combobox
-//            System.out.println(userType);
-            
-            String oldPass = uc.getUser(selectedUserEdit.getId()).getPassword();
-            String savePass = oldPass;
-            User editUser = new User(username, savePass, firstname, lastname, email, userType,0.0);
-            
-            if(oldPass != password){
-                editUser.setEncryptPassword();
-            }
-//            System.out.println(editUser.toString());
-//            System.out.println("=======================");
-//            System.out.println(selectedUserEdit.toString());
+           
+            User editUser = new User(username, null, firstname, lastname, email, userType,0.0);
+
             boolean isUserSame = checkUserSameValue(editUser);
-//            System.out.println("Is same "+String.valueOf(isUserSame));
-//            System.out.println("Textbox Password : " + password);
-//            System.out.println("======================");
-//            System.out.println("Selected Password : "+selectedUserEdit.getPassword());
             if(!isUserSame){ // have change
                 uc.editUser(selectedUserEdit.getId(), editUser);
                 System.out.println("Not same");
@@ -1728,22 +1762,52 @@ System.out.println("Logout");
             System.out.println("Selected edit user id : "+editUserId);
         }
     }
+    
+    boolean editUserPassword = false;
+    public void initChangeUserPassword(){
+        txtUsername.setDisable(true);
+            txtPassword.setDisable(true);
+
+            txtPassword.clear();
+            txtConfirmPassword.clear();
+            txtPassword.setDisable(false);
+            txtConfirmPassword.setDisable(false);
+
+            txtFirstname.setDisable(true);
+            txtLastname.setDisable(true);
+            txtEmail.setDisable(true);
+            cbUserType.setDisable(true);
+            editUserPassword = true;
+            btnSaveUser.setDisable(true);
+            
+    }
     @FXML
     private void handleChangePassword(ActionEvent event) {
-        txtUsername.setDisable(true);
-        txtPassword.setDisable(true);
+        if(editUserPassword == false){
+            initChangeUserPassword();
+            System.out.println("Pre edit");
+            editUserPassword = true;
+        }else{
+            
+            String password = txtPassword.getText();
+            String confirmPassword = txtConfirmPassword.getText();
+
+            boolean isPassOK = checkUserPasswordForm(password, confirmPassword);
+            if (isPassOK) {
+                System.out.println("Ready for edit");
+                //editUserPassword = false;
+                initChangeUserPassword();
+                clearUserMessage();
+                uc.editUserPassword(selectedUserEdit.getId(), User.getEncryptPassword(password));
+                loadUserData(); // load new list after add
+                AlertMaker.showSimpleAlert("Ok", "Password Ok");
+            }
+            
+        }
         
-        txtPassword.clear();
-        txtConfirmPassword.clear();
-        txtPassword.setDisable(false);
-        txtConfirmPassword.setDisable(false);
         
-        txtFirstname.setDisable(true);
-        txtLastname.setDisable(true);
-        txtEmail.setDisable(true);
-        cbUserType.setDisable(true);
         
-        btnUserPassword.setDisable(true);
+        
     }
 
     // ==========================================================================

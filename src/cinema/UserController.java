@@ -63,7 +63,7 @@ public class UserController {
         em.getTransaction().begin();
         
         user.setUsername(editUser.getUsername());
-        user.setPassword(editUser.getPassword());
+        //user.setPassword(editUser.getPassword());
         user.setFirstname(editUser.getFirstname());
         user.setLastname(editUser.getLastname());
         user.setEmail(editUser.getEmail());
@@ -72,6 +72,15 @@ public class UserController {
         em.getTransaction().commit();
         closeConnection();
         updateUserList();
+    }
+    
+    public void editUserPassword(int id, String pass){
+        openConnection();
+        User user = em.find(User.class, id); // find object
+        em.getTransaction().begin();
+        user.setPassword(pass);
+        em.getTransaction().commit();
+        closeConnection();
     }
     public void deleteUser(int id){
         openConnection();

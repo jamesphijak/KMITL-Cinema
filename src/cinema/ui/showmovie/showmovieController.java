@@ -70,6 +70,8 @@ public class showmovieController implements Initializable {
     private Label labelAuthen;
     @FXML
     private JFXTabPane tabPane;
+    @FXML
+    private Label labelMyBooking;
 
     public showmovieController() {
         this.cc = cc.getInstance();
@@ -81,8 +83,10 @@ public class showmovieController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         if(uc.getIsLogin()){
             labelAuthen.setText(uc.getLoginUser().getEmail() + " -> Logout");
+            labelMyBooking.setVisible(true);
         }else{
             labelAuthen.setText("Login");
+            labelMyBooking.setVisible(false);
         }
         
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -313,5 +317,20 @@ public class showmovieController implements Initializable {
                 window.show();
             }
             System.out.println("CLICK");
+    }
+
+    @FXML
+    private void handleBooking(MouseEvent event) throws IOException {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+            if(uc.getIsLogin()){
+                Parent parent;
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/myBooking/MyBooking.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            
+        }
     }
 }
