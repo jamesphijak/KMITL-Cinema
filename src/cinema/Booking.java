@@ -106,6 +106,16 @@ public class Booking implements Serializable{
     public boolean getIsCancel() {
         return isCancel;
     }
+    
+    public String getStatus() {
+        if(!isCancel) {
+            return "Active";
+        }
+        else {
+            return "Cancelled";
+        }
+    }
+    
     public boolean isCancel() {
         return isCancel;
     }

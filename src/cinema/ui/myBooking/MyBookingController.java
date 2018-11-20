@@ -56,7 +56,7 @@ public class MyBookingController implements Initializable {
     @FXML
     private TableColumn<Booking, Promotion> colBookingPromotion;
     @FXML
-    private TableColumn<Booking, Boolean> colBookingStatus;
+    private TableColumn<Booking, String> colBookingStatus;
     @FXML
     private TableColumn<Booking, String> colBookingSeat;
     @FXML
@@ -87,7 +87,7 @@ public class MyBookingController implements Initializable {
         colBookingUpdate.setCellValueFactory(new PropertyValueFactory<>("BookingUpdateDatetime"));
         colBookingShowtime.setCellValueFactory(new PropertyValueFactory<>("ShowtimeDetail"));
         colBookingPromotion.setCellValueFactory(new PropertyValueFactory<>("promotion"));
-        colBookingStatus.setCellValueFactory(new PropertyValueFactory<>("isCancel"));
+        colBookingStatus.setCellValueFactory(new PropertyValueFactory<>("Status"));
         colBookingSeat.setCellValueFactory(new PropertyValueFactory<>("BookedSeatString"));
         colBookingTotal.setCellValueFactory(new PropertyValueFactory<>("totalCost"));
     }   

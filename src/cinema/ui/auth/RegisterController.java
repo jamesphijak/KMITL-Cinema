@@ -68,7 +68,7 @@ public class RegisterController implements Initializable {
     }
 
     @FXML
-    private void handleCreate(ActionEvent event) {
+    private void handleCreate(ActionEvent event) throws IOException {
         // Form validation
         boolean isUernameNotEmpty = FieldValidation.isTextFieldNotEmpty(txtUsername, labelUsername, "ใส่ชื่อผู้ใช้งาน");
         boolean isPasswordNotEmpty = FieldValidation.isTextFieldNotEmpty(txtPassword, labelPassword, "ใส่รหัสผ่าน");
@@ -141,20 +141,29 @@ public class RegisterController implements Initializable {
                 String email = txtEmail.getText();
                 // 0 = admin , 1 = staff , 2 = customer
                 String type = "Customer"; // Default Customer
-                AlertMaker.showSimpleAlert("Password Prehash",password);
-                User newUser = new User(username, password, firstname, lastname, email, type,0.0);
-                AlertMaker.showSimpleAlert("Password hashed",newUser.getPassword());
-                AlertMaker.showSimpleAlert("Test pass", newUser.encryptPassword(password));
-                boolean testPass = newUser.getPassword().equals(newUser.encryptPassword(password));
-                String testPassStr = String.valueOf(testPass);
-                AlertMaker.showSimpleAlert("Euqal ?", testPassStr);
+//                AlertMaker.showSimpleAlert("Password Prehash",password);
+                User newUser = new User(username, password, firstname, lastname, email, type, 0.0);
+                newUser.setEncryptPassword();
+//                AlertMaker.showSimpleAlert("Password hashed",newUser.getPassword());
+//                AlertMaker.showSimpleAlert("Test pass", newUser.encryptPassword(password));
+//                boolean testPass = newUser.getPassword().equals(newUser.encryptPassword(password));
+//                String testPassStr = String.valueOf(testPass);
+//                AlertMaker.showSimpleAlert("Euqal ?", testPassStr);
                 uc.addUser(newUser); // add new user
-                System.out.println("Add user to database cinema completed");
-                AlertMaker.showSimpleAlert("Register Completed", newUser.toString());
-                boolean test = uc.checkValidUser(username, password);
-                String testStr = String.valueOf(test);
-                AlertMaker.showSimpleAlert("Test",testStr);
+//                System.out.println("Add user to database cinema completed");
+//                AlertMaker.showSimpleAlert("Register Completed", newUser.toString());
+//                boolean test = uc.checkValidUser(username, password);
+//                String testStr = String.valueOf(test);
+//                AlertMaker.showSimpleAlert("Test",testStr);
                 clearForm();
+                AlertMaker.showSimpleAlert("Register completed", newUser.toString());
+                
+                Parent parent;
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
     
             }
             

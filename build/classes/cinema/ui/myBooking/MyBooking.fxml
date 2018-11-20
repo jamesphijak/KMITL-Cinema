@@ -30,7 +30,7 @@
                         <TableColumn fx:id="colBookingUpdate" editable="false" maxWidth="216.0" minWidth="69.0" prefWidth="188.0" text="Update" />
                         <TableColumn fx:id="colBookingShowtime" editable="false" maxWidth="312.0" minWidth="107.0" prefWidth="182.0" text="Showtime" />
                         <TableColumn fx:id="colBookingPromotion" editable="false" maxWidth="239.0" minWidth="101.0" prefWidth="176.0" text="Promotion" />
-                        <TableColumn fx:id="colBookingStatus" editable="false" maxWidth="197.0" minWidth="70.0" prefWidth="91.0" text="Cancel" />
+                        <TableColumn fx:id="colBookingStatus" editable="false" maxWidth="197.0" minWidth="70.0" prefWidth="91.0" text="Status" />
                         <TableColumn fx:id="colBookingSeat" editable="false" maxWidth="239.0" minWidth="81.0" prefWidth="160.0" text="Booked Seat" />
                         <TableColumn fx:id="colBookingTotal" editable="false" maxWidth="216.0" minWidth="69.0" prefWidth="141.0" text="Total Cost" />
                      </columns>

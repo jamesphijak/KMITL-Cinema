@@ -201,6 +201,16 @@ public class CinemaController{
     private List<Showtime> showtimeList = new ArrayList<Showtime>(); // เก็บโรง
     private int selectShowtime;
     
+    public boolean checkShowtime(int movieId){
+        updateShowtimeList();
+        for (Showtime showtime : showtimeList) {
+            if(showtime.getMovie().getId() == movieId){
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public int getSelectShowtime(){
         return this.selectShowtime;
     }

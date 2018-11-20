@@ -8,6 +8,7 @@ package cinema.ui.showmovie;
 import cinema.CinemaController;
 import cinema.Movie;
 import cinema.UserController;
+import cinema.ui.AlertMaker;
 import cinema.ui.showDetailsMovie.MovieDetailController;
 import com.jfoenix.controls.JFXTabPane;
 import java.io.IOException;
@@ -169,17 +170,34 @@ public class showmovieController implements Initializable {
                     cc.setSelectMovie(nowShowingList.get(finalI).getId());
                     cc.setIsComingSoon(false);
                     Parent parent;
-                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+//                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
                     if(uc.getIsLogin()){
                         if(uc.getLoginUser().getType().equals("Staff")){
-                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-                             MovieDetailController.mediaPlayer.stop();
+                            if(cc.checkShowtime(nowShowingList.get(finalI).getId())) {
+                                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                                Scene parentScene = new Scene(parent);
+                                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                                window.setScene(parentScene);
+                                window.show();
+                            }
+                            else {
+                                AlertMaker.showSimpleAlert("Showtime Error", "Showtime not exists");
+                            }
+                            
+//                            MovieDetailController.mediaPlayer.stop();
+                        }
+                        else {
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
                         }
                     }
-                    Scene parentScene = new Scene(parent);
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    window.setScene(parentScene);
-                    window.show();
+//                    Scene parentScene = new Scene(parent);
+//                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+//                    window.setScene(parentScene);
+//                    window.show();
                 } catch (IOException ex) {
                     System.out.println(ex);
                 }
@@ -253,7 +271,7 @@ public class showmovieController implements Initializable {
             btC[i].setOnAction(event -> {
                try {
                     //checkID(btN[finalI]);
-                    cc.setSelectMovie(nowShowingList.get(finalI).getId());
+                    cc.setSelectMovie(comingSoonList.get(finalI).getId());
                     cc.setIsComingSoon(true);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));

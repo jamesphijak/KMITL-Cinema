@@ -2,7 +2,9 @@ package cinema.ui.showDetailsMovie;
 
 import cinema.CinemaController;
 import cinema.Movie;
+import cinema.Showtime;
 import cinema.UserController;
+import cinema.ui.AlertMaker;
 import java.io.IOException;
 import java.io.InputStream;
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +61,7 @@ public class MovieDetailController implements Initializable {
     @FXML
     private Text director;
 
-    public static MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
     boolean play = true;
 
     Movie movie;
@@ -80,14 +83,6 @@ public class MovieDetailController implements Initializable {
         if(cc.getIsComingSoon()){
             btnNext.setVisible(false);
         }
-        
-//        if(uc.getIsLogin()){
-//            if(uc.getLoginUser().getType().equals("Staff")){
-//                System.err.println("Hello staff");
-//                    mediaPlayer.stop();
-//                    mediaPlayer.seek(Duration.ZERO);
-//            }
-//        }
         
         
         // ใส่ ID เข้าไป
@@ -123,12 +118,17 @@ public class MovieDetailController implements Initializable {
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
         
-        Parent parent;
-        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-        Scene parentScene = new Scene(parent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(parentScene);
-        window.show();
+        if(cc.checkShowtime(movie.getId())) {
+            Parent parent;
+            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+            Scene parentScene = new Scene(parent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(parentScene);
+            window.show();
+        }
+        else {
+            AlertMaker.showSimpleAlert("Showtime Error", "Showtime not exists.");
+        }
     }
 
     @FXML

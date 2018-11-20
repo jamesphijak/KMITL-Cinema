@@ -229,17 +229,24 @@ public class ShowtimeController implements Initializable{
     @FXML
     private void back(ActionEvent event) throws IOException {
         Parent parent;
-        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+        
         if(uc.getIsLogin()){
             if(uc.getLoginUser().getType().equals("Staff")){
                 parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
-                 MovieDetailController.mediaPlayer.stop();
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            else {
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
             }
         }
-        Scene parentScene = new Scene(parent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(parentScene);
-        window.show();
+        
     }
 
 }
