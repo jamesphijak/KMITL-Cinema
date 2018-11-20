@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -2251,18 +2252,72 @@ System.out.println("Logout");
                 double incSeat = Double.parseDouble(incSp);
                 String system = cbSystem.getValue();
                 
-                System.out.println(m.getEnglishName());
-                System.out.println(t.getTheatreNumber());
+//                System.out.println(m.getEnglishName());
+//                System.out.println(t.getTheatreNumber());
                 
-                String showtimeDate = convertDate(datePickerShowtime);
+               List<Showtime> listShowtime = cc.getShowtimeList();
                 
-            Showtime st = new Showtime(m,t,system,sound,showtimeDate,start,incSeat);
+                String myTime = m.getTime(); // เรียกระยะเวลาหนังที่จะสร้างมา , ถูกต้อง
+                int newStartTimeHourInt = Integer.parseInt(cbTimeHourShow1.getValue()); // หนังที่จะสร้าง
+                int newStartTimeMinuteInt = Integer.parseInt(cbTimeMinuteShow1.getValue());
+                int myTimeHour = Integer.parseInt(myTime.substring(0, 2));
+                int myTimeMinute = Integer.parseInt(myTime.substring(3));
+                DecimalFormat twoDigit = new DecimalFormat("00");
+                
+                /* calculate end time */
+                int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
+                int newEndTimeMinuteInt = newStartTimeMinuteInt + myTimeMinute;
+                if(newEndTimeMinuteInt >= 60) {
+                    newEndTimeHourInt = newEndTimeHourInt + 1;
+                    newEndTimeMinuteInt = newEndTimeMinuteInt - 60;
+                }
+                int newStartTime = Integer.parseInt(twoDigit.format(newStartTimeHourInt) + "" + twoDigit.format(newStartTimeMinuteInt) + "");
+                int newEndTime = Integer.parseInt(twoDigit.format(newEndTimeHourInt) + "" + twoDigit.format(newEndTimeMinuteInt) + "");
+                 //&& showtime.getDate().equals(datePickerShowtime.getValue) 
+                
+                boolean checkOverlap = false;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+                
+                for (Showtime showtime : listShowtime) {
+                    // โรงที่จะเพิ่ม ตรงกับเลขโรงไหมที่มีอยู่แล้วไหม
+                   if(showtime.getTheatre().getId() == theatre_id && (datePickerShowtime.getValue().equals(LocalDate.parse(showtime.getDate(), formatter))) && (!checkOverlap)) {
+                       String startString = showtime.getShowtime().substring(0, 2) + showtime.getShowtime().substring(3, 5);
+                       String endString = showtime.getShowtime().substring(8, 10) + showtime.getShowtime().substring(11);
+                       int oldStartTime = Integer.parseInt(startString); // หนังที่มีอยู่แแล้ว
+                       int oldEndTime = Integer.parseInt(endString); // หนังที่มีอยู่แล้ว
 
-                cc.addShowtime(st);
-                clearShowtimeMessage(); // clear label
-                clearShowtimeForm(); // clear text form
-                loadShowtimeData(); // load new list after add
-              //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                       // เวลาที่เริ่มที่จะเพิ่ม อยู่ในช่วง (เวลาที่มีอยู่) เวลาเริ่มและเวลาจบ
+                       if(newStartTime >= oldStartTime && newStartTime < oldEndTime) {
+                           // ชน
+                           checkOverlap = true;
+                       }
+                       // เวลาเริ่มอยู่นอกช่วงนั้น
+                       else {
+                           // เวลาเริ่มน้อยกว่า แต่เวลาจบอยู่ในช่วง
+                           if(newEndTime >= oldStartTime && newEndTime <= oldEndTime) {
+                               // ชน
+                               checkOverlap = true;
+                           }
+                       }
+                   }
+                }
+                
+                if(!checkOverlap) {
+                    String showtimeDate = convertDate(datePickerShowtime);
+
+                    Showtime st = new Showtime(m,t,system,sound,showtimeDate,start,incSeat);
+
+                    cc.addShowtime(st);
+                    clearShowtimeMessage(); // clear label
+                    clearShowtimeForm(); // clear text form
+                    loadShowtimeData(); // load new list after add
+                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                }
+                else {
+                    // Overlap
+                    AlertMaker.showSimpleAlert("Add Showtime Error", "The time is overlap.");
+                }
+
         }else{
             System.out.println("NOT OK");
         }
@@ -2302,17 +2357,78 @@ System.out.println("Logout");
                 
                 String system = cbSystem.getValue();
                 
-                System.out.println(m.getEnglishName());
-                System.out.println(t.getTheatreNumber());
+//                System.out.println(m.getEnglishName());
+//                System.out.println(t.getTheatreNumber());
+
+                List<Showtime> listShowtime = cc.getShowtimeList();
                 
-                String showtimeDate = convertDate(datePickerShowtime);
+                String myTime = m.getTime(); // เรียกระยะเวลาหนังที่จะสร้างมา , ถูกต้อง
+                int newStartTimeHourInt = Integer.parseInt(cbTimeHourShow1.getValue()); // หนังที่จะสร้าง
+                int newStartTimeMinuteInt = Integer.parseInt(cbTimeMinuteShow1.getValue());
+                int myTimeHour = Integer.parseInt(myTime.substring(0, 2));
+                int myTimeMinute = Integer.parseInt(myTime.substring(3));
+                DecimalFormat twoDigit = new DecimalFormat("00");
                 
-            Showtime st = new Showtime(m,t,system,sound,showtimeDate,start,incSeat);
-                cc.editShowtime(selectedShowtimeEdit.getId(),st);
-                clearShowtimeMessage(); // clear label
-                clearShowtimeForm(); // clear text form
-                loadShowtimeData(); // load new list after add
-              //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                /* calculate end time */
+                int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
+                int newEndTimeMinuteInt = newStartTimeMinuteInt + myTimeMinute;
+                if(newEndTimeMinuteInt >= 60) {
+                    newEndTimeHourInt = newEndTimeHourInt + 1;
+                    newEndTimeMinuteInt = newEndTimeMinuteInt - 60;
+                }
+                int newStartTime = Integer.parseInt(twoDigit.format(newStartTimeHourInt) + "" + twoDigit.format(newStartTimeMinuteInt) + "");
+                int newEndTime = Integer.parseInt(twoDigit.format(newEndTimeHourInt) + "" + twoDigit.format(newEndTimeMinuteInt) + "");
+                 //&& showtime.getDate().equals(datePickerShowtime.getValue) 
+                
+                boolean checkOverlap = false;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+                
+                for (Showtime showtime : listShowtime) {
+                    // โรงที่จะเพิ่ม ตรงกับเลขโรงไหมที่มีอยู่แล้วไหม
+                   if(showtime.getTheatre().getId() == theatre_id && (datePickerShowtime.getValue().equals(LocalDate.parse(showtime.getDate(), formatter))) && (!checkOverlap)) {
+                       String startString = showtime.getShowtime().substring(0, 2) + showtime.getShowtime().substring(3, 5);
+                       String endString = showtime.getShowtime().substring(8, 10) + showtime.getShowtime().substring(11);
+                       int oldStartTime = Integer.parseInt(startString); // หนังที่มีอยู่แแล้ว
+                       int oldEndTime = Integer.parseInt(endString); // หนังที่มีอยู่แล้ว
+                       
+                       if(showtime.getId() == selectedShowtimeEdit.getId()) {
+                           continue;
+                       }
+                       else {
+                            // เวลาที่เริ่มที่จะเพิ่ม อยู่ในช่วง (เวลาที่มีอยู่) เวลาเริ่มและเวลาจบ
+                            if(newStartTime >= oldStartTime && newStartTime < oldEndTime) {
+                                // ชน
+                                checkOverlap = true;
+                            }
+                            // เวลาเริ่มอยู่นอกช่วงนั้น
+                            else {
+                                // เวลาเริ่มน้อยกว่า แต่เวลาจบอยู่ในช่วง
+                                if(newEndTime >= oldStartTime && newEndTime <= oldEndTime) {
+                                    // ชน
+                                    checkOverlap = true;
+                                }
+                            }
+                       }
+                   }
+                }
+                
+                if(!checkOverlap) {
+                    String showtimeDate = convertDate(datePickerShowtime);
+
+                    Showtime st = new Showtime(m,t,system,sound,showtimeDate,start,incSeat);
+                    cc.editShowtime(selectedShowtimeEdit.getId(),st);
+                    clearShowtimeMessage(); // clear label
+                    clearShowtimeForm(); // clear text form
+                    loadShowtimeData(); // load new list after add
+                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                }
+                else {
+                    // Overlap
+                    AlertMaker.showSimpleAlert("Save Showtime Error", "The time is overlap.");
+                }
+                
+               
         }else{
             System.out.println("NOT OK");
         }

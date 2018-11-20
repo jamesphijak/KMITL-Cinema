@@ -147,7 +147,7 @@ public class summaryController implements Initializable {
     public void loadPromotionSelect(){
         ObservableList<Promotion> promotionList = FXCollections.observableArrayList();
         promotionList.clear();
-        List<Promotion> allPromotion = pc.getPromotionList();
+        List<Promotion> allPromotion = pc.getActivePromotionList();
         List<Promotion> usedPromotion = uc.getUser(loginUser.getId()).getPromotionList(); // update get user promotion from id
         
         // Get never used promotion

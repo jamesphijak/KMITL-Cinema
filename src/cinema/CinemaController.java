@@ -1,5 +1,7 @@
 package cinema;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -200,12 +202,24 @@ public class CinemaController{
     // Showtime =========================================================================
     private List<Showtime> showtimeList = new ArrayList<Showtime>(); // เก็บโรง
     private int selectShowtime;
-    
-    public boolean checkShowtime(int movieId){
+   
+    public boolean checkShowtime(LocalDate date){
         updateShowtimeList();
+        String formattedString = null;
+        try{
+            LocalDate ld = date;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+            formattedString = ld.format(formatter);
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+        
         for (Showtime showtime : showtimeList) {
-            if(showtime.getMovie().getId() == movieId){
-                return true;
+            if(showtime.getMovie().getId() == selectMovie.getId()){
+                if(showtime.getDate().equals(formattedString)){
+                    return true;
+                }
             }
         }
         return false;
@@ -289,6 +303,7 @@ public class CinemaController{
         st.setMovie(editShowtime.getMovie());
         st.setTheatre(editShowtime.getTheatre());
         st.setSoundtrack(editShowtime.getSoundtrack());
+        st.setDate(editShowtime.getDate());
         st.setStartTime(editShowtime.getOnlyStartTime());
 //        st.setDate(editShowtime.getDate());
         st.setSystem(editShowtime.getSystem());

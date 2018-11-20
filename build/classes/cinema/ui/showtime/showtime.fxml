@@ -77,6 +77,13 @@
                                  </content>
                               </ScrollPane>
                            </center>
+                           <top>
+                              <Text fx:id="textNotHaveShowtime" fill="#f4ff76" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="974.2400016784668" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="Sukhumvit Set Medium" size="24.0" />
+                                 </font>
+                              </Text>
+                           </top>
                         </BorderPane>
                      </center>
                   </BorderPane>

@@ -117,18 +117,13 @@ public class MovieDetailController implements Initializable {
     private void nextPage(ActionEvent event) throws IOException {
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
-        
-        if(cc.checkShowtime(movie.getId())) {
-            Parent parent;
-            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-            Scene parentScene = new Scene(parent);
-            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-            window.setScene(parentScene);
-            window.show();
-        }
-        else {
-            AlertMaker.showSimpleAlert("Showtime Error", "Showtime not exists.");
-        }
+       
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
     }
 
     @FXML

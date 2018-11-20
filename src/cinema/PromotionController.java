@@ -1,5 +1,8 @@
 package cinema;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -95,6 +98,20 @@ public class PromotionController {
         return this.promotionSearchList;
     }
     
+    public List<Promotion> getActivePromotionList() {
+        this.updatePromotionList();
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+
+        List<Promotion> activePromotion = new ArrayList<Promotion>();
+        for (Promotion promotion : getPromotionList()) {
+            if((LocalDate.now().until(LocalDate.parse(promotion.getRemainingDate(),formatter), ChronoUnit.DAYS) >= 0)){
+                activePromotion.add(promotion);
+            }
+        }
+        return activePromotion;
+    }
+    
     public List<Promotion> getUnusePromotion(int userId){
         List<Promotion> unuseList = new ArrayList<Promotion>();
         openConnection();
@@ -108,7 +125,7 @@ public class PromotionController {
             userPInt.add(promotion.getPromotionID());
         }
         
-        List<Promotion> allP = getPromotionList();
+        List<Promotion> allP = getActivePromotionList();
         List<Integer> allPInt = new ArrayList<Integer>();
         for (Promotion promotion : allP) {
             allPInt.add(promotion.getPromotionID());

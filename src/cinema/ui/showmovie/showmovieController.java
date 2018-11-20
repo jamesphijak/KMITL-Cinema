@@ -173,17 +173,12 @@ public class showmovieController implements Initializable {
 //                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
                     if(uc.getIsLogin()){
                         if(uc.getLoginUser().getType().equals("Staff")){
-                            if(cc.checkShowtime(nowShowingList.get(finalI).getId())) {
-                                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-                                Scene parentScene = new Scene(parent);
-                                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                                window.setScene(parentScene);
-                                window.show();
-                            }
-                            else {
-                                AlertMaker.showSimpleAlert("Showtime Error", "Showtime not exists");
-                            }
-                            
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+
 //                            MovieDetailController.mediaPlayer.stop();
                         }
                         else {
@@ -193,6 +188,13 @@ public class showmovieController implements Initializable {
                             window.setScene(parentScene);
                             window.show();
                         }
+                    }
+                    else {
+                        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                        Scene parentScene = new Scene(parent);
+                        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        window.setScene(parentScene);
+                        window.show();
                     }
 //                    Scene parentScene = new Scene(parent);
 //                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -327,6 +329,7 @@ public class showmovieController implements Initializable {
             if(uc.getIsLogin()){
                 uc.setIsLogin(false);
                 uc.unsetLoginUser();
+                cc.setIsComingSoon(false);
             }
             
                 Parent parent;

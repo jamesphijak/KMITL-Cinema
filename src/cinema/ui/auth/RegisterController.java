@@ -99,7 +99,7 @@ public class RegisterController implements Initializable {
 
                 // ถ้าเจอ Username แสดง error ว่ามีแล้ว
                 if(searchUsernameFound){
-                    labelUsername.setText("This username is already used.");
+                    labelUsername.setText("ชื่อผู้ใช้งานนี้ถูกใช้งานแล้ว");
                     labelUsername.getStyleClass().add("text-error");
                     // ให้ Textfield เปลี่ยนเป็นสี Error
                     txtUsername.getStyleClass().add("text-field-error");
@@ -120,7 +120,7 @@ public class RegisterController implements Initializable {
                     
                     // ถ้าเจอ Email แสดง error
                     if(searchEmailFound){
-                        labelEmail.setText("This email is already used.");
+                        labelEmail.setText("อีเมลนี้ถูกใช้งานแล้ว");
                         labelEmail.getStyleClass().add("text-error");
                         // ให้ Textfield เปลี่ยนเป็นสี Error
                         txtEmail.getStyleClass().add("text-field-error"); // บอก Confirm password ไม่ตรง

@@ -428,7 +428,7 @@ public class Controller implements Initializable {
         for (ImageView iv : ivListAll) {
             for (String id : ivListDisable) {
                 if(id.equals(iv.getId())){
-                    System.out.println("Found" + iv.getId());
+                    //System.out.println("Found" + iv.getId());
                     iv.setDisable(true);
                     if(iv.getId().substring(0,1).equals("A")){
                         // disable image for a
