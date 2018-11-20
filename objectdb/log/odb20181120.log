@@ -31,3 +31,25 @@ Configuration path: C:\Users\Phijak\Desktop\KMITL-Cinema\objectdb\objectdb.conf
 [2018-11-20 13:27:51 #3 store] 
 Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 9920@DESKTOP-Q653M8N
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-11-20 20:10:44 #1 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 15268@DESKTOP-Q653M8N
+
+[2018-11-20 20:10:44 #2 store] 
+Configuration path: C:\Users\Phijak\Desktop\KMITL-Cinema\objectdb\objectdb.conf
+
+[2018-11-20 20:13:47 #3 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 15268@DESKTOP-Q653M8N
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-11-20 20:14:41 #1 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is opened by 16392@DESKTOP-Q653M8N
+
+[2018-11-20 20:14:41 #2 store] 
+Configuration path: C:\Users\Phijak\Desktop\KMITL-Cinema\objectdb\objectdb.conf
+
+[2018-11-20 20:15:42 #3 store] 
+Database 'C:\Users\Phijak\Desktop\KMITL-Cinema\db\CinemaODB.odb' is closed by 16392@DESKTOP-Q653M8N
+

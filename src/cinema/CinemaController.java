@@ -202,6 +202,15 @@ public class CinemaController{
     // Showtime =========================================================================
     private List<Showtime> showtimeList = new ArrayList<Showtime>(); // เก็บโรง
     private int selectShowtime;
+    private boolean isSelectedSeat = false;
+
+    public boolean isSelectedSeat() {
+        return isSelectedSeat;
+    }
+
+    public void setIsSelectedSeat(boolean isSelectedSeat) {
+        this.isSelectedSeat = isSelectedSeat;
+    }
    
     public boolean checkShowtime(LocalDate date){
         updateShowtimeList();

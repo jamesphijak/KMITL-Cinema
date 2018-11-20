@@ -78,7 +78,7 @@ public class summaryStaffController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(uc.getIsLogin()){
+         if(uc.getIsLogin()){
             loginUser = uc.getUser(uc.getLoginUser().getId()); // update data
             //System.out.println(loginUser.getUsername());
         }else{

@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,7 +20,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -455,16 +458,42 @@ public class Controller implements Initializable {
         cc.setSeatList(ivList);
         
         Parent parent;
-        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+//        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
         if(uc.getIsLogin()){
             if(uc.getLoginUser().getType().equals("Staff")){
                 parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summaryStaff/summaryStaff.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            else {
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
             }
         }
-        Scene parentScene = new Scene(parent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(parentScene);
-        window.show();
+        else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Login Required");
+            alert.setContentText("Please login before booking.");
+            Optional<ButtonType> answer = alert.showAndWait();
+
+            if(answer.get() == ButtonType.OK){
+                cc.setIsSelectedSeat(true);
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            else {
+                return;
+            }
+            
+        }
         
     }
 
@@ -613,7 +642,7 @@ public class Controller implements Initializable {
             if(uc.getIsLogin()){
                 btnNext.setDisable(false);
             }else{
-                btnNext.setDisable(true);
+                btnNext.setDisable(false);
             }
             
         }else{

@@ -5,6 +5,7 @@
  */
 package cinema.ui.auth;
 
+import cinema.CinemaController;
 import cinema.User;
 import cinema.UserController;
 import cinema.ui.AlertMaker;
@@ -46,11 +47,13 @@ public class LoginController implements Initializable {
     
     List<User> allUser;
     UserController uc;
+    CinemaController cc;
     User loginUser;
 
 
     public LoginController() {
         this.uc = uc.getInstance();
+        this.cc = cc.getInstance();
     }
 
     // ลบค่า Label
@@ -86,7 +89,7 @@ public class LoginController implements Initializable {
     }    
 
     @FXML
-    private void handleLogin(ActionEvent event) {
+    private void handleLogin(ActionEvent event) throws IOException {
         boolean isUernameNotEmpty = FieldValidation.isTextFieldNotEmpty(txtUsername, labelUsername, "ต้องใส่ชื่อผู้ใช้งาน");
         boolean isPasswordNotEmpty = FieldValidation.isTextFieldNotEmpty(txtPassword, labelPassword, "ต้องใส่รหัสผ่าน");
         
@@ -100,20 +103,65 @@ public class LoginController implements Initializable {
 //                closeStage(); // close screen
 //                loadMain(); // show main screen
                 System.out.println(loginUser.getType());
-                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+//                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                 
                 if(loginUser.getType().equals("Admin")){
                     // Go to admin
                     System.out.println("admin");
-                    loadScreen(window , "/cinema/admin/AdminMain.fxml");
-                }else if(loginUser.getType().equals("Staff")){
-                    // Goto Staff
-                    System.out.println("staff");
-                    loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
-                }else{
-                    // Goto customer
+//                    loadScreen(window , "/cinema/admin/AdminMain.fxml");
+                    cc.setIsSelectedSeat(false);
+                    Parent parent;
+                    parent = FXMLLoader.load(getClass().getResource("/cinema/admin/AdminMain.fxml"));
+                    Scene parentScene = new Scene(parent);
+                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                    window.setScene(parentScene);
+                    window.show();
+                }
+                else{
+                    // Goto staff or user
                     System.out.println("user");
-                    loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
+                    if(loginUser.getType().equals("Staff")) {
+                        if(cc.isSelectedSeat()) {
+                            cc.setIsSelectedSeat(false);
+                            
+                            Parent parent;
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summaryStaff/summaryStaff.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+                        }
+                        else {
+//                            loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
+                            Parent parent;
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+                        }
+                    }
+                    else {
+                        if(cc.isSelectedSeat()) {
+//                            loadScreen(window , "/cinema/ui/summary/summary.fxml");
+                            cc.setIsSelectedSeat(false);
+                            Parent parent;
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+                        }
+                        else {
+//                            loadScreen(window , "/cinema/ui/showmovie/showmovie.fxml");
+                            Parent parent;
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+                        }
+                    }
                 }
             }else{
                 AlertMaker.showErrorMessage("Login Failed", "Not found this account in database.");

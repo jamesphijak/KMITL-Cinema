@@ -105,8 +105,6 @@ public class showmovieController implements Initializable {
         LocalDate today = LocalDate.now();
         List<Movie> nowShowingList = new ArrayList<>();
         List<Movie> comingSoonList = new ArrayList<>();
-        List<String> dateAbbrevMonth = new ArrayList<>();
-        String stringReleaseDate;
         LocalDate releaseDate;
         long tempDayShowing; // ฉายมาแล้วกี่วัน (Return เป็น long)
         int dayShowing;// เปลี่ยน tempDayShowing เป็น int และไปบวกกับ showingDay
@@ -169,6 +167,7 @@ public class showmovieController implements Initializable {
                     //checkID(btN[finalI]);
                     cc.setSelectMovie(nowShowingList.get(finalI).getId());
                     cc.setIsComingSoon(false);
+//                    System.out.println(cc.getSelectMovie().getId());
                     Parent parent;
 //                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
                     if(uc.getIsLogin()){
