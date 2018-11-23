@@ -2,6 +2,9 @@ package cinema.ui.showDetailsMovie;
 
 import cinema.CinemaController;
 import cinema.Movie;
+import cinema.Showtime;
+import cinema.UserController;
+import cinema.ui.AlertMaker;
 import java.io.IOException;
 import java.io.InputStream;
 import javafx.fxml.FXML;
@@ -10,7 +13,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -55,7 +61,7 @@ public class MovieDetailController implements Initializable {
     @FXML
     private Text director;
 
-    MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayer;
     boolean play = true;
 
     Movie movie;
@@ -64,9 +70,11 @@ public class MovieDetailController implements Initializable {
     private VBox bottomButton;
     @FXML
     private Button btnNext;
-
+    
+    UserController uc;
     public MovieDetailController() {
         this.cc = cc.getInstance();
+        this.uc = uc.getInstance();
     }
 
     @Override
@@ -89,7 +97,7 @@ public class MovieDetailController implements Initializable {
         //movieNameEng = new Text(movie.getEnglishName());
         movieNameTh.setText(movie.getThaiName());
         releaseDate.setText(movie.getReleaseDate());
-        time.setText(movie.getTime());
+        time.setText(movie.getTimeMinute());
         genre.setText(movie.getGenre());
         director.setText(movie.getDirector());
         actor.setText(movie.getCast());
@@ -109,7 +117,7 @@ public class MovieDetailController implements Initializable {
     private void nextPage(ActionEvent event) throws IOException {
         mediaPlayer.stop();
         mediaPlayer.seek(Duration.ZERO);
-        
+       
         Parent parent;
         parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
         Scene parentScene = new Scene(parent);

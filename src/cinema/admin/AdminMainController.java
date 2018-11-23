@@ -1,7 +1,6 @@
 package cinema.admin;
 
 import cinema.Booking;
-import cinema.BookingController;
 import cinema.CinemaController;
 import cinema.Movie;
 import cinema.Promotion;
@@ -18,12 +17,9 @@ import java.io.InputStream;
 import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -496,7 +492,6 @@ public class AdminMainController implements Initializable{
     private UserController uc;
     private PromotionController pc;
     private CinemaController cc;
-    private BookingController bc;
     @FXML
     private MenuBar menuAdmin;
     
@@ -505,7 +500,6 @@ public class AdminMainController implements Initializable{
         this.uc = uc.getInstance();
         this.pc = pc.getInstance();
         this.cc = cc.getInstance();
-        this.bc = bc.getInstance();
     }
     
     // Initial =====================================================================
@@ -686,6 +680,7 @@ System.out.println("Logout");
         txtLastname.setDisable(false);
         txtEmail.setDisable(false);
         cbUserType.setDisable(false);
+        editUserPassword = false;
     }
     
     User selectedUserEdit; // global variable
@@ -817,6 +812,53 @@ System.out.println("Logout");
         
         return checkUsername && checkPassword && checkConfirmPassword && checkFirstname && checkLastname && checkEmail && checkUserType;      
     }
+    
+    public boolean checkUserEditForm(String username, String firstname, String lastname, String email, String userType){
+        boolean checkUsername = checkEmptyForm(username, msgUsername, "username");
+        if(checkUsername && !editUserMode){ 
+            checkUsername = checkExistUsername(username, msgUsername, "username");
+        }
+        if(checkUsername && editUserMode){
+            if(!username.equals(selectedUserEdit.getUsername())){ // if username same
+                checkUsername = checkExistUsername(username, msgUsername, "username");
+            }
+        }
+        
+        boolean checkFirstname = checkEmptyForm(firstname, msgFirstname, "firstname");
+        boolean checkLastname = checkEmptyForm(lastname, msgLastname, "lastname");
+        
+        boolean checkEmail = checkEmptyForm(email, msgEmail, "email");
+        
+        if(checkEmail){
+            checkEmail = isValidEmail(email, msgEmail, "email");
+            // in add mode
+            if(checkEmail && !editUserMode){
+               checkEmail = checkExistEmail(email, msgEmail, "email");
+            }
+            // in edit mode
+            if(checkEmail && editUserMode){
+                if(!email.equals(selectedUserEdit.getEmail())){ // if username same
+                checkEmail = checkExistEmail(email, msgEmail, "email");
+                } 
+            }
+        }
+        
+        if(cbUserType.getValue() != null){ userType = cbUserType.getValue(); }
+        boolean checkUserType = checkEmptyForm(userType, msgUserType, "user type");
+        
+        return checkUsername && checkFirstname && checkLastname && checkEmail && checkUserType;      
+    }
+    
+    public boolean checkUserPasswordForm(String password, String confirmPassword){
+        boolean checkPassword = checkEmptyForm(password, msgPassword, "password");
+        boolean checkConfirmPassword = checkEmptyForm(confirmPassword, msgConfirmPassword, "confirm password");
+        if(checkPassword && checkConfirmPassword){ 
+            checkConfirmPassword = checkPasswordMatch(password, confirmPassword, msgConfirmPassword, "confirm password");
+        }
+        
+        return checkPassword && checkConfirmPassword;      
+    }
+    
     public boolean checkUserSameValue(User editUser){
         boolean checkUsername = editUser.getUsername().equals(selectedUserEdit.getUsername());
         boolean checkPassword = true; // if text == it equal
@@ -1564,7 +1606,7 @@ System.out.println("Logout");
     }   
     public void loadBookingData(){
         bookingList.clear();
-        bookingListArray = bc.getBookingList();
+        bookingListArray = cc.getBookingList();
         try {
             for (Booking booking : bookingListArray) {
                 bookingList.add(booking);
@@ -1576,7 +1618,7 @@ System.out.println("Logout");
         tbBooking.setItems(bookingList);
     }
     public void setBookingTotal(){
-        txtSummary.setText("Total Income : " + bc.getSumTotal() + " Baht");
+        txtSummary.setText("Total Income : " + cc.getSumTotal() + " Baht");
     }
     
     // User =======================================================================
@@ -1651,30 +1693,22 @@ System.out.println("Logout");
     @FXML
     private void handleSaveUser(ActionEvent event) {
         String username = txtUsername.getText();
-        String password = txtPassword.getText();
-        String confirmPassword = txtConfirmPassword.getText();
         String firstname = txtFirstname.getText();
         String lastname = txtLastname.getText();
         String email = txtEmail.getText();
         String userType = ""; // global
         
-        boolean isUserOK = checkUserForm(username, password, confirmPassword, firstname, lastname, email, userType);
+        boolean isUserOK = checkUserEditForm(username, firstname, lastname, email, userType);
+        
         System.out.println("Edit user mode " + String.valueOf(editUserMode));
         
         if(isUserOK){
             System.out.println("Edit mode start...");
             userType = cbUserType.getValue(); // get value from combobox
-//            System.out.println(userType);
-            
-            User editUser = new User(username, password, firstname, lastname, email, userType,0.0);
-//            System.out.println(editUser.toString());
-//            System.out.println("=======================");
-//            System.out.println(selectedUserEdit.toString());
+           
+            User editUser = new User(username, null, firstname, lastname, email, userType,0.0);
+
             boolean isUserSame = checkUserSameValue(editUser);
-//            System.out.println("Is same "+String.valueOf(isUserSame));
-//            System.out.println("Textbox Password : " + password);
-//            System.out.println("======================");
-//            System.out.println("Selected Password : "+selectedUserEdit.getPassword());
             if(!isUserSame){ // have change
                 uc.editUser(selectedUserEdit.getId(), editUser);
                 System.out.println("Not same");
@@ -1729,22 +1763,52 @@ System.out.println("Logout");
             System.out.println("Selected edit user id : "+editUserId);
         }
     }
+    
+    boolean editUserPassword = false;
+    public void initChangeUserPassword(){
+        txtUsername.setDisable(true);
+            txtPassword.setDisable(true);
+
+            txtPassword.clear();
+            txtConfirmPassword.clear();
+            txtPassword.setDisable(false);
+            txtConfirmPassword.setDisable(false);
+
+            txtFirstname.setDisable(true);
+            txtLastname.setDisable(true);
+            txtEmail.setDisable(true);
+            cbUserType.setDisable(true);
+            editUserPassword = true;
+            btnSaveUser.setDisable(true);
+            
+    }
     @FXML
     private void handleChangePassword(ActionEvent event) {
-        txtUsername.setDisable(true);
-        txtPassword.setDisable(true);
+        if(editUserPassword == false){
+            initChangeUserPassword();
+            System.out.println("Pre edit");
+            editUserPassword = true;
+        }else{
+            
+            String password = txtPassword.getText();
+            String confirmPassword = txtConfirmPassword.getText();
+
+            boolean isPassOK = checkUserPasswordForm(password, confirmPassword);
+            if (isPassOK) {
+                System.out.println("Ready for edit");
+                //editUserPassword = false;
+                initChangeUserPassword();
+                clearUserMessage();
+                uc.editUserPassword(selectedUserEdit.getId(), User.getEncryptPassword(password));
+                loadUserData(); // load new list after add
+                AlertMaker.showSimpleAlert("Ok", "Password Ok");
+            }
+            
+        }
         
-        txtPassword.clear();
-        txtConfirmPassword.clear();
-        txtPassword.setDisable(false);
-        txtConfirmPassword.setDisable(false);
         
-        txtFirstname.setDisable(true);
-        txtLastname.setDisable(true);
-        txtEmail.setDisable(true);
-        cbUserType.setDisable(true);
         
-        btnUserPassword.setDisable(true);
+        
     }
 
     // ==========================================================================
@@ -1837,25 +1901,39 @@ System.out.println("Logout");
         
         boolean isMovieOK = checkMovieForm(englishName, thaiName, director, cast, synopsis, genre, hour, minute, releaseDate, poster, trailer);
         if(isMovieOK){
-            System.out.println("Add movie"); 
-            Movie movie = new Movie(
-                    txtEnglishName.getText(),
-                    txtThaiName.getText(),
-                    txtDirector.getText(),
-                    txtCast.getText(),
-                    txtSynopsis.getText(),
-                    cbGenre.getValue(),
-                    cbTimeHour.getValue() + ":" +cbTimeMinute.getValue(),
-                    convertDate(datePickerReleaseDate),
-                    selectedPoster.getName(),
-                    //selectedPoster.toURI().toString(),
-                    txtTrailer.getText());
-            
-            cc.addMovie(movie);
-            clearMovieMessage(); // clear label
-            clearMovieForm(); // clear text form
-            loadMovieData(); // load new list after add
-            AlertMaker.showSimpleAlert("Add Complete", movie.toString());
+            List<Movie> checkMovieList = cc.getMovieList();
+            boolean checkAlreadyExists = false;
+            for (Movie movie : checkMovieList) {
+                if(txtEnglishName.getText().equals(movie.getEnglishName()) && !checkAlreadyExists) {
+                    checkAlreadyExists = true;
+                }
+            }
+            if(checkAlreadyExists){
+                AlertMaker.showErrorMessage("Add Movie Error", "This movie is already exists");
+                clearMovieMessage();
+                clearMovieForm();
+            }
+            else {
+                System.out.println("Add movie"); 
+                Movie movie = new Movie(
+                        txtEnglishName.getText(),
+                        txtThaiName.getText(),
+                        txtDirector.getText(),
+                        txtCast.getText(),
+                        txtSynopsis.getText(),
+                        cbGenre.getValue(),
+                        cbTimeHour.getValue() + ":" +cbTimeMinute.getValue(),
+                        convertDate(datePickerReleaseDate),
+                        selectedPoster.getName(),
+                        //selectedPoster.toURI().toString(),
+                        txtTrailer.getText());
+
+                cc.addMovie(movie);
+                clearMovieMessage(); // clear label
+                clearMovieForm(); // clear text form
+                loadMovieData(); // load new list after add
+                AlertMaker.showSimpleAlert("Add Complete", movie.toString());
+            }
         }
     }
     @FXML
@@ -1875,6 +1953,19 @@ System.out.println("Logout");
         boolean isMovieOK = checkMovieForm(englishName, thaiName, director, cast, synopsis, genre, hour, minute, releaseDate, poster, trailer);
         System.out.println("Edit movie mode " + String.valueOf(editMovieMode));
         
+        List<Movie> checkMovieList = cc.getMovieList();
+        boolean checkAlreadyExists = false;
+        for (Movie movie : checkMovieList) {
+            if(txtEnglishName.getText().equals(movie.getEnglishName()) && !checkAlreadyExists) {
+                if(selectedMovieEdit.getId() == movie.getId()) {
+                    continue;
+                }
+                else {
+                    checkAlreadyExists = true;
+                }
+            }
+        }
+        
         if(isMovieOK){
             System.out.println("Edit movie"); 
             Movie editMovie = new Movie(
@@ -1892,13 +1983,18 @@ System.out.println("Logout");
             
             boolean isSame = checkMovieSameValue(editMovie);
             if(!isSame){
-                System.out.println("Not same");
-                cc.editMovie(selectedMovieEdit.getId(), editMovie);
-                loadMovieData(); // load new list after add
-                // update edit select to new information
-                selectedMovieEdit = tbMovie.getItems().get(editMovieId);
-                AlertMaker.showSimpleAlert("Saved!", "Save information completed");
-            }else{
+                if(checkAlreadyExists) {
+                    AlertMaker.showErrorMessage("Save Movie Error", "This Movie is already exists (English name is same with others)");
+                }
+                else {
+                    System.out.println("Not same");
+                    cc.editMovie(selectedMovieEdit.getId(), editMovie);
+                    loadMovieData(); // load new list after add
+                    // update edit select to new information
+                    selectedMovieEdit = tbMovie.getItems().get(editMovieId);
+                    AlertMaker.showSimpleAlert("Saved!", "Save information completed");
+                } 
+            } else {
                 AlertMaker.showSimpleAlert("No change!", "No changed for this movie information");
             }
         }
@@ -1967,15 +2063,28 @@ System.out.println("Logout");
             isAddable = false;
         }
         
-        if(isAddable){  
-            Promotion newPromotion = new Promotion(promotionName, description,date , value_discount);
-            pc.addPromotion(newPromotion);
-            clearPromotionMessage(); // clear label
-            clearPromotionForm(); // clear text form
-            loadPromotionData(); // load new list after add
-            AlertMaker.showSimpleAlert("OK",newPromotion.toString());
+        List<Promotion> checkPromotionList = pc.getPromotionList();
+        boolean isPromotionExists = false;
+        for (Promotion promotion : checkPromotionList) {
+            if(txtPromotion.getText().equals(promotion.getName()) && !isPromotionExists) {
+                isPromotionExists = true;
+            }
         }
-        
+        if(isAddable){
+            if(isPromotionExists) {
+                AlertMaker.showErrorMessage("Add Promotion Error","This promotion is already exists");
+                clearPromotionMessage();
+                clearPromotionForm();
+            }
+            else {
+                Promotion newPromotion = new Promotion(promotionName, description,date , value_discount);
+                pc.addPromotion(newPromotion);
+                clearPromotionMessage(); // clear label
+                clearPromotionForm(); // clear text form
+                loadPromotionData(); // load new list after add
+                AlertMaker.showSimpleAlert("OK",newPromotion.toString());
+            }
+        }
     }
     @FXML
     private void handleCanclePromotionSearch(ActionEvent event) {
@@ -1995,15 +2104,33 @@ System.out.println("Logout");
         
         boolean isAddable = checkPromotionForm(promotionName,description,date,discount);
         
+        List<Promotion> checkPromotionList = pc.getPromotionList();
+        boolean isPromotionExists = false;
+        for (Promotion promotion : checkPromotionList) {
+            if(txtPromotion.getText().equals(promotion.getName()) && !isPromotionExists) {
+                if(selectedPromotionEdit.getPromotionID() == promotion.getPromotionID()) {
+                    continue;
+                }
+                else {
+                    isPromotionExists = true;
+                }
+            }
+        }
+        
         if (value_discount < 0) {
             msgDiscount.setText("Discount cannot be under 0 !");
             msgDiscount.setTextFill(Color.rgb(210, 39, 30));
             isAddable = false;
         }
         if(isAddable) {
-            System.out.println("Edit mode start...");
-            Promotion editPromotion = new Promotion(promotionName, description,date , value_discount);
-            pc.editPromotion(selectedPromotionEdit.getPromotionID(), editPromotion);
+            if(isPromotionExists) {
+                AlertMaker.showErrorMessage("Save Promotion Error", "This Promotion is already exists (Promotion name is same with others)");
+            }
+            else {
+                System.out.println("Edit mode start...");
+                Promotion editPromotion = new Promotion(promotionName, description,date , value_discount);
+                pc.editPromotion(selectedPromotionEdit.getPromotionID(), editPromotion);
+            }
         }
         loadPromotionData();
         clearPromotionMessage();
@@ -2124,12 +2251,27 @@ System.out.println("Logout");
         
         int theatre = Integer.parseInt(theatreNum);
         
-        if(isAddable){  
-            Theatre newTheatre = new Theatre(theatre,cbTheatreType.getValue());
-            cc.addTheatre(newTheatre);
-            clearTheatreMessage(); // clear label
-            clearTheatreForm(); // clear text form
-            loadTheatreData(); // load new list after add
+        List<Theatre> checkTheatreExists = cc.getTheatreList();
+        boolean isTheatreExists = false;
+        for (Theatre checkTheatre : checkTheatreExists) {
+            if((Integer.parseInt(txtTheatre.getText()) == (checkTheatre.getTheatreNumber())) && !isTheatreExists) {
+                isTheatreExists = true;
+            }
+        }
+        
+        if(isAddable){
+            if(isTheatreExists) {
+                AlertMaker.showErrorMessage("Add Theatre Error", "This theatre number is already exists");
+                clearTheatreMessage();
+                clearTheatreForm();
+            }
+            else {
+                Theatre newTheatre = new Theatre(theatre,cbTheatreType.getValue());
+                cc.addTheatre(newTheatre);
+                clearTheatreMessage(); // clear label
+                clearTheatreForm(); // clear text form
+                loadTheatreData(); // load new list after add
+            }
         }
     }
     @FXML
@@ -2140,9 +2282,27 @@ System.out.println("Logout");
         int theatre = Integer.parseInt(theatreNum);
         Theatre editTheatre = new Theatre(theatre,cbTheatreType.getValue());
         
+        List<Theatre> checkTheatreExists = cc.getTheatreList();
+        boolean isTheatreExists = false;
+        for (Theatre checkTheatre : checkTheatreExists) {
+            if((Integer.parseInt(txtTheatre.getText()) == (checkTheatre.getTheatreNumber())) && !isTheatreExists) {
+                if(selectedTheatreEdit.getId() == checkTheatre.getId()) {
+                    continue;
+                }
+                else {
+                    isTheatreExists = true;
+                }
+            }
+        }
         
         if(isAddable) {
-            cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
+            if(isTheatreExists) {
+                AlertMaker.showErrorMessage("Add Theatre Error", "This theatre number is already exists");
+                clearTheatreMessage();
+            }
+            else {
+                cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
+            }
         }
         loadTheatreData();
         clearTheatreMessage();
@@ -2184,7 +2344,6 @@ System.out.println("Logout");
                 Movie m = cc.getMovie(movie_id);
                 Theatre t = cc.getTheatre(theatre_id);
                 String start = cbTimeHourShow1.getValue()+":"+cbTimeMinuteShow1.getValue();
-                
                 String sound = cbSoundtrack1.getValue();
                 double incSeat = Double.parseDouble(incSp);
                 String system = cbSystem.getValue();
@@ -2192,7 +2351,7 @@ System.out.println("Logout");
 //                System.out.println(m.getEnglishName());
 //                System.out.println(t.getTheatreNumber());
                 
-                List<Showtime> listShowtime = cc.getShowtimeList();
+               List<Showtime> listShowtime = cc.getShowtimeList();
                 
                 String myTime = m.getTime(); // เรียกระยะเวลาหนังที่จะสร้างมา , ถูกต้อง
                 int newStartTimeHourInt = Integer.parseInt(cbTimeHourShow1.getValue()); // หนังที่จะสร้าง
@@ -2254,13 +2413,11 @@ System.out.println("Logout");
                     // Overlap
                     AlertMaker.showSimpleAlert("Add Showtime Error", "The time is overlap.");
                 }
-                
 
         }else{
             System.out.println("NOT OK");
         }
     }
-    
     @FXML
     private void handleSaveShowtime(ActionEvent event) {
         String movieName = "";
@@ -2296,9 +2453,9 @@ System.out.println("Logout");
                 
                 String system = cbSystem.getValue();
                 
-                System.out.println(m.getEnglishName());
-                System.out.println(t.getTheatreNumber());
-                
+//                System.out.println(m.getEnglishName());
+//                System.out.println(t.getTheatreNumber());
+
                 List<Showtime> listShowtime = cc.getShowtimeList();
                 
                 String myTime = m.getTime(); // เรียกระยะเวลาหนังที่จะสร้างมา , ถูกต้อง
@@ -2329,19 +2486,24 @@ System.out.println("Logout");
                        String endString = showtime.getShowtime().substring(8, 10) + showtime.getShowtime().substring(11);
                        int oldStartTime = Integer.parseInt(startString); // หนังที่มีอยู่แแล้ว
                        int oldEndTime = Integer.parseInt(endString); // หนังที่มีอยู่แล้ว
-
-                       // เวลาที่เริ่มที่จะเพิ่ม อยู่ในช่วง (เวลาที่มีอยู่) เวลาเริ่มและเวลาจบ
-                       if(newStartTime >= oldStartTime && newStartTime < oldEndTime) {
-                           // ชน
-                           checkOverlap = true;
+                       
+                       if(showtime.getId() == selectedShowtimeEdit.getId()) {
+                           continue;
                        }
-                       // เวลาเริ่มอยู่นอกช่วงนั้น
                        else {
-                           // เวลาเริ่มน้อยกว่า แต่เวลาจบอยู่ในช่วง
-                           if(newEndTime >= oldStartTime && newEndTime <= oldEndTime) {
-                               // ชน
-                               checkOverlap = true;
-                           }
+                            // เวลาที่เริ่มที่จะเพิ่ม อยู่ในช่วง (เวลาที่มีอยู่) เวลาเริ่มและเวลาจบ
+                            if(newStartTime >= oldStartTime && newStartTime < oldEndTime) {
+                                // ชน
+                                checkOverlap = true;
+                            }
+                            // เวลาเริ่มอยู่นอกช่วงนั้น
+                            else {
+                                // เวลาเริ่มน้อยกว่า แต่เวลาจบอยู่ในช่วง
+                                if(newEndTime >= oldStartTime && newEndTime <= oldEndTime) {
+                                    // ชน
+                                    checkOverlap = true;
+                                }
+                            }
                        }
                    }
                 }
@@ -2362,10 +2524,9 @@ System.out.println("Logout");
                     AlertMaker.showSimpleAlert("Save Showtime Error", "The time is overlap.");
                 }
                 
-            
+               
         }else{
             System.out.println("NOT OK");
-            
         }
         
 
@@ -2377,12 +2538,12 @@ System.out.println("Logout");
     }
     @FXML
     private void handleMouseClickShowtimeEdit(MouseEvent event) throws ParseException, IOException {
-        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
             initShowtimeEditMode();
             //System.out.println(selectedUserEdit);    
             System.out.println("Selected edit Show id : "+editShowtimeId);
         }
-        if (event.isPrimaryButtonDown() && event.getClickCount() == 3) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
             initShowtimeEditMode();
             cc.setSelectShowtime(selectedShowtimeEdit.getId());
             Parent root = FXMLLoader.load(getClass().getResource("/cinema/admin/ViewSeat.fxml"));

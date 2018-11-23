@@ -436,7 +436,7 @@
                                                                   <Insets bottom="5.0" left="20.0" right="20.0" />
                                                                </VBox.margin>
                                                             </Label>
-                                                            <Label fx:id="lbDate" prefHeight="20.0" prefWidth="391.0" text="Remaining Date">
+                                                            <Label fx:id="lbDate" prefHeight="20.0" prefWidth="391.0" text="Last Date Release">
                                                                <font>
                                                                   <Font size="14.0" />
                                                                </font>
@@ -699,7 +699,7 @@
                                                                   <Insets bottom="5.0" left="20.0" right="20.0" />
                                                                </VBox.margin>
                                                             </Label>
-                                                            <Label fx:id="lbTime" prefHeight="20.0" prefWidth="391.0" text="Time">
+                                                            <Label fx:id="lbTime" prefHeight="20.0" prefWidth="391.0" text="Time Period">
                                                                <font>
                                                                   <Font size="14.0" />
                                                                </font>

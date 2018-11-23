@@ -52,7 +52,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <Button alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" style="-fx-background-radius: 30px; -fx-background-color: linear-gradient(to right, #E38400, #EFB000); -fx-cursor: hand;" text="ถัดไป">
+                  <Button fx:id="btnNext" alignment="CENTER_RIGHT" layoutX="1089.0" layoutY="14.0" mnemonicParsing="false" onAction="#nextPage" style="-fx-background-radius: 30px; -fx-background-color: linear-gradient(to right, #E38400, #EFB000); -fx-cursor: hand;" text="ถัดไป">
                      <font>
                         <Font name="Sukhumvit Set Bold" size="24.0" />
                      </font>

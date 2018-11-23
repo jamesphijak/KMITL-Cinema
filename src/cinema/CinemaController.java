@@ -1,5 +1,7 @@
 package cinema;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -200,6 +202,37 @@ public class CinemaController{
     // Showtime =========================================================================
     private List<Showtime> showtimeList = new ArrayList<Showtime>(); // เก็บโรง
     private int selectShowtime;
+    private boolean isSelectedSeat = false;
+
+    public boolean isSelectedSeat() {
+        return isSelectedSeat;
+    }
+
+    public void setIsSelectedSeat(boolean isSelectedSeat) {
+        this.isSelectedSeat = isSelectedSeat;
+    }
+   
+    public boolean checkShowtime(LocalDate date){
+        updateShowtimeList();
+        String formattedString = null;
+        try{
+            LocalDate ld = date;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+            formattedString = ld.format(formatter);
+        }
+        catch(Exception e) {
+            System.out.println(e);
+        }
+        
+        for (Showtime showtime : showtimeList) {
+            if(showtime.getMovie().getId() == selectMovie.getId()){
+                if(showtime.getDate().equals(formattedString)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     
     public int getSelectShowtime(){
         return this.selectShowtime;
@@ -279,6 +312,7 @@ public class CinemaController{
         st.setMovie(editShowtime.getMovie());
         st.setTheatre(editShowtime.getTheatre());
         st.setSoundtrack(editShowtime.getSoundtrack());
+        st.setDate(editShowtime.getDate());
         st.setStartTime(editShowtime.getOnlyStartTime());
 //        st.setDate(editShowtime.getDate());
         st.setSystem(editShowtime.getSystem());
@@ -338,4 +372,169 @@ public class CinemaController{
         closeConnection();
         return seat;
     }
+    
+    // Booking ====================================================================================
+    // Operation
+    public Booking getBooking(int id){
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        Booking booking = em.find(Booking.class, id);
+        em.getTransaction().commit();
+        closeConnection();
+        return booking;
+    }
+    public void addBooking(Booking booking){
+        openConnection();
+	em.getTransaction().begin(); // start connection
+        em.persist(booking); // add user to persist
+        // add showtime into theatre list
+        em.flush();
+        Booking b = em.find(Booking.class, booking.getId()); // Get Last Add Booking
+        User u = em.find(User.class, b.getUser().getId()); // Get User
+        // หักเงิน
+        if(u.checkCanPay(booking.getTotalCost())){
+            u.payMoney(booking.getTotalCost());
+            System.out.println("User pay okay");
+            if(b.getPromotion() != null){
+                Promotion p = em.find(Promotion.class, b.getPromotion().getPromotionID());
+                u.addPromotion(p);
+            }
+            System.out.println("Set Promotion to user okay");
+            // Set seat to booking true
+            List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(true);
+            }
+            System.out.println("Set Seat alredy booked okay");
+            em.getTransaction().commit(); // add all persist to database
+            System.out.println("Book completed");
+        }else{
+            System.out.println("Money not enought to pay Please transfer money to account");
+        }
+        closeConnection();
+    }
+    
+    public void cancleBooking(int id){
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        Booking b = em.find(Booking.class, id); // find object
+        User u = em.find(User.class, b.getUser().getId()); // Get User
+        
+        if(b.getPromotion() != null){
+            Promotion p = em.find(Promotion.class, b.getPromotion().getPromotionID());
+        }
+        
+        if(!b.isCancel()){
+            // u.removePromotion(p); // Remove Promotion from user
+            b.setIsCancel(true); // Set cancel to true
+            b.updateDatetime();
+            // Change money in user and booking
+            double userReturn  = b.cancelBooking(); // after cancel will set total only 10% and return user money
+            u.returnMoney(userReturn); // return to user account
+
+            // set ที่นั่งว่างเหมือนเดิม
+            List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(false);
+            }
+        }else{
+            System.out.println("Can't cancel again");
+        }
+        
+            
+        em.getTransaction().commit(); // add all persist to database
+        closeConnection();
+    }
+    
+    public void addStaffBooking(Booking booking){
+        openConnection();
+	em.getTransaction().begin(); // start connection
+        em.persist(booking); // add user to persist
+        // add showtime into theatre list
+        em.flush();
+        Booking b = em.find(Booking.class, booking.getId()); // Get Last Add Booking
+        
+        List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(true);
+            }
+            System.out.println("Set Seat alredy booked okay");
+            em.getTransaction().commit(); // add all persist to database
+            System.out.println("Book completed");
+        closeConnection();
+    }
+    public void cancleStaffBooking(int id){
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        Booking b = em.find(Booking.class, id); // find object
+        if(!b.isCancel()){
+            // u.removePromotion(p); // Remove Promotion from user
+            b.setIsCancel(true); // Set cancel to true
+            b.updateDatetime();
+            // Change money in user and booking
+            double userReturn  = b.cancelBooking(); // after cancel will set total only 10% and return user money
+
+            // set ที่นั่งว่างเหมือนเดิม
+            List<Seat> seatList = b.getBookedSeatList();
+            for (Seat seat : seatList) {
+                Seat seatSet = em.find(Seat.class, seat.getId());
+                seatSet.setSeatStatus(false);
+            }
+        }else{
+            System.out.println("Can't cancel again");
+        }
+        em.getTransaction().commit(); // add all persist to database
+        closeConnection();
+    }
+    
+    // Get all
+    private List<Booking> bookingList = new ArrayList<Booking>();
+    public void updateBookingList() {
+        openConnection();
+        em.getTransaction().begin(); // start connection
+        Query query = em.createQuery("SELECT b FROM Booking b");
+        List<Booking> booking = query.getResultList(); // get movie
+        this.bookingList = booking;
+        closeConnection();
+    }
+    public List<Booking> getBookingList() {
+        this.updateBookingList();
+        return bookingList;
+    }
+    public List<Booking> getMyBookingList(int userId) {
+        this.updateBookingList();
+        List<Booking> userBookingList = new ArrayList<Booking>();
+        for (Booking b : this.bookingList) {
+            if(b.getUser().getId() == userId){
+                userBookingList.add(b);
+            }
+        }
+        return userBookingList;
+    }
+    public double getSumTotal(){
+        double total = 0;
+        this.updateBookingList();
+        for (Booking booking : bookingList) {
+            total += booking.getTotalCost();
+        }
+        return total;
+    }
+    
+
+    List<Seat> seatList = new ArrayList<Seat>();
+    List<String> selectSeatName = new ArrayList<String>();
+    public void setSeatList(List<String> selectSeat){
+        selectSeatName.clear();
+        selectSeatName = selectSeat;
+    } // ใส่ iv เข้ามาเป็น string
+    public List<Seat> getSeatList(){
+        seatList.clear(); // clear before get new seat
+        for (String seatString : selectSeatName) {
+            seatList.add(getShowtimeSeat(selectShowtime,seatString));
+        }
+        return seatList;
+    } // get ออกไปเป็น seat
 }

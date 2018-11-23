@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -33,8 +31,6 @@ public class User implements Serializable{
     @OneToMany(fetch= FetchType.EAGER)
     private List<Promotion> promotionList = new ArrayList<Promotion>();
     
-    public User(){}
-    
     public User(String username, String password, String firstname, String lastname, String email, String type, Double money) {
         this.username = username;
         this.password = password;
@@ -48,8 +44,11 @@ public class User implements Serializable{
     public void setEncryptPassword(){
         this.password = encryptPassword(this.password);
     }
-            
     
+    public static String getEncryptPassword(String pass){
+        return encryptPassword(pass);
+    }
+      
     public static String encryptPassword(String password){
         String generatedPassword = null;
         try {

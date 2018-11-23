@@ -10,10 +10,12 @@ import cinema.CinemaController;
 import cinema.Movie;
 import cinema.NormalSeat;
 import cinema.Promotion;
+import cinema.PromotionController;
 import cinema.Seat;
 import cinema.Showtime;
 import cinema.Theatre;
 import cinema.User;
+import cinema.UserController;
 import cinema.ui.AlertMaker;
 import java.io.IOException;
 import java.net.URL;
@@ -36,6 +38,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
@@ -63,7 +66,7 @@ public class summaryController implements Initializable {
     @FXML
     private Text cost;
     @FXML
-    private ComboBox<String> selectPromotion;
+    private ComboBox<Promotion> selectPromotion;
     @FXML
     private Text sumcost;
     @FXML
@@ -72,8 +75,7 @@ public class summaryController implements Initializable {
     private Text discount;
     @FXML
     private Text details;
-    CinemaController cc;
-    User loginUser;
+    
     @FXML
     private Text username;
     @FXML
@@ -84,163 +86,190 @@ public class summaryController implements Initializable {
     User user;
     Booking booking;
     Movie movie;
-    Showtime st;
+    
+    CinemaController cc;
+    UserController uc;
+    PromotionController pc;
+    User loginUser;
+    Promotion userSelectPromotion = null;
+    
+    @FXML
+    private Button btnCancelPromotion;
     
     public summaryController() {
+        this.uc = uc.getInstance();
+        this.pc = pc.getInstance();
         this.cc = cc.getInstance();
     }
-
-
-    /**
-     * Initializes the controller class.
-     */
+    
+    Double totalPrice;
+    Showtime st;
+    List<Seat> seatList;
+            
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        user = new User("yay", "123456", "Yay", "Yaaaaaa", "aa@sss.sss", "customer", 50.0);
-        movie = new Movie(
-                "Fantastic Beasts 2",
-                "สัตว์มหัศจรรย์ อาชญากรรมของกรินเดลวัลด์",
-                "เดวิด เยตส์",
-                "เอ็ดดี้ เรย์แมน, เออซ่า มิลเลอร์, จอห์นนี่ เด็บบ์, จู๊ด ลอว์",
-                "เจ.เค. โรว์ลิ่ง ได้เขียนบทภาพยนตร์เรื่องนี้ ซึ่งเป็นเรื่องราวที่เกิดขึ้นในปี 1927 เพียงไม่กี่เดือนหลังจากที่นิวท์ ได้ช่วยเหลืือจนสามารถเปิดเผยและจับกุมตัวพ่อมดศาสตร์มืด กรินเล็ตต์ กรินเดวัลล์ได้ แต่อย่างที่เขาได้สัญญาเอาไว้, กรินเดลวัลด์สามารถหลบหนีการคุมขังออกมาได้ เขาเดินทางเพื่อรวบรวมผู้ติดตามของเขา เพื่อยกระดับพ่อมดแม่มดให้เหนือกว่าเหล่าโนเมจทั้งมวล มีพ่อมดเพียงคนเดียวที่อาจจะหยุดยั้งเขาได้ นั่นคือเพื่อนรักของเขา อัลบัส ดัมเบิลดอร์ แต่ดัมเบิลดอร์ต้องการร่วมมือพ่อมดที่เคยปะทะกับกรินเดลวัลด์มาก่อน เขาคนนั้นคือ นิวต์ สคาแมนเดอร์ ทำให้การผจญภัยร่วมกันของนิวต์ ทีน่า ควินนี และโจอี้ได้เริ่มต้นขึ้นอีกครั้ง แต่ภารกิจในครั้งนี้จะทดสอบความจงรักภักดีของพวกเขา ขณะเดียวกันก็ต้องเผชิญหน้ากับภัยพิบัติครั้งใหม่ในโลกของพ่อมดและแม่มด ที่อันตรายและพร้อมจะแบ่งแยกทุกฝ่ายออกจากกัน",
-                "ผจญภัย / แฟนตาซี",
-                "20/10/61",
-                "120",
-                "poster.jpg",
-                "http://weshare.lnw.mn/video.mp4"
-        );
-        st = new Showtime(movie, new Theatre(1,"2D/3D"), "3D", "en","18 November 2018", "10:00", 0);
-        Seat a = new NormalSeat("A5", st, 0);
-        Seat b = new NormalSeat("A5", st, 0);
-        List<Seat> bookedSeat = new ArrayList<Seat>();
-//        seatB s1 = SeatFactory.
-        bookedSeat.add(a);
-        bookedSeat.add(b);
-//        System.out.print(user);
-int amount = 2;
-        Promotion[] promotion = new Promotion[amount];
-        promotion[0] = new Promotion("2018-12-11",
-                "1. ระยะเวลาในการประชาสัมพันธ์ลูกค้าเข้าร่วมแคมเปญจำนวนทั้งหมด 11 วัน เริ่มวันที่ 11 - 21พ.ย 612. Code สามารถใช้ได้ตั้งแต่วันที่ 11 พ.ย 561 เวลา 08.00 น. Expire 21 พ.ย 2561 เวลา 22.00 น.  3. ใช้ได้ใน Mobile App เท่านั้น4. ส่วนลด 80 Baht /1 ที่นั่ง",
-                "11.11",
-                80.0);
-        promotion[1] = new Promotion("2018-12-11",
-                "1. ระยะเวลาในการประชาสัมพันธ์ลูกค้าเข้าร่วมแคมเปญจำนวนทั้งหมด 11 วัน",
-                "ลด3000000000000000000000000000000000000000000000000000000000000000000",
-                30.0);
+        if(uc.getIsLogin()){
+            loginUser = uc.getUser(uc.getLoginUser().getId()); // update data
+            //System.out.println(loginUser.getUsername());
+        }else{
+            System.err.println("Please login");
+        }
         
-        booking = new Booking(st, bookedSeat, user, promotion[0], 0);
+        st = cc.getShowtime(cc.getSelectShowtime()); // get showtime
+        seatList = cc.getSeatList(); // get list of user select seat from layout
+        totalPrice = seatList.size() * seatList.get(0).getSeatPrice();
 //******************************Details movie*********************
         nameEng.setText(st.getMovieEng());
         theatre.setText(st.getTheatreNo() + " (" + st.getSystem() + ") " + st.getSoundtrack().toUpperCase() + "/" + st.getSubtitle().toUpperCase());
 //****************************** get today ***************************
-        ZoneId zonedId = ZoneId.of("Asia/Singapore");
-        LocalDate today = LocalDate.now(zonedId);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd - LLLL - yyyy");
-        String formattedString = today.format(formatter);
-        date.setText(formattedString);
-
-   //     showtime.setText(st.getShowtime());
-
-        typeSeat.setText(booking.getBookedSeatList().get(0).getSeatType());
-        amountSeat.setText(Double.toString(booking.getBookedSeatList().size()));
-        costPerSeat.setText(Double.toString(booking.getBookedSeatList().get(0).getSeatPrice()));
-        cost.setText(Double.toString(booking.getTotalSeatPrice()));
-        discount.setText(Double.toString(booking.getPromotion().getDiscount()));
-        sumcost.setText(Double.toString(booking.getTotalCost()));
-
-//******************************Details user*********************
-        username.setText(user.getUsername());
-        moneyUser.setText(Double.toString(user.getMoney()));
-//******************************* test Promotion *********************
+        date.setText(st.getDate());
+        showtime.setText(st.getShowtime());
+        typeSeat.setText(seatList.get(0).getSeatType());
+        amountSeat.setText(String.valueOf(seatList.size()));
+        costPerSeat.setText(String.valueOf(seatList.get(0).getSeatPrice()));
+        cost.setText(Double.toString(totalPrice));
+      
+        loadPromotionSelect();
         
-        ObservableList<String> promotionList = FXCollections.observableArrayList();
-        for (int i = 0; i < promotion.length; i++) {
-            if (promotion[i].getName().length() > 30) {
-                promotionList.add(promotion[i].getName().substring(0, 30) + "...");
-            } else {
-                promotionList.add(promotion[i].getName());
-            }
-        }
-
-        selectPromotion.setItems(promotionList);
-        selectPromotion.setStyle("-fx-text-fill: #ffffff;");
-        selectPromotion.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println(newValue);
-                int i = 0;
-                while (i < promotion.length) {
-                    if (promotion[i].getName().length() > 30) {
-                        if ((promotion[i].getName().substring(0, 30) + "...").equals(newValue)) {
-                            details.setText(promotion[i].getDescription());
-                            booking.setPromotion(promotion[i]);
-                            discount.setText(Double.toString(booking.getPromotion().getDiscount()));
-                            sumcost.setText(Double.toString(booking.getPromotion().getDiscount()));
-                        }
-                    } else {
-                        if (promotion[i].getName().equals(newValue)) {
-                            details.setText(promotion[i].getDescription());
-                            booking.setPromotion(promotion[i]);
-                            discount.setText(Double.toString(booking.getPromotion().getDiscount()));
-                            sumcost.setText(Double.toString(booking.getPromotion().getDiscount()));
-                        }
-                    }
-                    i++;
+        discount.setText(Double.toString(0));
+        details.setText(null);
+        sumcost.setText(Double.toString(totalPrice));
+        btnCancelPromotion.setVisible(false);
+        userSelectPromotion = null;
+//
+//******************************Details user*********************
+        username.setText(loginUser.getFirstname());
+        moneyUser.setText(Double.toString(uc.getUser(loginUser.getId()).getMoney()));
+////******************************* test Promotion *********************
+        
+    }
+    
+    public void loadPromotionSelect(){
+        ObservableList<Promotion> promotionList = FXCollections.observableArrayList();
+        promotionList.clear();
+        List<Promotion> allPromotion = pc.getActivePromotionList();
+        List<Promotion> usedPromotion = uc.getUser(loginUser.getId()).getPromotionList(); // update get user promotion from id
+        
+        // Get never used promotion
+        if(usedPromotion.size() > 0){
+            allPromotion = pc.getUnusePromotion(loginUser.getId());
+            if(allPromotion.size() > 0){
+                selectPromotion.setDisable(false);
+                System.err.println(allPromotion.size());
+                for (Promotion promotion : allPromotion) {
+                    promotionList.add(promotion);
                 }
+                selectPromotion.setItems(promotionList);
+            }else{
+                selectPromotion.setDisable(true);
             }
-
-        });
+        }else{
+            if(allPromotion.size() > 0){
+                selectPromotion.setDisable(false);
+                for (Promotion aP : allPromotion) {
+                     promotionList.add(aP);
+                      System.err.println("USER NO PROMOTION");
+                }
+                selectPromotion.setItems(promotionList);
+            }else{
+                selectPromotion.setDisable(true);
+            }
+            
+        }
+        
+        
+        selectPromotion.setStyle("-fx-text-fill: #ffffff;");
+        //selectPromotion.setValue("Don't use promotion");
+        
     }
 
+    public void topupUserMoney(Double money){
+        uc.topupUserMoney(loginUser.getId(), money);
+        moneyUser.setText(Double.toString(uc.getUserMoney(loginUser.getId())));
+    }
     @FXML
     private void plusMoney100(ActionEvent event) {
-        user.topupMoney(100);
-        moneyUser.setText(Double.toString(user.getMoney()));
+        topupUserMoney(100.0);
     }
-
     @FXML
     private void plusMoney150(ActionEvent event) {
-        user.topupMoney(150);
-        moneyUser.setText(Double.toString(user.getMoney()));
+        topupUserMoney(150.0);
     }
-
     @FXML
     private void plusMoney200(ActionEvent event) {
-        user.topupMoney(200);
-        moneyUser.setText(Double.toString(user.getMoney()));
+        topupUserMoney(200.0);
     }
-
     @FXML
     private void plusMoney300(ActionEvent event) {
-        user.topupMoney(300);
-        moneyUser.setText(Double.toString(user.getMoney()));
+        topupUserMoney(300.0);
     }
-
     @FXML
     private void plusMoney500(ActionEvent event) {
-        user.topupMoney(500);
-        moneyUser.setText(Double.toString(user.getMoney()));
+        topupUserMoney(500.0);
     }
-
     @FXML
     private void plusMoney1000(ActionEvent event) {
-        user.topupMoney(1000);
-        moneyUser.setText(Double.toString(user.getMoney()));
+        topupUserMoney(1000.0);
     }
-
+    
     @FXML
-    private void payment(ActionEvent event) {
+    private void payment(ActionEvent event) throws IOException {
         //booking.payment();
-        System.out.print(booking);
-
-        moneyUser.setText(Double.toString(user.getMoney()));
+        System.err.print("Start Booking...");
+        double total = Double.valueOf(sumcost.getText());
+        if(uc.getUser(loginUser.getId()).getMoney() >= total){
+            Booking b = new Booking(st, seatList, uc.getUser(loginUser.getId()), userSelectPromotion, total);
+            System.out.println(b);
+            cc.addBooking(b);
+            AlertMaker.showSimpleAlert("ซื้อที่นั่งสำเร็จ", "เหลือเงิน : " + uc.getUser(loginUser.getId()).getMoney());
+            Parent parent;
+            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showmovie/showmovie.fxml"));
+            Scene parentScene = new Scene(parent);
+            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+            window.setScene(parentScene);
+            window.show();
+        }else{
+            AlertMaker.showErrorMessage("จำนวนเงินไม่เพียงพอ","กรุณาเติมเงินเข้าสู่ระบบ");
+        }
     }
 
     @FXML
     private void back(ActionEvent event) throws IOException {
-//        myController.loadScreen(ScreensFramework.userNowShowingScreenID, ScreensFramework.userNowShowingScreenFile);
-//        myController.setScreen(ScreensFramework.userNowShowingScreenID);
+        Parent parent;
+        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/layoutMedium/layoutMedium.fxml"));
+        Scene parentScene = new Scene(parent);
+        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+        window.setScene(parentScene);
+        window.show();
+    }
+
+    @FXML
+    private void handlePromotion(ActionEvent event) {
+       // loadPromotionSelect();
+        System.out.println("Hello Promotion");
+            if(selectPromotion.getValue() != null){
+            Promotion p = selectPromotion.getValue();
+            discount.setText(Double.toString(p.getDiscount()));
+            details.setText(p.getDescription());
+            Double lastTotal = totalPrice - p.getDiscount();
+            if(lastTotal >= 0){
+                sumcost.setText(Double.toString(totalPrice - p.getDiscount()));
+            }else{
+                sumcost.setText("0.0");
+            }
+            btnCancelPromotion.setVisible(true);
+            userSelectPromotion = p;
+        }
+    }
+
+    @FXML
+    private void handleCancelPromotion(ActionEvent event) {
+        discount.setText(Double.toString(0));
+        details.setText(null);
+        sumcost.setText(Double.toString(totalPrice));
+        selectPromotion.setValue(null);
+        btnCancelPromotion.setVisible(false);
+        userSelectPromotion = null;
     }
 
 

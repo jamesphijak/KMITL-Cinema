@@ -8,6 +8,8 @@ package cinema.ui.showmovie;
 import cinema.CinemaController;
 import cinema.Movie;
 import cinema.UserController;
+import cinema.ui.AlertMaker;
+import cinema.ui.showDetailsMovie.MovieDetailController;
 import com.jfoenix.controls.JFXTabPane;
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,6 +72,8 @@ public class showmovieController implements Initializable {
     private Label labelAuthen;
     @FXML
     private JFXTabPane tabPane;
+    @FXML
+    private Label labelMyBooking;
 
     public showmovieController() {
         this.cc = cc.getInstance();
@@ -81,8 +85,10 @@ public class showmovieController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         if(uc.getIsLogin()){
             labelAuthen.setText(uc.getLoginUser().getEmail() + " -> Logout");
+            labelMyBooking.setVisible(true);
         }else{
             labelAuthen.setText("Login");
+            labelMyBooking.setVisible(false);
         }
         
         SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
@@ -99,8 +105,6 @@ public class showmovieController implements Initializable {
         LocalDate today = LocalDate.now();
         List<Movie> nowShowingList = new ArrayList<>();
         List<Movie> comingSoonList = new ArrayList<>();
-        List<String> dateAbbrevMonth = new ArrayList<>();
-        String stringReleaseDate;
         LocalDate releaseDate;
         long tempDayShowing; // ฉายมาแล้วกี่วัน (Return เป็น long)
         int dayShowing;// เปลี่ยน tempDayShowing เป็น int และไปบวกกับ showingDay
@@ -163,17 +167,38 @@ public class showmovieController implements Initializable {
                     //checkID(btN[finalI]);
                     cc.setSelectMovie(nowShowingList.get(finalI).getId());
                     cc.setIsComingSoon(false);
+//                    System.out.println(cc.getSelectMovie().getId());
                     Parent parent;
-                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+//                    parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
                     if(uc.getIsLogin()){
                         if(uc.getLoginUser().getType().equals("Staff")){
-                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
+
+//                            MovieDetailController.mediaPlayer.stop();
+                        }
+                        else {
+                            parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                            Scene parentScene = new Scene(parent);
+                            Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                            window.setScene(parentScene);
+                            window.show();
                         }
                     }
-                    Scene parentScene = new Scene(parent);
-                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-                    window.setScene(parentScene);
-                    window.show();
+                    else {
+                        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
+                        Scene parentScene = new Scene(parent);
+                        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                        window.setScene(parentScene);
+                        window.show();
+                    }
+//                    Scene parentScene = new Scene(parent);
+//                    Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+//                    window.setScene(parentScene);
+//                    window.show();
                 } catch (IOException ex) {
                     System.out.println(ex);
                 }
@@ -247,15 +272,15 @@ public class showmovieController implements Initializable {
             btC[i].setOnAction(event -> {
                try {
                     //checkID(btN[finalI]);
-                    cc.setSelectMovie(nowShowingList.get(finalI).getId());
+                    cc.setSelectMovie(comingSoonList.get(finalI).getId());
                     cc.setIsComingSoon(true);
                     Parent parent;
                     parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showDetailsMovie/showMovieDetail.fxml"));
-                    if(uc.getIsLogin()){
-                        if(uc.getLoginUser().getType().equals("Staff")){
-                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
-                        }
-                    }
+//                    if(uc.getIsLogin()){
+//                        if(uc.getLoginUser().getType().equals("Staff")){
+//                             parent = FXMLLoader.load(getClass().getResource("/cinema/ui/showtime/showtime.fxml"));
+//                        }
+//                    }
                     Scene parentScene = new Scene(parent);
                     Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
                     window.setScene(parentScene);
@@ -303,6 +328,7 @@ public class showmovieController implements Initializable {
             if(uc.getIsLogin()){
                 uc.setIsLogin(false);
                 uc.unsetLoginUser();
+                cc.setIsComingSoon(false);
             }
             
                 Parent parent;
@@ -313,5 +339,20 @@ public class showmovieController implements Initializable {
                 window.show();
             }
             System.out.println("CLICK");
+    }
+
+    @FXML
+    private void handleBooking(MouseEvent event) throws IOException {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 1) {
+            if(uc.getIsLogin()){
+                Parent parent;
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/myBooking/MyBooking.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            
+        }
     }
 }

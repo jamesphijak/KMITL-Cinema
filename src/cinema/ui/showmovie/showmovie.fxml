@@ -36,29 +36,38 @@
                               <HBox prefHeight="100.0" prefWidth="200.0" />
                            </children>
                         </VBox>
-                        <VBox alignment="BOTTOM_RIGHT" prefHeight="123.0" prefWidth="1000.0">
+                        <VBox alignment="BOTTOM_RIGHT" prefHeight="117.0" prefWidth="635.0">
                            <children>
                               <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="640.0">
                                  <children>
-                                    <Label fx:id="labelAuthen" alignment="CENTER_RIGHT" onMousePressed="#handleAuthen" prefHeight="28.0" prefWidth="567.0" text="Logout" textFill="WHITE">
+                                    <Label fx:id="labelAuthen" alignment="CENTER_RIGHT" onMousePressed="#handleAuthen" prefHeight="28.0" prefWidth="378.0" text="Logout" textFill="WHITE">
                                        <font>
                                           <Font name="Sukhumvit Set Medium" size="20.0" />
                                        </font>
                                     </Label>
                                  </children>
                                  <VBox.margin>
-                                    <Insets right="50.0" />
+                                    <Insets top="10.0" />
                                  </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="26.0" prefHeight="60.0" prefWidth="640.0">
+                                 <children>
+                                    <Label fx:id="labelMyBooking" alignment="CENTER_RIGHT" onMousePressed="#handleBooking" prefHeight="28.0" prefWidth="549.0" text="รายการ Booking ของฉัน" textFill="WHITE">
+                                       <font>
+                                          <Font name="Sukhumvit Set Medium" size="20.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
                               </HBox>
                               <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="รายการภาพยนตร์">
                                  <font>
                                     <Font name="Sukhumvit Set Text" size="32.0" />
                                  </font>
-                                 <VBox.margin>
-                                    <Insets right="50.0" />
-                                 </VBox.margin>
                               </Text>
                            </children>
+                           <HBox.margin>
+                              <Insets right="50.0" />
+                           </HBox.margin>
                         </VBox>
                      </children>
                   </HBox>

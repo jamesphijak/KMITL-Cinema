@@ -1,21 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package cinema.ui.layoutMedium;
 
 import cinema.CinemaController;
 import cinema.Seat;
 import cinema.Showtime;
+import cinema.UserController;
 import cinema.ui.AlertMaker;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -24,9 +20,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -260,19 +258,35 @@ public class Controller implements Initializable {
     List<String> ivListDisable = new ArrayList<>(); // ใช้เก็บ List ที่นั่งที่จองไปแล้วในรอบฉายนั้น
     
     CinemaController cc;
+    UserController uc;
     @FXML
     private Text txtShowtime;
     @FXML
     private Text labelPreSummary;
     @FXML
     private Text txtMovie;
+    @FXML
+    private Button btnNext;
     
     public Controller() {
         this.cc = cc.getInstance();
+        this.uc = uc.getInstance();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        if(uc.getIsLogin()){
+            if(ivList.size() > 0){
+                btnNext.setDisable(false);
+            }else{
+                btnNext.setDisable(true);
+            }
+        }else{
+            btnNext.setDisable(true);
+        }
+        
+        
+        
         labelPreSummary.setText(null);
         isFound = false;
         count = 0;
@@ -282,6 +296,7 @@ public class Controller implements Initializable {
         Showtime st = cc.getShowtime(cc.getSelectShowtime());
         txtShowtime.setText("ผังที่นั่ง รอบฉาย : " + st.getShowtime());
         txtMovie.setText(st.getShowtimeDetail());
+        
         List<Seat> seatAlreadyBooked = st.getSeatList();
         for (Seat seat : seatAlreadyBooked) {
             if(seat.getSeatStatus()){ // if seat status is true => already book => disable it
@@ -416,7 +431,7 @@ public class Controller implements Initializable {
         for (ImageView iv : ivListAll) {
             for (String id : ivListDisable) {
                 if(id.equals(iv.getId())){
-                    System.out.println("Found" + iv.getId());
+                    //System.out.println("Found" + iv.getId());
                     iv.setDisable(true);
                     if(iv.getId().substring(0,1).equals("A")){
                         // disable image for a
@@ -440,13 +455,46 @@ public class Controller implements Initializable {
     private void nextPage(ActionEvent event) throws IOException {
         System.err.println("Booking Operation");
         // Set value for booking
+        cc.setSeatList(ivList);
         
         Parent parent;
-        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
-        Scene parentScene = new Scene(parent);
-        Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
-        window.setScene(parentScene);
-        window.show();
+//        parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+        if(uc.getIsLogin()){
+            if(uc.getLoginUser().getType().equals("Staff")){
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summaryStaff/summaryStaff.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            else {
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/summary/summary.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+        }
+        else {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Login Required");
+            alert.setContentText("Please login before booking.");
+            Optional<ButtonType> answer = alert.showAndWait();
+
+            if(answer.get() == ButtonType.OK){
+                cc.setIsSelectedSeat(true);
+                parent = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
+                Scene parentScene = new Scene(parent);
+                Stage window = (Stage)((Node)event.getSource()).getScene().getWindow();
+                window.setScene(parentScene);
+                window.show();
+            }
+            else {
+                return;
+            }
+            
+        }
+        
     }
 
     @FXML
@@ -498,12 +546,8 @@ public class Controller implements Initializable {
             }
         } else {
             if (count > 0) {
-//            System.out.print(minIV.substring(0, 1));
-//            System.out.print(iv.getId().substring(0, 1));
-//            System.out.print(new String(minIV.substring(0, 1)).equals(iv.getId().substring(0, 1)));
+
                 if (new String(minIV.substring(0, 1)).equals(iv.getId().substring(0, 1))) { //check same line
-//                System.out.println((Integer.parseInt(maxIV.substring(1)) + 1).equals(Integer.parseInt(iv.getId().substring(1))));
-//                System.out.println(Integer.parseInt(iv.getId().substring(1)) == Integer.parseInt(minIV.substring(1)) - 1);
                     if (Integer.parseInt(maxIV.substring(1)) + 1 == Integer.parseInt(iv.getId().substring(1)) || Integer.parseInt(iv.getId().substring(1)) == Integer.parseInt(minIV.substring(1)) - 1) { //check continuous
                         if (count == 1) {
                             if (Integer.parseInt(iv.getId().substring(1)) > Integer.parseInt(iv.getId().substring(1))) {
@@ -528,7 +572,7 @@ public class Controller implements Initializable {
                             minIV = temp;
                         }
 
-                        //                System.out.println("Not found"); // ไม่เจอข้อมูล
+                        // System.out.println("Not found"); // ไม่เจอข้อมูล
                         ivList.add(iv.getId()); // เพิ่ม id เข้าไป
                         if (new String(minIV.substring(0, 1)).equals("A")) {
                             fileInputStream = getClass().getResourceAsStream("/cinema/ui/images/pair2.png");
@@ -588,13 +632,22 @@ public class Controller implements Initializable {
             type = s.getSeatType();
             seatPrice = s.getSeatPrice();
             
-            for (String seatName : ivList) {
-                s = cc.getShowtimeSeat(cc.getSelectShowtime(),seatName);
-                sum += s.getSeatPrice();
-            }
+            sum = ivList.size() * seatPrice;
+//            for (String seatName : ivList) {
+//                s = cc.getShowtimeSeat(cc.getSelectShowtime(),seatName);
+//                sum += s.getSeatPrice();
+//            }
             labelPreSummary.setText("ที่นั่งประเภท : " + type + " Seat  จำนวน : " + ivList.size() + " ที่ x " + seatPrice + " = "  + sum + " บาท");
+            // Set seat to controller;
+            if(uc.getIsLogin()){
+                btnNext.setDisable(false);
+            }else{
+                btnNext.setDisable(false);
+            }
+            
         }else{
             labelPreSummary.setText(null);
+            btnNext.setDisable(true);
         }
 
     }

@@ -45,6 +45,17 @@ public class Booking implements Serializable{
     String bookingCreateDatetime;
     String bookingUpdateDatetime;
 
+    // No Promotion
+//    public Booking(Showtime showtime, List<Seat> seat, User user,double totalCost) {
+//        this.showtime = showtime;
+//        this.bookedSeatList = seat;
+//        this.user = user;
+//        this.totalCost = totalCost;
+//        this.isCancel = false;
+//        this.bookingCreateDatetime = getCurrentDatetime();
+//        this.bookingUpdateDatetime = getCurrentDatetime();
+//    }
+    
     public Booking(Showtime showtime, List<Seat> seat, User user, Promotion promotion,double totalCost) {
         this.showtime = showtime;
         this.bookedSeatList = seat;
@@ -87,11 +98,24 @@ public class Booking implements Serializable{
     public String getBookedSeatString(){
         String seatList = "";
         for (Seat seat : bookedSeatList) {
-            seatList = seatList + "(" + seat.getId() + ") " + seat.getSeatName() + " : " + seat.getSeatStatus() + "\n";
+            seatList = seatList + "(" + seat.getId() + ") " + seat.getSeatName() + " : " + seat.getSeatStatus() +" " + seat.getSeatPrice()+ "\n";
         }
         return seatList;
     }
 
+    public boolean getIsCancel() {
+        return isCancel;
+    }
+    
+    public String getStatus() {
+        if(!isCancel) {
+            return "Active";
+        }
+        else {
+            return "Cancelled";
+        }
+    }
+    
     public boolean isCancel() {
         return isCancel;
     }
