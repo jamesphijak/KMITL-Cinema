@@ -1993,6 +1993,7 @@ System.out.println("Logout");
                     // update edit select to new information
                     selectedMovieEdit = tbMovie.getItems().get(editMovieId);
                     AlertMaker.showSimpleAlert("Saved!", "Save information completed");
+                    cancleMovieEdit();
                 } 
             } else {
                 AlertMaker.showSimpleAlert("No change!", "No changed for this movie information");
@@ -2130,6 +2131,7 @@ System.out.println("Logout");
                 System.out.println("Edit mode start...");
                 Promotion editPromotion = new Promotion(promotionName, description,date , value_discount);
                 pc.editPromotion(selectedPromotionEdit.getPromotionID(), editPromotion);
+                cancelPromotionEdit();
             }
         }
         loadPromotionData();
@@ -2302,6 +2304,7 @@ System.out.println("Logout");
             }
             else {
                 cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
+                cancelTheatreEdit();
             }
         }
         loadTheatreData();
@@ -2516,6 +2519,7 @@ System.out.println("Logout");
                     clearShowtimeMessage(); // clear label
                     clearShowtimeForm(); // clear text form
                     loadShowtimeData(); // load new list after add
+                    cancleShowtimeEdit();
                   //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
                   //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
                 }

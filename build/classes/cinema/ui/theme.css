@@ -26,6 +26,14 @@
     -fx-text-fill:-fx-primaryText;
 }
 
+.hover-hand{
+    -fx-cursor: hand;
+}
+
+.hover-hand:hover{
+    -fx-text-fill:#FFFF66;
+}
+
 .labelText{
     -fx-text-fill:-fx-primaryText;
     -fx-font-size: 21;

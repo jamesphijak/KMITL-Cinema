@@ -91,6 +91,7 @@ public class ShowtimeController implements Initializable{
         List<Showtime> showtimeHaveSelectedMovie = new ArrayList<>();
         List<Theatre> tList = cc.getTheatreList();
         boolean checkShowtimeExist = false;
+        // เช็คว่า showtime มีหนังนั้นไหม ถ้ามีเพิ่มเข้า List
         for (Theatre t : theatreList) {
             List <Showtime> stList = t.getShowtimeList();
             for (Showtime s : stList) {                
@@ -102,6 +103,8 @@ public class ShowtimeController implements Initializable{
                 }
             }
         }
+        
+        nameEng.setText(cc.getSelectMovie().getEnglishName());
         
         if(!checkShowtimeExist) {
             textNotHaveShowtime.setText("ไม่มีรอบฉายในวันที่ที่ท่านเลือก");
@@ -118,7 +121,6 @@ public class ShowtimeController implements Initializable{
                 showtime[i] = showtimeHaveSelectedMovie.get(i);
             }
 
-            nameEng.setText(showtime[0].getMovie().getEnglishName());
             int i = 0, tempTheatre = showtime[0].getTheatre().getTheatreNumber(), countT = 0;
             Button[] bt = new Button[amount];
             VBox vbox_theatre;
