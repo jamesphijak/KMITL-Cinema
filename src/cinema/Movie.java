@@ -88,6 +88,15 @@ public class Movie implements Serializable{
     public String getTime() {
         return time;
     }
+    
+    public String getTimeMinute() {
+        String[] timeMinute = new String[2];
+        timeMinute[0] = time.substring(0, 2);
+        timeMinute[1] = time.substring(3);
+        int times = (Integer.parseInt(timeMinute[0]) * 60) + Integer.parseInt(timeMinute[1]);
+        String returnTime = times + "";
+        return returnTime;
+    }
     public void setTime(String time) {
         this.time = time;
     }

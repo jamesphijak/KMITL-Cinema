@@ -1901,25 +1901,39 @@ System.out.println("Logout");
         
         boolean isMovieOK = checkMovieForm(englishName, thaiName, director, cast, synopsis, genre, hour, minute, releaseDate, poster, trailer);
         if(isMovieOK){
-            System.out.println("Add movie"); 
-            Movie movie = new Movie(
-                    txtEnglishName.getText(),
-                    txtThaiName.getText(),
-                    txtDirector.getText(),
-                    txtCast.getText(),
-                    txtSynopsis.getText(),
-                    cbGenre.getValue(),
-                    cbTimeHour.getValue() + ":" +cbTimeMinute.getValue(),
-                    convertDate(datePickerReleaseDate),
-                    selectedPoster.getName(),
-                    //selectedPoster.toURI().toString(),
-                    txtTrailer.getText());
-            
-            cc.addMovie(movie);
-            clearMovieMessage(); // clear label
-            clearMovieForm(); // clear text form
-            loadMovieData(); // load new list after add
-            AlertMaker.showSimpleAlert("Add Complete", movie.toString());
+            List<Movie> checkMovieList = cc.getMovieList();
+            boolean checkAlreadyExists = false;
+            for (Movie movie : checkMovieList) {
+                if(txtEnglishName.getText().equals(movie.getEnglishName()) && !checkAlreadyExists) {
+                    checkAlreadyExists = true;
+                }
+            }
+            if(checkAlreadyExists){
+                AlertMaker.showErrorMessage("Add Movie Error", "This movie is already exists");
+                clearMovieMessage();
+                clearMovieForm();
+            }
+            else {
+                System.out.println("Add movie"); 
+                Movie movie = new Movie(
+                        txtEnglishName.getText(),
+                        txtThaiName.getText(),
+                        txtDirector.getText(),
+                        txtCast.getText(),
+                        txtSynopsis.getText(),
+                        cbGenre.getValue(),
+                        cbTimeHour.getValue() + ":" +cbTimeMinute.getValue(),
+                        convertDate(datePickerReleaseDate),
+                        selectedPoster.getName(),
+                        //selectedPoster.toURI().toString(),
+                        txtTrailer.getText());
+
+                cc.addMovie(movie);
+                clearMovieMessage(); // clear label
+                clearMovieForm(); // clear text form
+                loadMovieData(); // load new list after add
+                AlertMaker.showSimpleAlert("Add Complete", movie.toString());
+            }
         }
     }
     @FXML
@@ -1939,6 +1953,19 @@ System.out.println("Logout");
         boolean isMovieOK = checkMovieForm(englishName, thaiName, director, cast, synopsis, genre, hour, minute, releaseDate, poster, trailer);
         System.out.println("Edit movie mode " + String.valueOf(editMovieMode));
         
+        List<Movie> checkMovieList = cc.getMovieList();
+        boolean checkAlreadyExists = false;
+        for (Movie movie : checkMovieList) {
+            if(txtEnglishName.getText().equals(movie.getEnglishName()) && !checkAlreadyExists) {
+                if(selectedMovieEdit.getId() == movie.getId()) {
+                    continue;
+                }
+                else {
+                    checkAlreadyExists = true;
+                }
+            }
+        }
+        
         if(isMovieOK){
             System.out.println("Edit movie"); 
             Movie editMovie = new Movie(
@@ -1956,13 +1983,19 @@ System.out.println("Logout");
             
             boolean isSame = checkMovieSameValue(editMovie);
             if(!isSame){
-                System.out.println("Not same");
-                cc.editMovie(selectedMovieEdit.getId(), editMovie);
-                loadMovieData(); // load new list after add
-                // update edit select to new information
-                selectedMovieEdit = tbMovie.getItems().get(editMovieId);
-                AlertMaker.showSimpleAlert("Saved!", "Save information completed");
-            }else{
+                if(checkAlreadyExists) {
+                    AlertMaker.showErrorMessage("Save Movie Error", "This Movie is already exists (English name is same with others)");
+                }
+                else {
+                    System.out.println("Not same");
+                    cc.editMovie(selectedMovieEdit.getId(), editMovie);
+                    loadMovieData(); // load new list after add
+                    // update edit select to new information
+                    selectedMovieEdit = tbMovie.getItems().get(editMovieId);
+                    AlertMaker.showSimpleAlert("Saved!", "Save information completed");
+                    cancleMovieEdit();
+                } 
+            } else {
                 AlertMaker.showSimpleAlert("No change!", "No changed for this movie information");
             }
         }
@@ -2031,15 +2064,28 @@ System.out.println("Logout");
             isAddable = false;
         }
         
-        if(isAddable){  
-            Promotion newPromotion = new Promotion(promotionName, description,date , value_discount);
-            pc.addPromotion(newPromotion);
-            clearPromotionMessage(); // clear label
-            clearPromotionForm(); // clear text form
-            loadPromotionData(); // load new list after add
-            AlertMaker.showSimpleAlert("OK",newPromotion.toString());
+        List<Promotion> checkPromotionList = pc.getPromotionList();
+        boolean isPromotionExists = false;
+        for (Promotion promotion : checkPromotionList) {
+            if(txtPromotion.getText().equals(promotion.getName()) && !isPromotionExists) {
+                isPromotionExists = true;
+            }
         }
-        
+        if(isAddable){
+            if(isPromotionExists) {
+                AlertMaker.showErrorMessage("Add Promotion Error","This promotion is already exists");
+                clearPromotionMessage();
+                clearPromotionForm();
+            }
+            else {
+                Promotion newPromotion = new Promotion(promotionName, description,date , value_discount);
+                pc.addPromotion(newPromotion);
+                clearPromotionMessage(); // clear label
+                clearPromotionForm(); // clear text form
+                loadPromotionData(); // load new list after add
+                AlertMaker.showSimpleAlert("OK",newPromotion.toString());
+            }
+        }
     }
     @FXML
     private void handleCanclePromotionSearch(ActionEvent event) {
@@ -2059,15 +2105,34 @@ System.out.println("Logout");
         
         boolean isAddable = checkPromotionForm(promotionName,description,date,discount);
         
+        List<Promotion> checkPromotionList = pc.getPromotionList();
+        boolean isPromotionExists = false;
+        for (Promotion promotion : checkPromotionList) {
+            if(txtPromotion.getText().equals(promotion.getName()) && !isPromotionExists) {
+                if(selectedPromotionEdit.getPromotionID() == promotion.getPromotionID()) {
+                    continue;
+                }
+                else {
+                    isPromotionExists = true;
+                }
+            }
+        }
+        
         if (value_discount < 0) {
             msgDiscount.setText("Discount cannot be under 0 !");
             msgDiscount.setTextFill(Color.rgb(210, 39, 30));
             isAddable = false;
         }
         if(isAddable) {
-            System.out.println("Edit mode start...");
-            Promotion editPromotion = new Promotion(promotionName, description,date , value_discount);
-            pc.editPromotion(selectedPromotionEdit.getPromotionID(), editPromotion);
+            if(isPromotionExists) {
+                AlertMaker.showErrorMessage("Save Promotion Error", "This Promotion is already exists (Promotion name is same with others)");
+            }
+            else {
+                System.out.println("Edit mode start...");
+                Promotion editPromotion = new Promotion(promotionName, description,date , value_discount);
+                pc.editPromotion(selectedPromotionEdit.getPromotionID(), editPromotion);
+                cancelPromotionEdit();
+            }
         }
         loadPromotionData();
         clearPromotionMessage();
@@ -2188,12 +2253,36 @@ System.out.println("Logout");
         
         int theatre = Integer.parseInt(theatreNum);
         
+<<<<<<< HEAD
         if(isAddable){  
             Theatre newTheatre = new Theatre(theatre,cbTheatreType.getValue());
             cc.addTheatre(newTheatre);
             clearTheatreMessage(); // clear label
             clearTheatreForm(); // clear text form
             loadTheatreData(); // load new list after add
+=======
+        List<Theatre> checkTheatreExists = cc.getTheatreList();
+        boolean isTheatreExists = false;
+        for (Theatre checkTheatre : checkTheatreExists) {
+            if((Integer.parseInt(txtTheatre.getText()) == (checkTheatre.getTheatreNumber())) && !isTheatreExists) {
+                isTheatreExists = true;
+            }
+        }
+        
+        if(isAddable){
+            if(isTheatreExists) {
+                AlertMaker.showErrorMessage("Add Theatre Error", "This theatre number is already exists");
+                clearTheatreMessage();
+                clearTheatreForm();
+            }
+            else {
+                Theatre newTheatre = new Theatre(theatre,cbTheatreType.getValue());
+                cc.addTheatre(newTheatre);
+                clearTheatreMessage(); // clear label
+                clearTheatreForm(); // clear text form
+                loadTheatreData(); // load new list after add
+            }
+>>>>>>> PorPisith
         }
     }
     @FXML
@@ -2204,9 +2293,34 @@ System.out.println("Logout");
         int theatre = Integer.parseInt(theatreNum);
         Theatre editTheatre = new Theatre(theatre,cbTheatreType.getValue());
         
+<<<<<<< HEAD
         
         if(isAddable) {
             cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
+=======
+        List<Theatre> checkTheatreExists = cc.getTheatreList();
+        boolean isTheatreExists = false;
+        for (Theatre checkTheatre : checkTheatreExists) {
+            if((Integer.parseInt(txtTheatre.getText()) == (checkTheatre.getTheatreNumber())) && !isTheatreExists) {
+                if(selectedTheatreEdit.getId() == checkTheatre.getId()) {
+                    continue;
+                }
+                else {
+                    isTheatreExists = true;
+                }
+            }
+        }
+        
+        if(isAddable) {
+            if(isTheatreExists) {
+                AlertMaker.showErrorMessage("Add Theatre Error", "This theatre number is already exists");
+                clearTheatreMessage();
+            }
+            else {
+                cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
+                cancelTheatreEdit();
+            }
+>>>>>>> PorPisith
         }
         loadTheatreData();
         clearTheatreMessage();
@@ -2254,6 +2368,7 @@ System.out.println("Logout");
                 
 //                System.out.println(m.getEnglishName());
 //                System.out.println(t.getTheatreNumber());
+<<<<<<< HEAD
                 
                List<Showtime> listShowtime = cc.getShowtimeList();
                 
@@ -2278,6 +2393,32 @@ System.out.println("Logout");
                 boolean checkOverlap = false;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
                 
+=======
+                
+               List<Showtime> listShowtime = cc.getShowtimeList();
+                
+                String myTime = m.getTime(); // เรียกระยะเวลาหนังที่จะสร้างมา , ถูกต้อง
+                int newStartTimeHourInt = Integer.parseInt(cbTimeHourShow1.getValue()); // หนังที่จะสร้าง
+                int newStartTimeMinuteInt = Integer.parseInt(cbTimeMinuteShow1.getValue());
+                int myTimeHour = Integer.parseInt(myTime.substring(0, 2));
+                int myTimeMinute = Integer.parseInt(myTime.substring(3));
+                DecimalFormat twoDigit = new DecimalFormat("00");
+                
+                /* calculate end time */
+                int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
+                int newEndTimeMinuteInt = newStartTimeMinuteInt + myTimeMinute;
+                if(newEndTimeMinuteInt >= 60) {
+                    newEndTimeHourInt = newEndTimeHourInt + 1;
+                    newEndTimeMinuteInt = newEndTimeMinuteInt - 60;
+                }
+                int newStartTime = Integer.parseInt(twoDigit.format(newStartTimeHourInt) + "" + twoDigit.format(newStartTimeMinuteInt) + "");
+                int newEndTime = Integer.parseInt(twoDigit.format(newEndTimeHourInt) + "" + twoDigit.format(newEndTimeMinuteInt) + "");
+                 //&& showtime.getDate().equals(datePickerShowtime.getValue) 
+                
+                boolean checkOverlap = false;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+                
+>>>>>>> PorPisith
                 for (Showtime showtime : listShowtime) {
                     // โรงที่จะเพิ่ม ตรงกับเลขโรงไหมที่มีอยู่แล้วไหม
                    if(showtime.getTheatre().getId() == theatre_id && (datePickerShowtime.getValue().equals(LocalDate.parse(showtime.getDate(), formatter))) && (!checkOverlap)) {
@@ -2368,6 +2509,7 @@ System.out.println("Logout");
                 int myTimeHour = Integer.parseInt(myTime.substring(0, 2));
                 int myTimeMinute = Integer.parseInt(myTime.substring(3));
                 DecimalFormat twoDigit = new DecimalFormat("00");
+<<<<<<< HEAD
                 
                 /* calculate end time */
                 int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
@@ -2428,6 +2570,69 @@ System.out.println("Logout");
                     AlertMaker.showSimpleAlert("Save Showtime Error", "The time is overlap.");
                 }
                 
+=======
+                
+                /* calculate end time */
+                int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
+                int newEndTimeMinuteInt = newStartTimeMinuteInt + myTimeMinute;
+                if(newEndTimeMinuteInt >= 60) {
+                    newEndTimeHourInt = newEndTimeHourInt + 1;
+                    newEndTimeMinuteInt = newEndTimeMinuteInt - 60;
+                }
+                int newStartTime = Integer.parseInt(twoDigit.format(newStartTimeHourInt) + "" + twoDigit.format(newStartTimeMinuteInt) + "");
+                int newEndTime = Integer.parseInt(twoDigit.format(newEndTimeHourInt) + "" + twoDigit.format(newEndTimeMinuteInt) + "");
+                 //&& showtime.getDate().equals(datePickerShowtime.getValue) 
+                
+                boolean checkOverlap = false;
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+                
+                for (Showtime showtime : listShowtime) {
+                    // โรงที่จะเพิ่ม ตรงกับเลขโรงไหมที่มีอยู่แล้วไหม
+                   if(showtime.getTheatre().getId() == theatre_id && (datePickerShowtime.getValue().equals(LocalDate.parse(showtime.getDate(), formatter))) && (!checkOverlap)) {
+                       String startString = showtime.getShowtime().substring(0, 2) + showtime.getShowtime().substring(3, 5);
+                       String endString = showtime.getShowtime().substring(8, 10) + showtime.getShowtime().substring(11);
+                       int oldStartTime = Integer.parseInt(startString); // หนังที่มีอยู่แแล้ว
+                       int oldEndTime = Integer.parseInt(endString); // หนังที่มีอยู่แล้ว
+                       
+                       if(showtime.getId() == selectedShowtimeEdit.getId()) {
+                           continue;
+                       }
+                       else {
+                            // เวลาที่เริ่มที่จะเพิ่ม อยู่ในช่วง (เวลาที่มีอยู่) เวลาเริ่มและเวลาจบ
+                            if(newStartTime >= oldStartTime && newStartTime < oldEndTime) {
+                                // ชน
+                                checkOverlap = true;
+                            }
+                            // เวลาเริ่มอยู่นอกช่วงนั้น
+                            else {
+                                // เวลาเริ่มน้อยกว่า แต่เวลาจบอยู่ในช่วง
+                                if(newEndTime >= oldStartTime && newEndTime <= oldEndTime) {
+                                    // ชน
+                                    checkOverlap = true;
+                                }
+                            }
+                       }
+                   }
+                }
+                
+                if(!checkOverlap) {
+                    String showtimeDate = convertDate(datePickerShowtime);
+
+                    Showtime st = new Showtime(m,t,system,sound,showtimeDate,start,incSeat);
+                    cc.editShowtime(selectedShowtimeEdit.getId(),st);
+                    clearShowtimeMessage(); // clear label
+                    clearShowtimeForm(); // clear text form
+                    loadShowtimeData(); // load new list after add
+                    cancleShowtimeEdit();
+                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
+                }
+                else {
+                    // Overlap
+                    AlertMaker.showSimpleAlert("Save Showtime Error", "The time is overlap.");
+                }
+                
+>>>>>>> PorPisith
                
         }else{
             System.out.println("NOT OK");

@@ -91,6 +91,10 @@ public class ShowtimeController implements Initializable{
         List<Showtime> showtimeHaveSelectedMovie = new ArrayList<>();
         List<Theatre> tList = cc.getTheatreList();
         boolean checkShowtimeExist = false;
+<<<<<<< HEAD
+=======
+        // เช็คว่า showtime มีหนังนั้นไหม ถ้ามีเพิ่มเข้า List
+>>>>>>> PorPisith
         for (Theatre t : theatreList) {
             List <Showtime> stList = t.getShowtimeList();
             for (Showtime s : stList) {                
@@ -103,6 +107,11 @@ public class ShowtimeController implements Initializable{
             }
         }
         
+<<<<<<< HEAD
+=======
+        nameEng.setText(cc.getSelectMovie().getEnglishName());
+        
+>>>>>>> PorPisith
         if(!checkShowtimeExist) {
             textNotHaveShowtime.setText("ไม่มีรอบฉายในวันที่ที่ท่านเลือก");
             //hbox_showtimepertheatre.setVisible(false);
@@ -118,7 +127,10 @@ public class ShowtimeController implements Initializable{
                 showtime[i] = showtimeHaveSelectedMovie.get(i);
             }
 
+<<<<<<< HEAD
             nameEng.setText(showtime[0].getMovie().getEnglishName());
+=======
+>>>>>>> PorPisith
             int i = 0, tempTheatre = showtime[0].getTheatre().getTheatreNumber(), countT = 0;
             Button[] bt = new Button[amount];
             VBox vbox_theatre;

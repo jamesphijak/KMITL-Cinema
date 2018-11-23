@@ -97,7 +97,7 @@ public class MovieDetailController implements Initializable {
         //movieNameEng = new Text(movie.getEnglishName());
         movieNameTh.setText(movie.getThaiName());
         releaseDate.setText(movie.getReleaseDate());
-        time.setText(movie.getTime());
+        time.setText(movie.getTimeMinute());
         genre.setText(movie.getGenre());
         director.setText(movie.getDirector());
         actor.setText(movie.getCast());

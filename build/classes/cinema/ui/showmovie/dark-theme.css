@@ -40,6 +40,11 @@
     -fx-background-color: #BDBDBD;
     -fx-text-fill:#464240;
 }
+
+.hover-hand{
+    -fx-cursor: hand;
+}
+
 /* Login Screen */
 .form-button{
 /*    -fx-border-color: -fx-secondary;*/
