@@ -17,7 +17,7 @@ public class HoneymoonSeat extends Seat {
     
     public HoneymoonSeat(String name, Showtime showtime, double increasePrice) {
         this.seatName = name;
-        this.seatType = "Honeymmoon";
+        this.seatType = "Honeymoon";
         this.seatPrice = this.basePrice + 30 + increasePrice;
         this.showtime = showtime;
     }

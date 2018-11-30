@@ -3,14 +3,24 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/auth/RegisterController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/summary/summaryController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/auth/LoginController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/showmovie/dark-theme.css</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/UserController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/showDetailsMovie/MovieDetailController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/layoutMedium/Controller.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/Seat.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/admin/AdminMainController.java</file>
             <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/showmovie/showmovieController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/NormalSeat.java</file>
             <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/FieldValidation.java</file>
             <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/theme.css</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/summaryStaff/summaryStaffController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/HoneymoonSeat.java</file>
             <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/showtime/ShowtimeController.java</file>
-            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/showmovie/dark-theme.css</file>
-            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/showDetailsMovie/MovieDetailController.java</file>
             <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/Movie.java</file>
-            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/admin/AdminMainController.java</file>
+            <file>file:/C:/Users/pisit/Desktop/KMITL-Cinema-master/src/cinema/ui/myBooking/MyBookingController.java</file>
         </group>
     </open-files>
 </project-private>
