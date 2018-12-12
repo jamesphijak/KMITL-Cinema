@@ -1,8 +1,6 @@
 package cinema;
 
 import cinema.ui.AlertMaker;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
-import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.ParseException;

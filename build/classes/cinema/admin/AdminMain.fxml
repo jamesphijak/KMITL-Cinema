@@ -436,11 +436,7 @@
                                                                   <Insets bottom="5.0" left="20.0" right="20.0" />
                                                                </VBox.margin>
                                                             </Label>
-<<<<<<< HEAD
-                                                            <Label fx:id="lbDate" prefHeight="20.0" prefWidth="391.0" text="Remaining Date">
-=======
                                                             <Label fx:id="lbDate" prefHeight="20.0" prefWidth="391.0" text="Last Date Release">
->>>>>>> PorPisith
                                                                <font>
                                                                   <Font size="14.0" />
                                                                </font>
@@ -926,7 +922,6 @@
                                                                </VBox.margin>
                                                             </Label>
                                                             <TextField fx:id="txtTheatre">
-<<<<<<< HEAD
                                                                <VBox.margin>
                                                                   <Insets bottom="5.0" left="20.0" right="20.0" />
                                                                </VBox.margin>
@@ -935,16 +930,6 @@
                                                                <VBox.margin>
                                                                   <Insets bottom="5.0" left="20.0" right="20.0" />
                                                                </VBox.margin>
-=======
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
-                                                            </TextField>
-                                                            <Label fx:id="msgTheatre" prefHeight="20.0" prefWidth="391.0" text="Message Theatre number">
-                                                               <VBox.margin>
-                                                                  <Insets bottom="5.0" left="20.0" right="20.0" />
-                                                               </VBox.margin>
->>>>>>> PorPisith
                                                                <font>
                                                                   <Font size="13.0" />
                                                                </font>
