@@ -1,0 +1,131 @@
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 07:59:13 #1 server] 
+Server on port 6136 has started by 3292@LAPTOP-5SVLSJC0
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 07:59:44 #1 server] 
+java.net.BindException: Address already in use: JVM_Bind
+	at java.net.DualStackPlainSocketImpl.bind0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketBind(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.bind(Unknown Source)
+	at java.net.PlainSocketImpl.bind(Unknown Source)
+	at java.net.ServerSocket.bind(Unknown Source)
+	at java.net.ServerSocket.<init>(Unknown Source)
+	at java.net.ServerSocket.<init>(Unknown Source)
+	at com.objectdb.o.SMR.o(SMR.java:260)
+	at com.objectdb.o.SMR.f(SMR.java:160)
+	at com.objectdb.o.TOL.run(TOL.java:117)
+	at com.objectdb.Server.runCommand(Server.java:193)
+	at com.objectdb.Server.run(Server.java:102)
+	at com.objectdb.ServerRunner.main(ServerRunner.java:31)
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 07:59:46 #1 server] 
+java.net.BindException: Address already in use: JVM_Bind
+	at java.net.DualStackPlainSocketImpl.bind0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketBind(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.bind(Unknown Source)
+	at java.net.PlainSocketImpl.bind(Unknown Source)
+	at java.net.ServerSocket.bind(Unknown Source)
+	at java.net.ServerSocket.<init>(Unknown Source)
+	at java.net.ServerSocket.<init>(Unknown Source)
+	at com.objectdb.o.SMR.o(SMR.java:260)
+	at com.objectdb.o.SMR.f(SMR.java:160)
+	at com.objectdb.o.TOL.run(TOL.java:117)
+	at com.objectdb.Server.runCommand(Server.java:193)
+	at com.objectdb.Server.run(Server.java:102)
+	at com.objectdb.ServerRunner.main(ServerRunner.java:31)
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:01:32 #1 server] 
+java.net.BindException: Address already in use: JVM_Bind
+	at java.net.DualStackPlainSocketImpl.bind0(Native Method)
+	at java.net.DualStackPlainSocketImpl.socketBind(Unknown Source)
+	at java.net.AbstractPlainSocketImpl.bind(Unknown Source)
+	at java.net.PlainSocketImpl.bind(Unknown Source)
+	at java.net.ServerSocket.bind(Unknown Source)
+	at java.net.ServerSocket.<init>(Unknown Source)
+	at java.net.ServerSocket.<init>(Unknown Source)
+	at com.objectdb.o.SMR.o(SMR.java:260)
+	at com.objectdb.o.SMR.f(SMR.java:160)
+	at com.objectdb.o.TOL.run(TOL.java:117)
+	at com.objectdb.Server.runCommand(Server.java:193)
+	at com.objectdb.Server.run(Server.java:102)
+	at com.objectdb.ServerRunner.main(ServerRunner.java:31)
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:01:47 #1 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is opened by 9324@LAPTOP-5SVLSJC0
+
+[2018-12-12 08:01:47 #2 store] 
+Configuration path: C:\Users\pisit\Desktop\KMITL-Cinema-master\objectdb\objectdb.conf
+
+[2018-12-12 08:04:34 #3 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is closed by 9324@LAPTOP-5SVLSJC0
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:06:22 #1 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is opened by 14704@LAPTOP-5SVLSJC0
+
+[2018-12-12 08:06:22 #2 store] 
+Configuration path: C:\Users\pisit\Desktop\KMITL-Cinema-master\objectdb\objectdb.conf
+
+[2018-12-12 08:06:43 #3 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is closed by 14704@LAPTOP-5SVLSJC0
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:09:25 #1 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is opened by 14564@LAPTOP-5SVLSJC0
+
+[2018-12-12 08:09:25 #2 store] 
+Configuration path: C:\Users\pisit\Desktop\KMITL-Cinema-master\objectdb\objectdb.conf
+
+[2018-12-12 08:19:35 #3 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is closed by 14564@LAPTOP-5SVLSJC0
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:27:40 #1 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is opened by 9760@LAPTOP-5SVLSJC0
+
+[2018-12-12 08:27:40 #2 store] 
+Configuration path: C:\Users\pisit\Desktop\KMITL-Cinema-master\objectdb\objectdb.conf
+
+[2018-12-12 08:27:55 #3 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is closed by 9760@LAPTOP-5SVLSJC0
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:50:14 #1 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' has been recovered (tr. 2083-2089)
+
+[2018-12-12 08:50:14 #2 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is opened by 16268@LAPTOP-5SVLSJC0
+
+[2018-12-12 08:50:14 #3 store] 
+Configuration path: C:\Users\pisit\Desktop\KMITL-Cinema-master\objectdb\objectdb.conf
+
+[2018-12-12 08:50:47 #4 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is closed by 16268@LAPTOP-5SVLSJC0
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2018-12-12 08:51:20 #1 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is opened by 4136@LAPTOP-5SVLSJC0
+
+[2018-12-12 08:51:20 #2 store] 
+Configuration path: C:\Users\pisit\Desktop\KMITL-Cinema-master\objectdb\objectdb.conf
+
+[2018-12-12 08:51:38 #3 store] 
+Database 'C:\Users\pisit\Desktop\KMITL-Cinema-master\db\CinemaODB.odb' is closed by 4136@LAPTOP-5SVLSJC0
+
+[2018-12-12 09:54:50 #2 server] 
+Server on port 6136 has stopped by 3292@LAPTOP-5SVLSJC0
+

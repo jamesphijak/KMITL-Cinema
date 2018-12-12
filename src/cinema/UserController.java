@@ -122,6 +122,17 @@ public class UserController {
         } 
         return false;  
     }
+    public boolean checkExistPassword(String username,String password){
+        updateUserList();
+        String pass = User.encryptPassword(password);
+        
+        for (User user : this.userList) {
+            if(user.getPassword().equals(pass)){
+                return true;
+            }
+        } 
+        return false;
+    }
     public User getLoginUser() {
         return loginUser;
     }

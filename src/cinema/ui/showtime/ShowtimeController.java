@@ -14,10 +14,12 @@ import cinema.ui.showDetailsMovie.MovieDetailController;
 import com.jfoenix.controls.JFXDatePicker;
 import java.io.IOException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -91,10 +93,7 @@ public class ShowtimeController implements Initializable{
         List<Showtime> showtimeHaveSelectedMovie = new ArrayList<>();
         List<Theatre> tList = cc.getTheatreList();
         boolean checkShowtimeExist = false;
-<<<<<<< HEAD
-=======
         // เช็คว่า showtime มีหนังนั้นไหม ถ้ามีเพิ่มเข้า List
->>>>>>> PorPisith
         for (Theatre t : theatreList) {
             List <Showtime> stList = t.getShowtimeList();
             for (Showtime s : stList) {                
@@ -107,17 +106,15 @@ public class ShowtimeController implements Initializable{
             }
         }
         
-<<<<<<< HEAD
-=======
         nameEng.setText(cc.getSelectMovie().getEnglishName());
         
->>>>>>> PorPisith
         if(!checkShowtimeExist) {
             textNotHaveShowtime.setText("ไม่มีรอบฉายในวันที่ที่ท่านเลือก");
             //hbox_showtimepertheatre.setVisible(false);
         }else{
             //hbox_showtimepertheatre.setVisible(true);
             textNotHaveShowtime.setText(null);
+            LocalDate today = LocalDate.now();
             
             int amount = showtimeHaveSelectedMovie.size();
             Integer[] showtimeId = new Integer[amount];
@@ -127,10 +124,6 @@ public class ShowtimeController implements Initializable{
                 showtime[i] = showtimeHaveSelectedMovie.get(i);
             }
 
-<<<<<<< HEAD
-            nameEng.setText(showtime[0].getMovie().getEnglishName());
-=======
->>>>>>> PorPisith
             int i = 0, tempTheatre = showtime[0].getTheatre().getTheatreNumber(), countT = 0;
             Button[] bt = new Button[amount];
             VBox vbox_theatre;
@@ -178,7 +171,17 @@ public class ShowtimeController implements Initializable{
                         HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                         hbox_showtimepertheatre.getChildren().add(bt[i]);
                         showtimeId[i] = showtime[i].getId();
-                        System.err.println(showtimeId[i]);
+                        //check time is already pass ?
+                        int intStartTime = Integer.parseInt(cc.getShowtime(showtimeId[i]).getStartTime().substring(0, 2) + cc.getShowtime(showtimeId[i]).getStartTime().substring(3, 5));
+                        //get current time
+                        String currentTime = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+                        int intCurrentTime = Integer.parseInt(currentTime.substring(0, 2) + currentTime.substring(3));
+                        if((today.until(this.date.getValue(), ChronoUnit.DAYS) == 0)) {
+                            if(intCurrentTime > intStartTime) {
+                                bt[i].setDisable(true);
+                            }
+                        }
+                        //System.err.println(showtimeId[i]);
                         int finalI = i;
                         bt[i].setOnAction(event -> {
                             try {
@@ -208,7 +211,17 @@ public class ShowtimeController implements Initializable{
                     HBox.setMargin(bt[i], new Insets(5, 10, 5, 10));
                     hbox_showtimepertheatre.getChildren().add(bt[i]);
                     showtimeId[i] = showtime[i].getId();
-                    System.err.println(showtimeId[i]);
+                    //check time is already pass ?
+                    int intStartTime = Integer.parseInt(cc.getShowtime(showtimeId[i]).getStartTime().substring(0, 2) + cc.getShowtime(showtimeId[i]).getStartTime().substring(3, 5));
+                    //get current time
+                    String currentTime = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+                    int intCurrentTime = Integer.parseInt(currentTime.substring(0, 2) + currentTime.substring(3));
+                    if((today.until(this.date.getValue(), ChronoUnit.DAYS) == 0)) {
+                        if(intCurrentTime > intStartTime) {
+                            bt[i].setDisable(true);
+                        }
+                    }
+                    //System.err.println(showtimeId[i]);
                     int finalI = i;
                     bt[i].setOnAction(event -> {
                         try {

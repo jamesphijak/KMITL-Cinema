@@ -40,11 +40,7 @@
                            <children>
                               <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="640.0">
                                  <children>
-<<<<<<< HEAD
-                                    <Label fx:id="labelAuthen" alignment="CENTER_RIGHT" onMousePressed="#handleAuthen" prefHeight="28.0" prefWidth="378.0" text="Logout" textFill="WHITE">
-=======
                                     <Label fx:id="labelAuthen" alignment="CENTER_RIGHT" onMousePressed="#handleAuthen" prefHeight="28.0" prefWidth="436.0" styleClass="hover-hand" text="Logout" textFill="WHITE">
->>>>>>> PorPisith
                                        <font>
                                           <Font name="Sukhumvit Set Medium" size="20.0" />
                                        </font>
@@ -56,11 +52,7 @@
                               </HBox>
                               <HBox alignment="CENTER_RIGHT" layoutX="10.0" layoutY="26.0" prefHeight="60.0" prefWidth="640.0">
                                  <children>
-<<<<<<< HEAD
-                                    <Label fx:id="labelMyBooking" alignment="CENTER_RIGHT" onMousePressed="#handleBooking" prefHeight="28.0" prefWidth="549.0" text="รายการ Booking ของฉัน" textFill="WHITE">
-=======
                                     <Label fx:id="labelMyBooking" alignment="CENTER_RIGHT" onMousePressed="#handleBooking" prefHeight="28.0" prefWidth="219.0" styleClass="hover-hand" text="รายการ Booking ของฉัน" textFill="WHITE">
->>>>>>> PorPisith
                                        <font>
                                           <Font name="Sukhumvit Set Medium" size="20.0" />
                                        </font>

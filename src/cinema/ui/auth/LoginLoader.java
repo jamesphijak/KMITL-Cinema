@@ -7,6 +7,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import cinema.ui.CinemaUtility;
+import javafx.scene.text.Font;
 
 public class LoginLoader extends Application{
     @Override
@@ -14,6 +15,9 @@ public class LoginLoader extends Application{
         Parent root = FXMLLoader.load(getClass().getResource("/cinema/ui/auth/Login.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add("/cinema/ui/theme.css");
+        Font.loadFont(LoginLoader.class.getResource("/cinema/ui/sukhumvit-set_text.ttf").toExternalForm(), 10);
+        Font.loadFont(LoginLoader.class.getResource("/cinema/ui/sukhumvit-set_medium.ttf").toExternalForm(), 10);
+        Font.loadFont(LoginLoader.class.getResource("/cinema/ui/sukhumvit-set_bold.ttf").toExternalForm(), 10);
         stage.setScene(scene);
         stage.setTitle("KMITL Cinema");
         //stage.setMaximized(true);

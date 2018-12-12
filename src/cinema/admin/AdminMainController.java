@@ -19,6 +19,7 @@ import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -1361,9 +1362,30 @@ System.out.println("Logout");
     public void loadShowtimeSearchMovieCombo(){
         ObservableList<String> movieShowtimeList = FXCollections.observableArrayList();
         movieListArray = cc.getMovieList();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+        LocalDate releaseDate;
+        long tempDayShowing; // ฉายมาแล้วกี่วัน (Return เป็น long)
+        int dayShowing;// เปลี่ยน tempDayShowing เป็น int และไปบวกกับ showingDay
+        int showingDay = 14; // จำนวนวันที่จะให้หนังอยู่ในโรง
+        LocalDate today = LocalDate.now();
         try {
             for (Movie movie : movieListArray) {
-                movieShowtimeList.add(movie.getId() + " : " + movie.getEnglishName());
+                String date = movie.getReleaseDate();
+                releaseDate = LocalDate.parse(date, formatter);
+
+                tempDayShowing = today.until(releaseDate, ChronoUnit.DAYS); // ฉายมาแล้วกี่วัน ( จะได้ค่าติดลบจำนวนวัน )
+                dayShowing = (int) tempDayShowing + showingDay; // เหลือเวลาฉายอีกกี่วัน
+                if(today.until(releaseDate, ChronoUnit.DAYS) > 0 && today.until(releaseDate, ChronoUnit.DAYS) <= 7) {
+                    // เป็น coming soon
+                    movieShowtimeList.add(movie.getId() + " : " + movie.getEnglishName());
+                }
+                else {
+                    // เป็น now showing
+                    if(dayShowing >= 0) {
+                        movieShowtimeList.add(movie.getId() + " : " + movie.getEnglishName());
+                    }
+                }
+//                movieShowtimeList.add(movie.getId() + " : " + movie.getEnglishName());
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -2253,14 +2275,6 @@ System.out.println("Logout");
         
         int theatre = Integer.parseInt(theatreNum);
         
-<<<<<<< HEAD
-        if(isAddable){  
-            Theatre newTheatre = new Theatre(theatre,cbTheatreType.getValue());
-            cc.addTheatre(newTheatre);
-            clearTheatreMessage(); // clear label
-            clearTheatreForm(); // clear text form
-            loadTheatreData(); // load new list after add
-=======
         List<Theatre> checkTheatreExists = cc.getTheatreList();
         boolean isTheatreExists = false;
         for (Theatre checkTheatre : checkTheatreExists) {
@@ -2282,7 +2296,6 @@ System.out.println("Logout");
                 clearTheatreForm(); // clear text form
                 loadTheatreData(); // load new list after add
             }
->>>>>>> PorPisith
         }
     }
     @FXML
@@ -2293,11 +2306,6 @@ System.out.println("Logout");
         int theatre = Integer.parseInt(theatreNum);
         Theatre editTheatre = new Theatre(theatre,cbTheatreType.getValue());
         
-<<<<<<< HEAD
-        
-        if(isAddable) {
-            cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
-=======
         List<Theatre> checkTheatreExists = cc.getTheatreList();
         boolean isTheatreExists = false;
         for (Theatre checkTheatre : checkTheatreExists) {
@@ -2320,7 +2328,6 @@ System.out.println("Logout");
                 cc.editTheatre(selectedTheatreEdit.getId(), editTheatre);
                 cancelTheatreEdit();
             }
->>>>>>> PorPisith
         }
         loadTheatreData();
         clearTheatreMessage();
@@ -2368,7 +2375,6 @@ System.out.println("Logout");
                 
 //                System.out.println(m.getEnglishName());
 //                System.out.println(t.getTheatreNumber());
-<<<<<<< HEAD
                 
                List<Showtime> listShowtime = cc.getShowtimeList();
                 
@@ -2393,32 +2399,6 @@ System.out.println("Logout");
                 boolean checkOverlap = false;
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
                 
-=======
-                
-               List<Showtime> listShowtime = cc.getShowtimeList();
-                
-                String myTime = m.getTime(); // เรียกระยะเวลาหนังที่จะสร้างมา , ถูกต้อง
-                int newStartTimeHourInt = Integer.parseInt(cbTimeHourShow1.getValue()); // หนังที่จะสร้าง
-                int newStartTimeMinuteInt = Integer.parseInt(cbTimeMinuteShow1.getValue());
-                int myTimeHour = Integer.parseInt(myTime.substring(0, 2));
-                int myTimeMinute = Integer.parseInt(myTime.substring(3));
-                DecimalFormat twoDigit = new DecimalFormat("00");
-                
-                /* calculate end time */
-                int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
-                int newEndTimeMinuteInt = newStartTimeMinuteInt + myTimeMinute;
-                if(newEndTimeMinuteInt >= 60) {
-                    newEndTimeHourInt = newEndTimeHourInt + 1;
-                    newEndTimeMinuteInt = newEndTimeMinuteInt - 60;
-                }
-                int newStartTime = Integer.parseInt(twoDigit.format(newStartTimeHourInt) + "" + twoDigit.format(newStartTimeMinuteInt) + "");
-                int newEndTime = Integer.parseInt(twoDigit.format(newEndTimeHourInt) + "" + twoDigit.format(newEndTimeMinuteInt) + "");
-                 //&& showtime.getDate().equals(datePickerShowtime.getValue) 
-                
-                boolean checkOverlap = false;
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
-                
->>>>>>> PorPisith
                 for (Showtime showtime : listShowtime) {
                     // โรงที่จะเพิ่ม ตรงกับเลขโรงไหมที่มีอยู่แล้วไหม
                    if(showtime.getTheatre().getId() == theatre_id && (datePickerShowtime.getValue().equals(LocalDate.parse(showtime.getDate(), formatter))) && (!checkOverlap)) {
@@ -2509,68 +2489,6 @@ System.out.println("Logout");
                 int myTimeHour = Integer.parseInt(myTime.substring(0, 2));
                 int myTimeMinute = Integer.parseInt(myTime.substring(3));
                 DecimalFormat twoDigit = new DecimalFormat("00");
-<<<<<<< HEAD
-                
-                /* calculate end time */
-                int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
-                int newEndTimeMinuteInt = newStartTimeMinuteInt + myTimeMinute;
-                if(newEndTimeMinuteInt >= 60) {
-                    newEndTimeHourInt = newEndTimeHourInt + 1;
-                    newEndTimeMinuteInt = newEndTimeMinuteInt - 60;
-                }
-                int newStartTime = Integer.parseInt(twoDigit.format(newStartTimeHourInt) + "" + twoDigit.format(newStartTimeMinuteInt) + "");
-                int newEndTime = Integer.parseInt(twoDigit.format(newEndTimeHourInt) + "" + twoDigit.format(newEndTimeMinuteInt) + "");
-                 //&& showtime.getDate().equals(datePickerShowtime.getValue) 
-                
-                boolean checkOverlap = false;
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
-                
-                for (Showtime showtime : listShowtime) {
-                    // โรงที่จะเพิ่ม ตรงกับเลขโรงไหมที่มีอยู่แล้วไหม
-                   if(showtime.getTheatre().getId() == theatre_id && (datePickerShowtime.getValue().equals(LocalDate.parse(showtime.getDate(), formatter))) && (!checkOverlap)) {
-                       String startString = showtime.getShowtime().substring(0, 2) + showtime.getShowtime().substring(3, 5);
-                       String endString = showtime.getShowtime().substring(8, 10) + showtime.getShowtime().substring(11);
-                       int oldStartTime = Integer.parseInt(startString); // หนังที่มีอยู่แแล้ว
-                       int oldEndTime = Integer.parseInt(endString); // หนังที่มีอยู่แล้ว
-                       
-                       if(showtime.getId() == selectedShowtimeEdit.getId()) {
-                           continue;
-                       }
-                       else {
-                            // เวลาที่เริ่มที่จะเพิ่ม อยู่ในช่วง (เวลาที่มีอยู่) เวลาเริ่มและเวลาจบ
-                            if(newStartTime >= oldStartTime && newStartTime < oldEndTime) {
-                                // ชน
-                                checkOverlap = true;
-                            }
-                            // เวลาเริ่มอยู่นอกช่วงนั้น
-                            else {
-                                // เวลาเริ่มน้อยกว่า แต่เวลาจบอยู่ในช่วง
-                                if(newEndTime >= oldStartTime && newEndTime <= oldEndTime) {
-                                    // ชน
-                                    checkOverlap = true;
-                                }
-                            }
-                       }
-                   }
-                }
-                
-                if(!checkOverlap) {
-                    String showtimeDate = convertDate(datePickerShowtime);
-
-                    Showtime st = new Showtime(m,t,system,sound,showtimeDate,start,incSeat);
-                    cc.editShowtime(selectedShowtimeEdit.getId(),st);
-                    clearShowtimeMessage(); // clear label
-                    clearShowtimeForm(); // clear text form
-                    loadShowtimeData(); // load new list after add
-                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
-                  //  AlertMaker.showSimpleAlert("Add Complete", st.toString());
-                }
-                else {
-                    // Overlap
-                    AlertMaker.showSimpleAlert("Save Showtime Error", "The time is overlap.");
-                }
-                
-=======
                 
                 /* calculate end time */
                 int newEndTimeHourInt = newStartTimeHourInt + myTimeHour;
@@ -2632,7 +2550,6 @@ System.out.println("Logout");
                     AlertMaker.showSimpleAlert("Save Showtime Error", "The time is overlap.");
                 }
                 
->>>>>>> PorPisith
                
         }else{
             System.out.println("NOT OK");

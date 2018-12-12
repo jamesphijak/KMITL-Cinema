@@ -1,11 +1,18 @@
 package cinema;
 
 import cinema.ui.AlertMaker;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
+import static com.sun.org.apache.xalan.internal.lib.ExsltDatetime.date;
 import java.io.Serializable;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -107,13 +114,43 @@ public class Booking implements Serializable{
         return isCancel;
     }
     
+    public LocalDate changeDateFormat(String d) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy");
+        LocalDate datetime = LocalDate.parse(d, formatter);
+//        LocalDate datetime = LocalDate.parse(d, DateTimeFormatter.ofPattern("d mmmm yyyy"));
+        return datetime;
+    }
+    
     public String getStatus() {
-        if(!isCancel) {
-            return "Active";
+        LocalDate today = LocalDate.now();
+        if(today.until(changeDateFormat(showtime.getDate()), ChronoUnit.DAYS) < 0) {
+            return "Expired";
         }
         else {
-            return "Cancelled";
-        }
+            if(today.until(changeDateFormat(showtime.getDate()), ChronoUnit.DAYS) == 0) {
+                //check time is already pass ?
+                    int intEndTime = Integer.parseInt(showtime.getStartTime().substring(8, 10) + showtime.getStartTime().substring(11));
+                    //get current time
+                    String currentTime = new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
+                    int intCurrentTime = Integer.parseInt(currentTime.substring(0, 2) + currentTime.substring(3));
+                    System.out.println(intEndTime);
+                    System.out.println(intCurrentTime);
+                    if(intCurrentTime > intEndTime) {
+                        return "Expired";
+                    }
+                    else {
+                        return "Active";
+                }
+            }
+            else {
+                if(!isCancel) {
+                    return "Active";
+                }
+                else {
+                    return "Cancelled";
+                }
+            }           
+        } 
     }
     
     public boolean isCancel() {

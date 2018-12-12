@@ -123,20 +123,30 @@ public class MyBookingController implements Initializable {
             return;
         }
         
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Cancel booking");
-        alert.setContentText("Are you sure want to cancel this booking "+ selectedBookingDelete.getId()+ " ?");
-        Optional<ButtonType> answer = alert.showAndWait();
-        
-        if(answer.get() == ButtonType.OK){
-
-            if(uc.getLoginUser().getType().equals("Staff")){
-                cc.cancleStaffBooking(selectedBookingDelete.getId());
-            }else{
-                cc.cancleBooking(selectedBookingDelete.getId());
+        if(selectedBookingDelete.getStatus().equals("Expired")) {
+            AlertMaker.showSimpleAlert("Cannot Cancel", "This booking is already expired.");
+        }
+        else {
+            if(selectedBookingDelete.getStatus().equals("Cancelled")) {
+                AlertMaker.showSimpleAlert("Cannot Cancel", "This booking is already cancelled.");
             }
-            
-            refresh();
+            else {
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Cancel booking");
+                alert.setContentText("Are you sure want to cancel this booking "+ selectedBookingDelete.getId()+ " ?");
+                Optional<ButtonType> answer = alert.showAndWait();
+
+                if(answer.get() == ButtonType.OK){
+
+                    if(uc.getLoginUser().getType().equals("Staff")){
+                        cc.cancleStaffBooking(selectedBookingDelete.getId());
+                    }else{
+                        cc.cancleBooking(selectedBookingDelete.getId());
+                    }
+
+                    refresh();
+                }
+            } 
         }
     }
 
